@@ -1,6 +1,9 @@
 # Digital Library Portal (E-Book Edition)
 A full-stack, secure digital library portal designed to manage e-book cataloging, digital access, role-based authentication, and system analytics. This system provides a seamless reading experience while enforcing access controls and "soft DRM" to protect digital assets.
 
+# NOTE
+**!!! DO NOT PUSH .env FILES HERE !!!**
+
 # Tech Stack
 **Frontend**: HTML5, CSS3, Vanilla JavaScript (with ePub.js for EPUB rendering)
 
@@ -40,6 +43,7 @@ System Notifications: Automated alerts for new book arrivals and system maintena
 # Folder Structure
 
 ```text /digital-library-portal
+
 │
 ├── /frontend               # HTML, CSS, JS static files
 │   ├── index.html          # Login page
@@ -60,6 +64,3 @@ System Notifications: Automated alerts for new book arrivals and system maintena
 │
 ├── package.json
 └── README.md```
-
-# !!! DO NOT PUSH .env FILES HERE !!!
-
