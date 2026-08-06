@@ -2,8 +2,9 @@
 A full-stack, secure digital library portal designed to manage e-book cataloging, digital access, role-based authentication, and system analytics. This system provides a seamless reading experience while enforcing access controls and "soft DRM" to protect digital assets.
 
 # NOTE
-**FORK YOUR WORK DO NOT PUSH ON MAIN
-!!! DO NOT PUSH .env FILES HERE !!!**
+**FORK YOUR WORK DO NOT PUSH ON MAIN**
+
+**!!! DO NOT PUSH .env FILES HERE !!!**
 
 # Tech Stack
 **Frontend**: HTML5, CSS3, Vanilla JavaScript (with ePub.js for EPUB rendering)
