@@ -39,7 +39,7 @@ System Notifications: Automated alerts for new book arrivals and system maintena
 
 # Folder Structure
 
-/digital-library-portal
+```text /digital-library-portal
 │
 ├── /frontend               # HTML, CSS, JS static files
 │   ├── index.html          # Login page
@@ -59,7 +59,7 @@ System Notifications: Automated alerts for new book arrivals and system maintena
 │   └── schema.sql          # ER diagram table creation scripts
 │
 ├── package.json
-└── README.md
+└── README.md```
 
 # !!! DO NOT PUSH .env FILES HERE !!!
 
