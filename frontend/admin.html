@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Library Portal | Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <main class="library-page">
+    <aside class="side-rail">
+      <div class="logo">
+        <span>DL</span>
+        <strong>Digital Library</strong>
+      </div>
+
+      <nav aria-label="Dashboard navigation">
+        <a class="active" href="#">Overview</a>
+        <a href="#">Reports</a>
+        <a href="#">Analytics</a>
+        <a href="#">Notifications</a>
+        <a href="#">Audit Logs</a>
+        <a href="#">Backup</a>
+        <a href="#">Monitoring</a>
+      </nav>
+
+      <div class="quote-card">
+        <p>Next backup window</p>
+        <strong>11:30 PM</strong>
+        <span>Catalogue + member records</span>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topline">
+        <div>
+          <p class="eyebrow">College Library Network</p>
+          <h1>Knowledge Operations Dashboard</h1>
+        </div>
+        <button type="button">Admin Desk</button>
+      </header>
+
+      <section class="hero-board">
+        <div class="hero-text">
+          <p class="eyebrow">Today in the library</p>
+          <h2>Track circulation, reports, and system health from one calm workspace.</h2>
+          <form class="search-bar">
+            <input type="search" placeholder="Search catalogue, member, report, or audit entry">
+            <button type="submit">Search</button>
+          </form>
+        </div>
+
+        <div class="book-stack" aria-label="Featured library sections">
+          <article class="book b1"><span>Reports</span><strong>48</strong></article>
+          <article class="book b2"><span>Members</span><strong>3.4k</strong></article>
+          <article class="book b3"><span>Issued</span><strong>318</strong></article>
+          <article class="book b4"><span>Archive</span><strong>12.8k</strong></article>
+        </div>
+      </section>
+
+      <section class="quick-grid">
+        <article>
+          <span class="tag coral">Due Action</span>
+          <strong>27</strong>
+          <p>Overdue returns need notifications today.</p>
+        </article>
+        <article>
+          <span class="tag green">Healthy</span>
+          <strong>98%</strong>
+          <p>Database and API services are stable.</p>
+        </article>
+        <article>
+          <span class="tag violet">Reports</span>
+          <strong>12</strong>
+          <p>Draft reports waiting for staff review.</p>
+        </article>
+      </section>
+
+      <section class="main-grid">
+        <article class="panel catalogue-map">
+          <div class="section-title">
+            <p class="eyebrow">Collections Map</p>
+            <h3>Digital shelves by category</h3>
+          </div>
+          <div class="map">
+            <button class="tile history">History <span>1,280</span></button>
+            <button class="tile science">Science <span>980</span></button>
+            <button class="tile arts">Arts <span>740</span></button>
+            <button class="tile journals">Journals <span>620</span></button>
+            <button class="tile thesis">Thesis <span>306</span></button>
+          </div>
+        </article>
+
+        <article class="panel activity">
+          <div class="section-title">
+            <p class="eyebrow">Audit Trail</p>
+            <h3>Recent activity</h3>
+          </div>
+          <ul>
+            <li><time>10:25</time><span>Monthly report generated</span></li>
+            <li><time>09:50</time><span>Backup completed</span></li>
+            <li><time>08:35</time><span>Overdue notices queued</span></li>
+            <li><time>08:00</time><span>System health scan passed</span></li>
+          </ul>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="section-title">
+            <p class="eyebrow">Analytics</p>
+            <h3>Weekly visits</h3>
+          </div>
+          <div class="line-chart">
+            <span style="--h:42%"></span>
+            <span style="--h:58%"></span>
+            <span style="--h:50%"></span>
+            <span style="--h:72%"></span>
+            <span style="--h:66%"></span>
+            <span style="--h:86%"></span>
+            <span style="--h:76%"></span>
+          </div>
+        </article>
+
+        <article class="panel monitor">
+          <div class="section-title">
+            <p class="eyebrow">Monitoring</p>
+            <h3>Service board</h3>
+          </div>
+          <div class="status-list">
+            <span>Database <strong>Online</strong></span>
+            <span>Storage <strong>72%</strong></span>
+            <span>API <strong>44 ms</strong></span>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
