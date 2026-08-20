@@ -1,141 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Library Portal | Admin Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin.css">
-</head>
-<body>
-  <main class="library-page">
-    <aside class="side-rail">
-      <div class="logo">
-        <span>DL</span>
-        <strong>Digital Library</strong>
-      </div>
-
-      <nav aria-label="Dashboard navigation">
-        <a class="active" href="#">Overview</a>
-        <a href="#">Reports</a>
-        <a href="#">Analytics</a>
-        <a href="#">Notifications</a>
-        <a href="#">Audit Logs</a>
-        <a href="#">Backup</a>
-        <a href="#">Monitoring</a>
-      </nav>
-
-      <div class="quote-card">
-        <p>Next backup window</p>
-        <strong>11:30 PM</strong>
-        <span>Catalogue + member records</span>
-      </div>
-    </aside>
-
-    <section class="workspace">
-      <header class="topline">
-        <div>
-          <p class="eyebrow">College Library Network</p>
-          <h1>Knowledge Operations Dashboard</h1>
-        </div>
-        <button type="button">Admin Desk</button>
-      </header>
-
-      <section class="hero-board">
-        <div class="hero-text">
-          <p class="eyebrow">Today in the library</p>
-          <h2>Track circulation, reports, and system health from one calm workspace.</h2>
-          <form class="search-bar">
-            <input type="search" placeholder="Search catalogue, member, report, or audit entry">
-            <button type="submit">Search</button>
-          </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Digital Library Admin Dashboard" />
+    <title>Digital Library Portal - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div id="app" class="app-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" aria-label="Primary navigation">
+        <div class="sidebar__brand">
+          <a class="brand" href="index.html" aria-label="Digital Library home">
+            <span class="brand__mark" aria-hidden="true">L</span>
+            <span class="brand__name">Lumina Library</span>
+          </a>
         </div>
 
-        <div class="book-stack" aria-label="Featured library sections">
-          <article class="book b1"><span>Reports</span><strong>48</strong></article>
-          <article class="book b2"><span>Members</span><strong>3.4k</strong></article>
-          <article class="book b3"><span>Issued</span><strong>318</strong></article>
-          <article class="book b4"><span>Archive</span><strong>12.8k</strong></article>
-        </div>
-      </section>
-
-      <section class="quick-grid">
-        <article>
-          <span class="tag coral">Due Action</span>
-          <strong>27</strong>
-          <p>Overdue returns need notifications today.</p>
-        </article>
-        <article>
-          <span class="tag green">Healthy</span>
-          <strong>98%</strong>
-          <p>Database and API services are stable.</p>
-        </article>
-        <article>
-          <span class="tag violet">Reports</span>
-          <strong>12</strong>
-          <p>Draft reports waiting for staff review.</p>
-        </article>
-      </section>
-
-      <section class="main-grid">
-        <article class="panel catalogue-map">
-          <div class="section-title">
-            <p class="eyebrow">Collections Map</p>
-            <h3>Digital shelves by category</h3>
-          </div>
-          <div class="map">
-            <button class="tile history">History <span>1,280</span></button>
-            <button class="tile science">Science <span>980</span></button>
-            <button class="tile arts">Arts <span>740</span></button>
-            <button class="tile journals">Journals <span>620</span></button>
-            <button class="tile thesis">Thesis <span>306</span></button>
-          </div>
-        </article>
-
-        <article class="panel activity">
-          <div class="section-title">
-            <p class="eyebrow">Audit Trail</p>
-            <h3>Recent activity</h3>
-          </div>
-          <ul>
-            <li><time>10:25</time><span>Monthly report generated</span></li>
-            <li><time>09:50</time><span>Backup completed</span></li>
-            <li><time>08:35</time><span>Overdue notices queued</span></li>
-            <li><time>08:00</time><span>System health scan passed</span></li>
+        <nav class="sidebar__nav" aria-label="Library sections">
+          <ul class="nav-list">
+            <li class="nav-list__item"><a class="nav-link" href="#" aria-current="page">Dashboard</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Users</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Roles</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">E-Books</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Reports</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Analytics</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Audit Logs</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Notifications</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Backup & Restore</a></li>
           </ul>
-        </article>
 
-        <article class="panel chart-panel">
-          <div class="section-title">
-            <p class="eyebrow">Analytics</p>
-            <h3>Weekly visits</h3>
-          </div>
-          <div class="line-chart">
-            <span style="--h:42%"></span>
-            <span style="--h:58%"></span>
-            <span style="--h:50%"></span>
-            <span style="--h:72%"></span>
-            <span style="--h:66%"></span>
-            <span style="--h:86%"></span>
-            <span style="--h:76%"></span>
-          </div>
-        </article>
+          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Switch Roles (Demo)</p>
+          <ul class="nav-list">
+            <li class="nav-list__item"><a class="nav-link" href="index.html">Public Home</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="member.html">Member Dashboard</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="librarian.html">Librarian Dashboard</a></li>
+          </ul>
+        </nav>
 
-        <article class="panel monitor">
-          <div class="section-title">
-            <p class="eyebrow">Monitoring</p>
-            <h3>Service board</h3>
+        <section class="sidebar__profile" aria-label="User profile">
+          <div class="user-summary">
+            <span class="user-summary__avatar" aria-hidden="true">S</span>
+            <div class="user-summary__details">
+              <p class="user-summary__name">System Admin</p>
+              <p class="user-summary__meta">Administrator</p>
+            </div>
           </div>
-          <div class="status-list">
-            <span>Database <strong>Online</strong></span>
-            <span>Storage <strong>72%</strong></span>
-            <span>API <strong>44 ms</strong></span>
+        </section>
+      </aside>
+
+      <!-- MAIN FRAME -->
+      <div class="page-frame">
+        <!-- TOP BAR -->
+        <header class="top-bar">
+          <div class="top-bar__intro">
+            <p class="top-bar__eyebrow">Administration</p>
+            <h1 class="top-bar__title">System Dashboard</h1>
           </div>
-        </article>
-      </section>
-    </section>
-  </main>
-</body>
+          <div class="top-bar__actions" aria-label="Account controls">
+            <button class="text-button" type="button">System Alerts</button>
+            <button class="profile-control" type="button">
+              <span class="profile-control__avatar" aria-hidden="true">S</span>
+              <span class="profile-control__label">Admin</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main id="main-content" class="main-content">
+          
+          <!-- SYSTEM OVERVIEW -->
+          <section class="content-section" aria-labelledby="overview-title">
+            <div class="section-heading">
+              <h2 class="section-heading__title" id="overview-title">System Overview</h2>
+            </div>
+            
+            <div class="grid-dashboard-stats">
+              <div class="card stat-card">
+                <span class="stat-card__label">Total Users</span>
+                <span class="stat-card__value">4,120</span>
+              </div>
+              <div class="card stat-card">
+                <span class="stat-card__label">Total E-Books</span>
+                <span class="stat-card__value">12,450</span>
+              </div>
+              <div class="card stat-card">
+                <span class="stat-card__label">Active Sessions</span>
+                <span class="stat-card__value">184</span>
+              </div>
+              <div class="card stat-card">
+                <span class="stat-card__label">System Health</span>
+                <span class="stat-card__value" style="color: var(--color-sage-700);">100%</span>
+              </div>
+            </div>
+          </section>
+
+          <div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-xl);">
+            
+            <div style="display: flex; flex-direction: column; gap: var(--space-2xl);">
+              
+              <!-- RECENT AUDIT ACTIVITY -->
+              <section class="content-section" aria-labelledby="audit-title">
+                <div class="section-heading" style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <h2 class="section-heading__title" id="audit-title">Recent Audit Activity</h2>
+                  <a href="#" style="font-size: var(--font-size-sm); color: var(--color-text-muted);">View all</a>
+                </div>
+                
+                <div class="data-table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>IP Address</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>10:42 AM</td>
+                        <td>sarah.librarian</td>
+                        <td>Book Upload</td>
+                        <td>192.168.1.45</td>
+                        <td><span class="status-badge status-badge--active">Success</span></td>
+                      </tr>
+                      <tr>
+                        <td>10:38 AM</td>
+                        <td>admin.sys</td>
+                        <td>Role Change</td>
+                        <td>10.0.0.12</td>
+                        <td><span class="status-badge status-badge--active">Success</span></td>
+                      </tr>
+                      <tr>
+                        <td>09:15 AM</td>
+                        <td>unknown</td>
+                        <td>Login Attempt</td>
+                        <td>45.22.19.112</td>
+                        <td><span class="status-badge" style="background: #F8E6E6; color: #8C2A2A;">Failed</span></td>
+                      </tr>
+                      <tr>
+                        <td>08:50 AM</td>
+                        <td>alex.reader</td>
+                        <td>User Update</td>
+                        <td>192.168.1.101</td>
+                        <td><span class="status-badge status-badge--active">Success</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- REPORT OVERVIEW -->
+              <section class="content-section" aria-labelledby="report-title">
+                <div class="section-heading">
+                  <h2 class="section-heading__title" id="report-title">Automated Reports</h2>
+                </div>
+                <div class="grid-dashboard-stats">
+                  <div class="card glass-panel" style="padding: var(--space-md);">
+                    <h4 style="margin: 0; font-size: var(--font-size-md);">Weekly Reading Analytics</h4>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-xs);">Generated every Sunday at 00:00.</p>
+                    <button class="text-button" style="margin-top: var(--space-md); padding: 0.25rem 0.5rem; font-size: var(--font-size-sm);">Download PDF</button>
+                  </div>
+                  <div class="card glass-panel" style="padding: var(--space-md);">
+                    <h4 style="margin: 0; font-size: var(--font-size-md);">Monthly Audit Summary</h4>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-xs);">Generated on 1st of every month.</p>
+                    <button class="text-button" style="margin-top: var(--space-md); padding: 0.25rem 0.5rem; font-size: var(--font-size-sm);">Download CSV</button>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: var(--space-2xl);">
+              
+              <!-- QUICK ACTIONS -->
+              <section class="content-section" aria-labelledby="actions-title">
+                <div class="section-heading">
+                  <h2 class="section-heading__title" id="actions-title">Quick Actions</h2>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+                  <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);">
+                    <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-lavender-100); color: var(--color-lavender-700); border-radius: 50%; font-weight: bold;">R</span>
+                    <strong>Generate Report</strong>
+                  </button>
+                  <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);">
+                    <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-sage-100); color: var(--color-sage-700); border-radius: 50%; font-weight: bold;">A</span>
+                    <strong>View Audit Logs</strong>
+                  </button>
+                  <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);">
+                    <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-ivory-200); color: var(--color-text-strong); border-radius: 50%; font-weight: bold;">U</span>
+                    <strong>Manage Users</strong>
+                  </button>
+                  <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);">
+                    <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-charcoal-700); color: var(--color-white); border-radius: 50%; font-weight: bold;">B</span>
+                    <strong>Backup Database</strong>
+                  </button>
+                </div>
+              </section>
+
+              <!-- SYSTEM NOTIFICATIONS -->
+              <section class="content-section" aria-labelledby="notifications-title">
+                <div class="section-heading">
+                  <h2 class="section-heading__title" id="notifications-title">System Notifications</h2>
+                </div>
+                
+                <ul class="card" style="list-style: none; padding: var(--space-md); margin: 0; display: flex; flex-direction: column; gap: var(--space-md);">
+                  <li style="font-size: var(--font-size-sm); border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm);">
+                    <div style="display: flex; justify-content: space-between;">
+                      <strong>Database Backup Complete</strong>
+                      <span style="color: var(--color-text-muted);">2h ago</span>
+                    </div>
+                    <p style="color: var(--color-text-muted); margin-top: 4px;">Automated daily backup finished successfully.</p>
+                  </li>
+                  <li style="font-size: var(--font-size-sm);">
+                    <div style="display: flex; justify-content: space-between;">
+                      <strong>New API Token Generated</strong>
+                      <span style="color: var(--color-text-muted);">5h ago</span>
+                    </div>
+                    <p style="color: var(--color-text-muted); margin-top: 4px;">A new API token was created by admin.sys.</p>
+                  </li>
+                </ul>
+              </section>
+              
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script src="js/main.js" defer></script>
+  </body>
 </html>
