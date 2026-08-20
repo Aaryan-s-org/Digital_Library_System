@@ -1,332 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Library Portal - Login</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .login-container {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      max-width: 450px;
-      width: 100%;
-      animation: slideIn 0.5s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .login-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .logo {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 15px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      font-weight: 700;
-    }
-
-    .login-header h1 {
-      font-size: 28px;
-      margin-bottom: 5px;
-    }
-
-    .login-header p {
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .login-form {
-      padding: 40px;
-    }
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 500;
-      font-size: 14px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 10px rgba(102, 126, 234, 0.1);
-    }
-
-    .form-group input::placeholder {
-      color: #999;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .login-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-    }
-
-    .login-btn:active {
-      transform: translateY(0);
-    }
-
-    .login-btn.loading {
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    .message {
-      margin-top: 20px;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 13px;
-      display: none;
-    }
-
-    .message.success {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-      display: block;
-    }
-
-    .message.error {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-      display: block;
-    }
-
-    .login-footer {
-      text-align: center;
-      padding: 20px 40px;
-      border-top: 1px solid #e0e0e0;
-      color: #666;
-      font-size: 12px;
-    }
-
-    .demo-credentials {
-      background: #f5f5f5;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 30px;
-      font-size: 12px;
-      color: #666;
-    }
-
-    .demo-credentials strong {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-    }
-
-    .demo-item {
-      margin-bottom: 8px;
-      padding: 5px;
-      background: white;
-      border-radius: 4px;
-    }
-
-    .role-badge {
-      display: inline-block;
-      background: #667eea;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 3px;
-      font-size: 11px;
-      margin-left: 5px;
-      font-weight: 600;
-    }
-
-    @media (max-width: 480px) {
-      .login-container {
-        margin: 20px;
-      }
-
-      .login-header {
-        padding: 30px 15px;
-      }
-
-      .login-header h1 {
-        font-size: 22px;
-      }
-
-      .login-form {
-        padding: 30px 20px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="login-container">
-    <div class="login-header">
-      <div class="logo">📚</div>
-      <h1>Digital Library Portal</h1>
-      <p>Secure Access to Digital Books</p>
-    </div>
-
-    <form class="login-form" id="loginForm">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input 
-          type="text" 
-          id="username" 
-          name="username" 
-          placeholder="Enter your username"
-          required
-        >
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          placeholder="Enter your password"
-          required
-        >
-      </div>
-
-      <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
-
-      <div class="message" id="message"></div>
-
-      <div class="demo-credentials">
-        <strong>Demo Credentials:</strong>
-        <div class="demo-item">
-          Admin: admin / admin123
-          <span class="role-badge">Admin</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Digital Library Portal for curated archive discovery and reading." />
+    <title>Digital Library Portal - Public Home</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div id="app" class="app-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" aria-label="Primary navigation">
+        <div class="sidebar__brand">
+          <a class="brand" href="index.html" aria-label="Digital Library home">
+            <span class="brand__mark" aria-hidden="true">L</span>
+            <span class="brand__name">Lumina Library</span>
+          </a>
         </div>
-        <div class="demo-item">
-          Librarian: librarian / lib123
-          <span class="role-badge">Librarian</span>
-        </div>
-        <div class="demo-item">
-          Member: member / mem123
-          <span class="role-badge">Member</span>
-        </div>
-      </div>
-    </form>
 
-    <div class="login-footer">
-      © 2026 Marathwada Mitra Mandal College of Engineering. All rights reserved.
-    </div>
-  </div>
-
-  <script>
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn = document.getElementById('loginBtn');
-    const messageDiv = document.getElementById('message');
-
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-
-      loginBtn.classList.add('loading');
-      loginBtn.textContent = 'Signing in...';
-      messageDiv.className = 'message';
-
-      try {
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          messageDiv.className = 'message success';
-          messageDiv.textContent = 'Login successful! Redirecting...';
+        <nav class="sidebar__nav" aria-label="Library sections">
+          <ul class="nav-list">
+            <li class="nav-list__item"><a class="nav-link" href="#" aria-current="page">Discover</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">My Library</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Collections</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">History</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="#">Bookmarks</a></li>
+          </ul>
           
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
+          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Switch Roles (Demo)</p>
+          <ul class="nav-list">
+            <li class="nav-list__item"><a class="nav-link" href="member.html">Member Dashboard</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="librarian.html">Librarian Dashboard</a></li>
+            <li class="nav-list__item"><a class="nav-link" href="admin.html">Admin Dashboard</a></li>
+          </ul>
+        </nav>
+
+        <section class="sidebar__profile" aria-label="User profile">
+          <div class="user-summary">
+            <span class="user-summary__avatar" aria-hidden="true">G</span>
+            <div class="user-summary__details">
+              <p class="user-summary__name">Guest User</p>
+              <p class="user-summary__meta">Sign in for more</p>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <!-- MAIN FRAME -->
+      <div class="page-frame">
+        <!-- TOP BAR -->
+        <header class="top-bar">
+          <div class="top-bar__intro">
+            <p class="top-bar__eyebrow">Public Home</p>
+            <h1 class="top-bar__title">Welcome to Lumina</h1>
+          </div>
+          <div class="top-bar__actions" aria-label="Account controls">
+            <button class="text-button" type="button">Notifications</button>
+            <button class="profile-control" type="button">
+              <span class="profile-control__avatar" aria-hidden="true">G</span>
+              <span class="profile-control__label">Guest</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main id="main-content" class="main-content">
           
-          setTimeout(() => {
-            window.location.href = '/dashboard.html';
-          }, 1500);
-        } else {
-          messageDiv.className = 'message error';
-          messageDiv.textContent = data.message || 'Login failed';
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        messageDiv.className = 'message error';
-        messageDiv.textContent = 'Server error. Please try again.';
-      } finally {
-        loginBtn.classList.remove('loading');
-        loginBtn.textContent = 'Sign In';
-      }
-    });
-  </script>
-</body>
+          <!-- HERO / SEARCH -->
+          <section class="hero-search glass-panel" aria-labelledby="search-title">
+            <div class="section-heading">
+              <h2 class="section-heading__title" id="search-title" style="font-size: var(--font-size-3xl);">What will you explore today?</h2>
+              <p class="top-bar__eyebrow" style="margin-top: var(--space-xs);">Discover thousands of curated books, research papers, and editorial collections.</p>
+            </div>
+            
+            <form class="search-form" role="search">
+              <label class="visually-hidden" for="library-search">Search the library</label>
+              <input class="search-form__input" id="library-search" name="q" type="search" placeholder="Search books, authors, topics..." />
+              <button class="search-form__button" type="submit">Search</button>
+            </form>
+            
+            <div class="popular-searches" style="display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-top: var(--space-sm);">
+              <span class="section-heading__eyebrow" style="align-self: center; margin-right: var(--space-xs);">Popular:</span>
+              <a href="#" class="chip">Artificial Intelligence</a>
+              <a href="#" class="chip">History</a>
+              <a href="#" class="chip">Design</a>
+              <a href="#" class="chip">Literature</a>
+              <a href="#" class="chip">Science</a>
+            </div>
+          </section>
+
+          <!-- YOUR READING SPACE -->
+          <section class="content-section" aria-labelledby="reading-space-title">
+            <div class="section-heading">
+              <p class="section-heading__eyebrow">Your Reading Space</p>
+              <h2 class="section-heading__title" id="reading-space-title">Continue where you left off</h2>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: var(--space-lg);">
+              <!-- Continue Reading Panel -->
+              <div class="glass-panel" style="display: flex; gap: var(--space-lg);">
+                <div style="width: 6rem; flex-shrink: 0;">
+                  <div class="book-card__cover" style="background-color: var(--color-lavender-200);"></div>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
+                  <h3 class="book-card__title" style="margin:0;">The Design of Everyday Things</h3>
+                  <p class="book-card__author">Don Norman</p>
+                  <div style="margin-top: var(--space-md); margin-bottom: var(--space-xs); display: flex; justify-content: space-between; font-size: var(--font-size-xs);">
+                    <span>Chapter 4</span>
+                    <strong>45%</strong>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-bar__fill" style="width: 45%;"></div>
+                  </div>
+                  <button class="text-button" style="margin-top: var(--space-md); align-self: flex-start; border-color: var(--color-accent);">Continue Reading</button>
+                </div>
+              </div>
+
+              <!-- Reading Activity Panel -->
+              <div class="card">
+                <h3 class="book-card__title" style="margin-block-start: 0;">Recent Activity</h3>
+                <ul style="list-style: none; padding: 0; margin-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-sm);">
+                  <li style="font-size: var(--font-size-sm); display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-xs);">
+                    <span>Finished <strong>Atomic Habits</strong></span>
+                    <span style="color: var(--color-text-muted);">2 days ago</span>
+                  </li>
+                  <li style="font-size: var(--font-size-sm); display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-xs);">
+                    <span>Started <strong>Sapiens</strong></span>
+                    <span style="color: var(--color-text-muted);">1 week ago</span>
+                  </li>
+                  <li style="font-size: var(--font-size-sm); display: flex; justify-content: space-between;">
+                    <span>Added note in <strong>The Innovators</strong></span>
+                    <span style="color: var(--color-text-muted);">1 week ago</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- CURATED FOR YOU -->
+          <section class="content-section" aria-labelledby="curated-title">
+            <div class="section-heading">
+              <p class="section-heading__eyebrow">Curated books</p>
+              <h2 class="section-heading__title" id="curated-title">Curated For You</h2>
+            </div>
+            
+            <div class="grid-books">
+              <a href="#" class="book-card">
+                <div class="book-card__cover" style="background-color: #E2D9C5;"></div>
+                <h3 class="book-card__title">Atomic Habits</h3>
+                <p class="book-card__author">James Clear</p>
+                <p class="section-heading__eyebrow">Self-Help</p>
+              </a>
+              <a href="#" class="book-card">
+                <div class="book-card__cover" style="background-color: #C8D6D5;"></div>
+                <h3 class="book-card__title">Sapiens</h3>
+                <p class="book-card__author">Yuval Noah Harari</p>
+                <p class="section-heading__eyebrow">History</p>
+              </a>
+              <a href="#" class="book-card">
+                <div class="book-card__cover" style="background-color: #F1E5E1;"></div>
+                <h3 class="book-card__title">The Design of Everyday Things</h3>
+                <p class="book-card__author">Don Norman</p>
+                <p class="section-heading__eyebrow">Design</p>
+              </a>
+              <a href="#" class="book-card">
+                <div class="book-card__cover" style="background-color: #D3C3DB;"></div>
+                <h3 class="book-card__title">The Innovators</h3>
+                <p class="book-card__author">Walter Isaacson</p>
+                <p class="section-heading__eyebrow">Biography</p>
+              </a>
+              <a href="#" class="book-card">
+                <div class="book-card__cover" style="background-color: #E6EAD8;"></div>
+                <h3 class="book-card__title">Thinking, Fast and Slow</h3>
+                <p class="book-card__author">Daniel Kahneman</p>
+                <p class="section-heading__eyebrow">Psychology</p>
+              </a>
+            </div>
+          </section>
+
+          <!-- EXPLORE COLLECTIONS -->
+          <section class="content-section" aria-labelledby="collections-title">
+            <div class="section-heading">
+              <p class="section-heading__eyebrow">Library</p>
+              <h2 class="section-heading__title" id="collections-title">Explore Collections</h2>
+            </div>
+            
+            <div class="grid-collections">
+              <a href="#" class="collection-card">Science & Technology</a>
+              <a href="#" class="collection-card">History & Humanities</a>
+              <a href="#" class="collection-card">Arts & Design</a>
+              <a href="#" class="collection-card">Literature</a>
+              <a href="#" class="collection-card">Philosophy</a>
+              <a href="#" class="collection-card">Research</a>
+            </div>
+          </section>
+
+        </main>
+      </div>
+    </div>
+    <script src="js/main.js" defer></script>
+  </body>
 </html>
