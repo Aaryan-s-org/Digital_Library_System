@@ -3,10 +3,12 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const { authenticateToken, authorize } = require('../middleware/authMiddleware');
 
-// Public Route
+// Public Routes
 router.post('/login', authController.login);
+router.post('/signup', authController.signup);
 
-// Protected Route (Admin only)
+// Protected Routes
+router.get('/me', authenticateToken, authController.me);
 router.post('/register', authenticateToken, authorize(['Admin']), authController.register);
 
 module.exports = router;

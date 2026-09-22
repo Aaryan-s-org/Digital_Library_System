@@ -137,13 +137,52 @@ body::before {
 
   .sidebar {
     min-height: auto;
-    padding: var(--space-lg) var(--page-gutter);
+    padding: var(--space-md) var(--page-gutter);
     border-block-end: 1px solid var(--color-border);
     border-inline-end: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  .sidebar__nav {
+    flex-basis: 100%;
+    order: 3;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-2xs);
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .sidebar__nav::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .sidebar__nav .nav-list {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-md);
+    white-space: nowrap;
+  }
+  
+  .sidebar__nav .section-heading__eyebrow {
+    display: none;
+  }
+
+  .sidebar__profile {
+    margin: 0;
+  }
+  
+  .user-summary__details {
+    display: none; /* Hide name on small screens in sidebar */
   }
 
   .top-bar {
     align-items: flex-start;
     flex-direction: column;
+    padding: var(--space-md) var(--page-gutter);
+    gap: var(--space-sm);
   }
 }

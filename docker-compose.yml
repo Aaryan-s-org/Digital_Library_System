@@ -7,27 +7,42 @@ services:
       - '5000:5000'
     environment:
       - PORT=5000
+      - NODE_ENV=development
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=digital_library_portal
       - JWT_SECRET=your-secret-key-change-in-production
+      - SEED_ON_START=true
     depends_on:
       db:
         condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ebook_data:/usr/src/app/backend/secure_ebooks
+      - cover_data:/usr/src/app/frontend/assets/covers
+      - report_data:/usr/src/app/backend/reports
 
   db:
     image: mysql:8
     ports:
-      - '3306:3306'
+      - '3307:3306'
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=digital_library_portal
     volumes:
-      # Mount the schema file to initialize the database
-      - ./Database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./Database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - db_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  ebook_data:
+  cover_data:
+  report_data:

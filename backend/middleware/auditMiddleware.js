@@ -7,7 +7,7 @@ const logAuditAction = async (userId, actionType, resourceType, resourceId, deta
     await connection.query(
       `INSERT INTO auditlogs (UserID, ActionType, ResourceType, ResourceID, ActionDetails, IPAddress, StatusCode)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [userId, actionType, resourceType, resourceId, JSON.stringify(details), ipAddress, statusCode]
+      [userId, actionType, resourceType || null, resourceId || null, JSON.stringify(details), ipAddress || '0.0.0.0', statusCode || null]
     );
     connection.release();
   } catch (error) {

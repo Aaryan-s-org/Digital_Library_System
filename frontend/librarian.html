@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Digital Library Librarian Dashboard" />
-    <title>Digital Library Portal - Librarian Dashboard</title>
+    <meta name="description" content="Lumina Library Librarian Dashboard" />
+    <title>Lumina Library — Librarian Dashboard</title>
     <link rel="stylesheet" href="css/main.css" />
   </head>
-  <body>
+  <body data-page="librarian">
     <div id="app" class="app-layout">
       <!-- SIDEBAR -->
       <aside class="sidebar" aria-label="Primary navigation">
@@ -27,11 +27,9 @@
             <li class="nav-list__item"><a class="nav-link" href="#">Notifications</a></li>
           </ul>
 
-          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Switch Roles (Demo)</p>
+          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Navigate</p>
           <ul class="nav-list">
             <li class="nav-list__item"><a class="nav-link" href="index.html">Public Home</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="member.html">Member Dashboard</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="admin.html">Admin Dashboard</a></li>
           </ul>
         </nav>
 
@@ -39,10 +37,11 @@
           <div class="user-summary">
             <span class="user-summary__avatar" aria-hidden="true">L</span>
             <div class="user-summary__details">
-              <p class="user-summary__name">Sarah Librarian</p>
+              <p class="user-summary__name">Librarian</p>
               <p class="user-summary__meta">Staff</p>
             </div>
           </div>
+          <button class="text-button" style="margin-top: var(--space-sm); width: 100%; font-size: var(--font-size-sm);" data-action="logout">Sign Out</button>
         </section>
       </aside>
 
@@ -58,7 +57,7 @@
             <button class="text-button" type="button">Notifications</button>
             <button class="profile-control" type="button">
               <span class="profile-control__avatar" aria-hidden="true">L</span>
-              <span class="profile-control__label">Sarah</span>
+              <span class="profile-control__label">Librarian</span>
             </button>
           </div>
         </header>
@@ -66,106 +65,38 @@
         <!-- MAIN CONTENT -->
         <main id="main-content" class="main-content">
           
-          <!-- LIBRARY OVERVIEW -->
+          <!-- LIBRARY OVERVIEW STATS -->
           <section class="content-section" aria-labelledby="overview-title">
             <div class="section-heading">
               <h2 class="section-heading__title" id="overview-title">Library Overview</h2>
             </div>
-            
-            <div class="grid-dashboard-stats">
-              <div class="card stat-card">
-                <span class="stat-card__label">Total E-Books</span>
-                <span class="stat-card__value">12,450</span>
-              </div>
-              <div class="card stat-card">
-                <span class="stat-card__label">Active Members</span>
-                <span class="stat-card__value">3,892</span>
-              </div>
-              <div class="card stat-card">
-                <span class="stat-card__label">Recently Added (30d)</span>
-                <span class="stat-card__value">145</span>
-              </div>
-              <div class="card stat-card glass-panel" style="padding: var(--space-lg); border-color: var(--color-accent);">
-                <span class="stat-card__label">Pending Actions</span>
-                <span class="stat-card__value" style="color: var(--color-sage-700);">12</span>
-              </div>
+            <div class="grid-dashboard-stats" id="librarian-stats">
+              <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
             </div>
           </section>
 
           <div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-xl);">
             
-            <!-- RECENTLY ADDED E-BOOKS & MEMBER ACTIVITY -->
             <div style="display: flex; flex-direction: column; gap: var(--space-2xl);">
               
+              <!-- EBOOKS TABLE -->
               <section class="content-section" aria-labelledby="recent-books-title">
                 <div class="section-heading">
-                  <h2 class="section-heading__title" id="recent-books-title">Recently Added E-Books</h2>
+                  <h2 class="section-heading__title" id="recent-books-title">E-Book Catalog</h2>
                 </div>
-                
-                <div class="data-table-wrapper">
-                  <table class="data-table">
-                    <thead>
-                      <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Added</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><strong>The Design of Everyday Things</strong></td>
-                        <td>Don Norman</td>
-                        <td>Design</td>
-                        <td><span class="status-badge status-badge--active">Available</span></td>
-                        <td>Today</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Thinking, Fast and Slow</strong></td>
-                        <td>Daniel Kahneman</td>
-                        <td>Psychology</td>
-                        <td><span class="status-badge status-badge--active">Available</span></td>
-                        <td>Yesterday</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Advanced Data Structures</strong></td>
-                        <td>Peter Brass</td>
-                        <td>Computer Science</td>
-                        <td><span class="status-badge status-badge--pending">Processing</span></td>
-                        <td>2 days ago</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Sapiens</strong></td>
-                        <td>Yuval Noah Harari</td>
-                        <td>History</td>
-                        <td><span class="status-badge status-badge--active">Available</span></td>
-                        <td>3 days ago</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="data-table-wrapper" id="librarian-books-table">
+                  <div style="text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
                 </div>
               </section>
 
+              <!-- RECENT ACTIVITY -->
               <section class="content-section" aria-labelledby="member-activity-title">
                 <div class="section-heading">
-                  <h2 class="section-heading__title" id="member-activity-title">Recent Member Activity</h2>
+                  <h2 class="section-heading__title" id="member-activity-title">Recent Activity</h2>
                 </div>
-                
-                <ul class="card" style="list-style: none; padding: var(--space-md); margin: 0; display: flex; flex-direction: column; gap: var(--space-md);">
-                  <li style="display: flex; justify-content: space-between; font-size: var(--font-size-sm); border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm);">
-                    <span><strong>Alex Reader</strong> borrowed <em>Atomic Habits</em></span>
-                    <span style="color: var(--color-text-muted);">10 mins ago</span>
-                  </li>
-                  <li style="display: flex; justify-content: space-between; font-size: var(--font-size-sm); border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm);">
-                    <span><strong>Sam Student</strong> returned <em>Calculus II</em></span>
-                    <span style="color: var(--color-text-muted);">1 hour ago</span>
-                  </li>
-                  <li style="display: flex; justify-content: space-between; font-size: var(--font-size-sm);">
-                    <span><strong>New Member</strong> registered</span>
-                    <span style="color: var(--color-text-muted);">3 hours ago</span>
-                  </li>
-                </ul>
+                <div id="librarian-activity">
+                  <div style="text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
+                </div>
               </section>
               
             </div>
@@ -177,18 +108,14 @@
               </div>
               
               <div style="display: flex; flex-direction: column; gap: var(--space-md);">
-                <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-sage-100); color: var(--color-sage-700); border-radius: 50%; font-weight: bold;">+</span>
-                  <strong>Add E-Book</strong>
+                <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);" id="btn-gen-lib-report">
+                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-sage-100); color: var(--color-sage-700); border-radius: 50%; font-weight: bold;">R</span>
+                  <strong>Generate Report</strong>
                 </button>
-                <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-lavender-100); color: var(--color-lavender-700); border-radius: 50%; font-weight: bold;">M</span>
-                  <strong>Manage E-Books</strong>
-                </button>
-                <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-ivory-200); color: var(--color-text-strong); border-radius: 50%; font-weight: bold;">U</span>
-                  <strong>Manage Members</strong>
-                </button>
+                <a href="index.html" class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm); text-decoration: none; color: inherit;">
+                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-lavender-100); color: var(--color-lavender-700); border-radius: 50%; font-weight: bold;">B</span>
+                  <strong>Browse E-Books</strong>
+                </a>
               </div>
             </section>
             
@@ -197,6 +124,16 @@
         </main>
       </div>
     </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/main.js" defer></script>
+    <script>
+      document.getElementById('btn-gen-lib-report')?.addEventListener('click', async () => {
+        const result = await API.generateReadingReport();
+        if (result && result.success) showToast('Reading report generated!', 'success');
+        else showToast('Failed to generate report', 'error');
+      });
+    </script>
   </body>
 </html>
