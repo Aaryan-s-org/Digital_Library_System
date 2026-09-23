@@ -1,212 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Digital Library Member Dashboard" />
-    <title>Digital Library Portal - Member Dashboard</title>
+    <meta name="description" content="Your Digital Library reading space." />
+    <title>Digital Library | My Reading Space</title>
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/discover.css" />
+    <link rel="stylesheet" href="css/member.css" />
+    <script src="js/demo-data.js"></script>
   </head>
-  <body>
-    <div id="app" class="app-layout">
-      <!-- SIDEBAR -->
-      <aside class="sidebar" aria-label="Primary navigation">
-        <div class="sidebar__brand">
-          <a class="brand" href="index.html" aria-label="Digital Library home">
-            <span class="brand__mark" aria-hidden="true">L</span>
-            <span class="brand__name">Lumina Library</span>
-          </a>
-        </div>
+  <body data-protected-role="Member">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+    <main id="main-content" class="member-page container">
+      <section class="member-view-panel" data-member-view-panel="dashboard" aria-labelledby="dashboard-title">
+        <div class="member-welcome"><p class="eyebrow">Your reading space</p><h1 class="member-title" id="dashboard-title">Welcome back, <span data-member-name>reader</span>.</h1><p class="member-lede">Pick up a thread, revisit an idea, or make room for something new.</p></div>
+        <section class="member-section" aria-labelledby="continue-title"><div class="member-section__heading"><div><p class="eyebrow">Keep your place</p><h2 class="section-title" id="continue-title">Continue reading</h2></div></div><div class="reading-placeholder surface--glass" data-reading-unavailable><span class="reading-placeholder__mark">—</span><div><h3>Reading progress will meet you here.</h3><p>The reader and progress service are not connected yet. Your catalogue and saved books are ready in the meantime.</p></div></div></section>
+        <section class="member-section" aria-labelledby="recent-title"><div class="member-section__heading"><div><p class="eyebrow">From your recent visits</p><h2 class="section-title" id="recent-title">Recently opened</h2></div><a class="section-link" href="member.html#history">View history →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="recent"><div class="member-empty">Nothing opened yet.</div></div></section>
+        <section class="member-section" aria-labelledby="saved-title"><div class="member-section__heading"><div><p class="eyebrow">Held for later</p><h2 class="section-title" id="saved-title">Saved books</h2></div><a class="section-link" href="member.html#bookmarks">View bookmarks →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+        <section class="member-section member-section--last" aria-labelledby="new-title"><div class="member-section__heading"><div><p class="eyebrow">Make a fresh start</p><h2 class="section-title" id="new-title">Discover something new</h2></div><a class="section-link" href="index.html">Open discover →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="discover"><div class="catalogue-state catalogue-state--loading"><span class="state-spinner"></span><span>Finding something for you…</span></div></div></section>
+      </section>
 
-        <nav class="sidebar__nav" aria-label="Library sections">
-          <ul class="nav-list">
-            <li class="nav-list__item"><a class="nav-link" href="#" aria-current="page">My Library</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="index.html">Discover</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Collections</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Reading History</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Bookmarks</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Notifications</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Profile</a></li>
-          </ul>
+      <section class="member-view-panel" data-member-view-panel="library" aria-labelledby="library-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">My library</p><h1 class="member-title" id="library-title">Books with a place in your day.</h1><p class="member-lede">A quiet shelf for saved titles and the books you have recently opened.</p></div>
+        <section class="member-section" aria-labelledby="library-saved-title"><div class="member-section__heading"><div><p class="eyebrow">Your collection</p><h2 class="section-title" id="library-saved-title">Saved books</h2></div></div><div class="book-grid" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+        <section class="member-section member-section--last" aria-labelledby="library-recent-title"><div class="member-section__heading"><div><p class="eyebrow">A small trail</p><h2 class="section-title" id="library-recent-title">Recently opened</h2></div></div><div class="book-grid" data-book-grid data-books-source="recent"><div class="member-empty">Nothing opened yet.</div></div></section>
+      </section>
 
-          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Switch Roles (Demo)</p>
-          <ul class="nav-list">
-            <li class="nav-list__item"><a class="nav-link" href="index.html">Public Home</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="librarian.html">Librarian Dashboard</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="admin.html">Admin Dashboard</a></li>
-          </ul>
-        </nav>
+      <section class="member-view-panel" data-member-view-panel="collections" aria-labelledby="collections-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">The library, by subject</p><h1 class="member-title" id="collections-title">Follow your curiosity.</h1><p class="member-lede">Browse the catalogue through the ideas, disciplines, and subjects that shape it.</p></div>
+        <section class="collection-browser" aria-labelledby="subjects-title"><div class="member-section__heading"><div><p class="eyebrow">Collections</p><h2 class="section-title" id="subjects-title">Choose a subject</h2></div></div><div class="collection-list" data-member-categories><span class="state-copy">Loading subjects…</span></div></section>
+        <section class="member-section member-section--last" aria-labelledby="collection-results-title"><div class="member-section__heading"><div><p class="eyebrow">Selected catalogue</p><h2 class="section-title" id="collection-results-title">Browse books</h2></div><p class="results-summary" data-collection-summary></p></div><div class="book-grid" data-book-grid data-books-source="collection"><div class="catalogue-state catalogue-state--loading"><span class="state-spinner"></span><span>Opening the collection…</span></div></div></section>
+      </section>
 
-        <section class="sidebar__profile" aria-label="User profile">
-          <div class="user-summary">
-            <span class="user-summary__avatar" aria-hidden="true">A</span>
-            <div class="user-summary__details">
-              <p class="user-summary__name">Alex Reader</p>
-              <p class="user-summary__meta">Premium Member</p>
-            </div>
-          </div>
-        </section>
-      </aside>
+      <section class="member-view-panel" data-member-view-panel="history" aria-labelledby="history-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Reading</p><h1 class="member-title" id="history-page-title">A trail of ideas.</h1><p class="member-lede">Your recent activity is kept locally in this browser until reading history is connected to the library service.</p></div>
+        <section class="member-section member-section--last" aria-labelledby="history-title"><div class="member-section__heading"><div><p class="eyebrow">Recent activity</p><h2 class="section-title" id="history-title">Reading history</h2></div></div><div class="activity-list" data-history-list><div class="member-empty">No reading activity recorded yet.</div></div></section>
+      </section>
 
-      <!-- MAIN FRAME -->
-      <div class="page-frame">
-        <!-- TOP BAR -->
-        <header class="top-bar">
-          <div class="top-bar__intro">
-            <p class="top-bar__eyebrow">Member Dashboard</p>
-            <h1 class="top-bar__title">Welcome back, Alex</h1>
-          </div>
-          <div class="top-bar__actions" aria-label="Account controls">
-            <button class="text-button" type="button">Notifications <span class="status-badge status-badge--pending" style="margin-left: 4px;">2</span></button>
-            <button class="profile-control" type="button">
-              <span class="profile-control__avatar" aria-hidden="true">A</span>
-              <span class="profile-control__label">Alex</span>
-            </button>
-          </div>
-        </header>
+      <section class="member-view-panel" data-member-view-panel="bookmarks" aria-labelledby="bookmarks-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Reading</p><h1 class="member-title" id="bookmarks-page-title">Books worth returning to.</h1><p class="member-lede">Your saved titles live here, ready whenever the moment feels right.</p></div>
+        <section class="member-section member-section--last" aria-labelledby="bookmarks-title"><div class="member-section__heading"><div><p class="eyebrow">Saved for later</p><h2 class="section-title" id="bookmarks-title">Bookmarks</h2></div></div><div class="book-grid" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+      </section>
 
-        <!-- MAIN CONTENT -->
-        <main id="main-content" class="main-content">
-          
-          <!-- CONTINUE READING & PROGRESS -->
-          <section class="content-section" aria-labelledby="reading-space-title">
-            <div class="section-heading">
-              <p class="section-heading__eyebrow">Current Books</p>
-              <h2 class="section-heading__title" id="reading-space-title">Continue Reading</h2>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr)); gap: var(--space-lg);">
-              
-              <!-- Book 1 -->
-              <div class="glass-panel" style="display: flex; gap: var(--space-lg);">
-                <div style="width: 8rem; flex-shrink: 0;">
-                  <div class="book-card__cover" style="background-color: var(--color-lavender-200);"></div>
-                </div>
-                <div style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
-                  <h3 class="book-card__title" style="margin:0; font-size: var(--font-size-xl);">The Design of Everyday Things</h3>
-                  <p class="book-card__author" style="margin-bottom: var(--space-sm);">Don Norman</p>
-                  
-                  <div style="margin-top: auto; margin-bottom: var(--space-xs); display: flex; justify-content: space-between; font-size: var(--font-size-sm);">
-                    <span class="section-heading__eyebrow">Chapter 4</span>
-                    <strong>45%</strong>
-                  </div>
-                  <div class="progress-bar">
-                    <div class="progress-bar__fill" style="width: 45%;"></div>
-                  </div>
-                  <button class="text-button" style="margin-top: var(--space-md); align-self: flex-start; border-color: var(--color-accent);">Continue Reading</button>
-                </div>
-              </div>
-
-              <!-- Book 2 -->
-              <div class="card" style="display: flex; gap: var(--space-lg);">
-                <div style="width: 8rem; flex-shrink: 0;">
-                  <div class="book-card__cover" style="background-color: #E2D9C5;"></div>
-                </div>
-                <div style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
-                  <h3 class="book-card__title" style="margin:0; font-size: var(--font-size-xl);">Atomic Habits</h3>
-                  <p class="book-card__author" style="margin-bottom: var(--space-sm);">James Clear</p>
-                  
-                  <div style="margin-top: auto; margin-bottom: var(--space-xs); display: flex; justify-content: space-between; font-size: var(--font-size-sm);">
-                    <span class="section-heading__eyebrow">Chapter 12</span>
-                    <strong>82%</strong>
-                  </div>
-                  <div class="progress-bar">
-                    <div class="progress-bar__fill" style="width: 82%;"></div>
-                  </div>
-                  <button class="text-button" style="margin-top: var(--space-md); align-self: flex-start;">Continue Reading</button>
-                </div>
-              </div>
-
-            </div>
-          </section>
-
-          <!-- RECENTLY READ & BOOKMARKED -->
-          <section class="content-section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: var(--space-xl);">
-            
-            <!-- RECENTLY READ -->
-            <div>
-              <div class="section-heading" style="margin-bottom: var(--space-md);">
-                <h2 class="section-heading__title">Recently Read</h2>
-              </div>
-              <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-sm);">
-                <li class="card" style="display: flex; gap: var(--space-md); align-items: center; padding: var(--space-sm) var(--space-md);">
-                  <div class="book-card__cover" style="width: 3rem; height: 4.5rem; background-color: #C8D6D5; border-radius: var(--radius-sm);"></div>
-                  <div>
-                    <h4 class="book-card__title" style="margin: 0; font-size: var(--font-size-md);">Sapiens</h4>
-                    <p class="book-card__author">Yuval Noah Harari</p>
-                  </div>
-                  <span class="section-heading__eyebrow" style="margin-left: auto;">Finished</span>
-                </li>
-                <li class="card" style="display: flex; gap: var(--space-md); align-items: center; padding: var(--space-sm) var(--space-md);">
-                  <div class="book-card__cover" style="width: 3rem; height: 4.5rem; background-color: #E6EAD8; border-radius: var(--radius-sm);"></div>
-                  <div>
-                    <h4 class="book-card__title" style="margin: 0; font-size: var(--font-size-md);">Thinking, Fast and Slow</h4>
-                    <p class="book-card__author">Daniel Kahneman</p>
-                  </div>
-                  <span class="section-heading__eyebrow" style="margin-left: auto;">Paused</span>
-                </li>
-              </ul>
-            </div>
-
-            <!-- BOOKMARKS / NOTIFICATIONS -->
-            <div>
-              <div class="section-heading" style="margin-bottom: var(--space-md);">
-                <h2 class="section-heading__title">Notifications</h2>
-              </div>
-              <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-sm);">
-                <li class="card" style="padding: var(--space-md);">
-                  <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2xs);">
-                    <strong style="color: var(--color-text-strong);">New book added to 'History'</strong>
-                    <span class="status-badge status-badge--pending">New</span>
-                  </div>
-                  <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">A book you might like was added to the collection.</p>
-                </li>
-                <li class="card" style="padding: var(--space-md);">
-                  <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2xs);">
-                    <strong style="color: var(--color-text-strong);">Reading Goal Met!</strong>
-                    <span class="section-heading__eyebrow">2d ago</span>
-                  </div>
-                  <p style="font-size: var(--font-size-sm); color: var(--color-text-muted);">You read 5 books this month. Keep it up!</p>
-                </li>
-              </ul>
-            </div>
-
-          </section>
-
-          <!-- RECOMMENDED BOOKS -->
-          <section class="content-section" aria-labelledby="recommended-title">
-            <div class="section-heading">
-              <p class="section-heading__eyebrow">Based on your history</p>
-              <h2 class="section-heading__title" id="recommended-title">Recommended Books</h2>
-            </div>
-            
-            <div class="grid-books">
-              <a href="#" class="book-card">
-                <div class="book-card__cover" style="background-color: #D3C3DB;"></div>
-                <h3 class="book-card__title">The Innovators</h3>
-                <p class="book-card__author">Walter Isaacson</p>
-              </a>
-              <a href="#" class="book-card">
-                <div class="book-card__cover" style="background-color: #F1E5E1;"></div>
-                <h3 class="book-card__title">Deep Work</h3>
-                <p class="book-card__author">Cal Newport</p>
-              </a>
-              <a href="#" class="book-card">
-                <div class="book-card__cover" style="background-color: #C8D6D5;"></div>
-                <h3 class="book-card__title">Guns, Germs, and Steel</h3>
-                <p class="book-card__author">Jared Diamond</p>
-              </a>
-              <a href="#" class="book-card">
-                <div class="book-card__cover" style="background-color: #E2D9C5;"></div>
-                <h3 class="book-card__title">Quiet</h3>
-                <p class="book-card__author">Susan Cain</p>
-              </a>
-            </div>
-          </section>
-
-        </main>
-      </div>
-    </div>
-    <script src="js/main.js" defer></script>
+      <section class="member-view-panel" data-member-view-panel="profile" aria-labelledby="profile-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Your account</p><h1 class="member-title" id="profile-page-title">A profile for your reading life.</h1><p class="member-lede">Your local demonstration account information is shown below.</p></div>
+        <section class="profile-layout member-section member-section--last" aria-labelledby="profile-title"><div class="profile-intro"><p class="eyebrow">Account details</p><h2 class="section-title" id="profile-title">Profile</h2></div><div class="profile-card surface" data-profile-content><div class="profile-loading">Loading profile…</div></div></section>
+      </section>
+    </main>
+    <script src="js/nav.js" defer></script>
+    <script src="js/member.js" defer></script>
   </body>
 </html>
