@@ -1,187 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lumina Library Admin Dashboard" />
-  <title>Lumina Library — Admin Dashboard</title>
-  <link rel="stylesheet" href="css/main.css" />
-</head>
-
-<body data-page="admin">
-  <div id="app" class="app-layout">
-    <!-- SIDEBAR -->
-    <aside class="sidebar" aria-label="Primary navigation">
-      <div class="sidebar__brand">
-        <a class="brand" href="index.html" aria-label="Digital Library home">
-          <span class="brand__mark" aria-hidden="true">L</span>
-          <span class="brand__name">Lumina Library</span>
-        </a>
-      </div>
-
-      <nav class="sidebar__nav" aria-label="Library sections">
-        <ul class="nav-list">
-          <li class="nav-list__item"><a class="nav-link" href="#" aria-current="page">Dashboard</a></li>
-          <li class="nav-list__item"><a class="nav-link" href="#">Users</a></li>
-          <li class="nav-list__item"><a class="nav-link" href="#">E-Books</a></li>
-          <li class="nav-list__item"><a class="nav-link" href="#">Reports</a></li>
-          <li class="nav-list__item"><a class="nav-link" href="#">Audit Logs</a></li>
-          <li class="nav-list__item"><a class="nav-link" href="#">Notifications</a></li>
-        </ul>
-
-        <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Navigate</p>
-        <ul class="nav-list">
-          <li class="nav-list__item"><a class="nav-link" href="index.html">Public Home</a></li>
-          <li class="nav-list__item"><a class="nav-link" href="librarian.html">Librarian Dashboard</a></li>
-        </ul>
-      </nav>
-
-      <section class="sidebar__profile" aria-label="User profile">
-        <div class="user-summary">
-          <span class="user-summary__avatar" aria-hidden="true">A</span>
-          <div class="user-summary__details">
-            <p class="user-summary__name">Admin</p>
-            <p class="user-summary__meta">Administrator</p>
-          </div>
-        </div>
-        <button class="text-button" style="margin-top: var(--space-sm); width: 100%; font-size: var(--font-size-sm);" data-action="logout">Sign Out</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Digital Library administration workspace." />
+    <title>Digital Library | Administration</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/discover.css" />
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+  </head>
+  <body data-protected-role="Admin">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+    <main id="main-content" class="admin-page container">
+      <section class="admin-view-panel" data-admin-view-panel="dashboard" aria-labelledby="admin-dashboard-title">
+        <section class="admin-welcome"><p class="eyebrow">Administration</p><h1 class="admin-title" id="admin-dashboard-title">Keep the library legible.</h1><p class="admin-lede">An operational view of the catalogue, its people, and the records that help the collection stay trustworthy.</p><div class="shell-actions"><a class="button button--primary" href="admin.html#catalog">Manage e-books</a><a class="button button--quiet" href="admin.html#users">Review users</a></div></section>
+        <div class="admin-grid"><article class="admin-note"><p class="eyebrow">Catalogue</p><strong data-admin-book-count>—</strong><span>available e-books</span></article><article class="admin-note"><p class="eyebrow">Community</p><strong data-admin-member-count>—</strong><span>member records</span></article><article class="admin-note admin-note--accent"><p class="eyebrow">Status</p><strong>Operational view</strong><span>Live API summaries appear when the library service is available.</span></article></div>
+        <section class="admin-section" aria-labelledby="admin-books-title"><div class="section-heading-row"><div><p class="eyebrow">Catalogue pulse</p><h2 class="section-title" id="admin-books-title">Recently available</h2></div><a class="section-link" href="admin.html#catalog">Open e-books →</a></div><div class="table-wrap" data-admin-books><div class="state-block"><span class="state-spinner"></span><span>Loading catalogue…</span></div></div></section>
+        <section class="admin-section admin-section--last" aria-labelledby="admin-activity-title"><div class="section-heading-row"><div><p class="eyebrow">Record keeping</p><h2 class="section-title" id="admin-activity-title">Recent administrative activity</h2></div><a class="section-link" href="admin.html#audit">View audit logs →</a></div><div class="table-wrap" data-admin-activity></div></section>
       </section>
-    </aside>
 
-    <!-- MAIN FRAME -->
-    <div class="page-frame">
-      <!-- TOP BAR -->
-      <header class="top-bar">
-        <div class="top-bar__intro">
-          <p class="top-bar__eyebrow">Administration</p>
-          <h1 class="top-bar__title">System Dashboard</h1>
-        </div>
-        <div class="top-bar__actions" aria-label="Account controls">
-          <button class="text-button" type="button">System Alerts</button>
-          <button class="profile-control" type="button">
-            <span class="profile-control__avatar" aria-hidden="true">A</span>
-            <span class="profile-control__label">Admin</span>
-          </button>
-        </div>
-      </header>
+      <section class="admin-view-panel" data-admin-view-panel="users" aria-labelledby="users-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Users &amp; roles</p><h1 class="admin-title" id="users-title">The people in the system.</h1><p class="admin-lede">Inspect active member directories, subscription tiers, and engagement status across the platform.</p></section>
+        <section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search users</span><input data-admin-user-search type="search" placeholder="Search name, username, or email" /></label><span class="results-summary" data-admin-user-summary></span></section>
+        <section class="admin-section admin-section--last"><div class="table-wrap" data-admin-users><div class="state-block"><span class="state-spinner"></span><span>Loading users…</span></div></div></section>
+      </section>
 
-      <!-- MAIN CONTENT -->
-      <main id="main-content" class="main-content">
+      <section class="admin-view-panel" data-admin-view-panel="catalog" aria-labelledby="admin-catalog-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">E-books</p><h1 class="admin-title" id="admin-catalog-title">The catalogue, in full.</h1><p class="admin-lede">Inspect metadata, update the record, add a title, or remove an available book using the existing service contract.</p></section>
+        <section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search e-books</span><input data-admin-book-search type="search" placeholder="Search title, author, or ISBN" /></label><label class="field"><span class="sr-only">Filter by category</span><select data-admin-category><option value="">All categories</option></select></label><button class="button button--quiet" type="button" data-admin-reset>Reset</button><button class="button button--primary" type="button" data-admin-add>Add e-book</button></section>
+        <section class="admin-section admin-section--last"><div class="section-heading-row"><div><p class="eyebrow">Available records</p><h2 class="section-title">E-book management</h2></div><p class="results-summary" data-admin-book-summary></p></div><div class="table-wrap" data-admin-catalog-table><div class="state-block"><span class="state-spinner"></span><span>Loading e-books…</span></div></div><nav class="pagination" data-admin-pagination aria-label="E-book pages"></nav></section>
+      </section>
 
-        <!-- SYSTEM OVERVIEW -->
-        <section class="content-section" aria-labelledby="overview-title">
-          <div class="section-heading">
-            <h2 class="section-heading__title" id="overview-title">System Overview</h2>
+      <section class="admin-view-panel" data-admin-view-panel="reports" aria-labelledby="reports-title" hidden>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">Reports &amp; Exports</p>
+          <h1 class="admin-title" id="reports-title">Operational evidence &amp; audits.</h1>
+          <p class="admin-lede">Generate on-demand CSV analytical exports powered directly by the library database engine.</p>
+        </section>
+        <section class="admin-grid">
+          <article class="admin-note">
+            <p class="eyebrow">Reading Analytics</p>
+            <strong>Reading &amp; Circulation CSV</strong>
+            <span>Aggregated reader completions, view counts, and total accesses.</span>
+            <button class="button button--primary" type="button" data-generate-report="reading">Generate CSV Report</button>
+            <span class="report-status" data-report-status="reading" style="display:block;margin-top:0.5rem;font-size:0.85rem;color:var(--color-primary-dark,#2b6cb0)"></span>
+          </article>
+          <article class="admin-note">
+            <p class="eyebrow">Audit Reports</p>
+            <strong>System Audit Trail CSV</strong>
+            <span>Complete chronological record of administrative and system events.</span>
+            <button class="button button--primary" type="button" data-generate-report="audit">Generate CSV Report</button>
+            <span class="report-status" data-report-status="audit" style="display:block;margin-top:0.5rem;font-size:0.85rem;color:var(--color-primary-dark,#2b6cb0)"></span>
+          </article>
+          <article class="admin-note admin-note--accent">
+            <p class="eyebrow">Archive History</p>
+            <strong>Generated Reports Log</strong>
+            <span>Historical files stored securely in system storage.</span>
+            <button class="button button--quiet" type="button" data-refresh-reports>Refresh List</button>
+          </article>
+        </section>
+        <section class="admin-section admin-section--last" style="margin-top:2rem;">
+          <div class="section-heading-row">
+            <div>
+              <p class="eyebrow">Generated Files</p>
+              <h2 class="section-title">Available Downloads</h2>
+            </div>
           </div>
-          <div class="grid-dashboard-stats" id="admin-stats">
-            <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
+          <div class="table-wrap" data-admin-reports-table>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading generated reports…</span></div>
           </div>
         </section>
+      </section>
 
-        <div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-xl);">
+      <section class="admin-view-panel" data-admin-view-panel="analytics" aria-labelledby="analytics-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Analytics</p><h1 class="admin-title" id="analytics-title">Patterns worth noticing.</h1><p class="admin-lede">Live distribution metrics across catalogue genres, e-book file formats, and community engagement.</p></section><section class="admin-chart-grid admin-section--last"><article class="admin-chart"><h2>Books by category</h2><div class="bar-list" data-category-chart></div></article><article class="admin-chart"><h2>Format distribution</h2><div class="bar-list" data-format-chart></div></article><article class="admin-chart"><h2>Platform metrics</h2><div class="bar-list" data-activity-chart></div></article></section>
+      </section>
 
-          <div style="display: flex; flex-direction: column; gap: var(--space-2xl);">
+      <section class="admin-view-panel" data-admin-view-panel="audit" aria-labelledby="audit-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Audit logs</p><h1 class="admin-title" id="audit-title">A trace of the work.</h1><p class="admin-lede">Real-time tamper-evident logs tracking user authentications, catalogue changes, and system events.</p></section><section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search audit logs</span><input data-audit-search type="search" placeholder="Search user, action, or entity" /></label><span class="results-summary" data-audit-summary></span></section><section class="admin-section admin-section--last"><div class="table-wrap" data-audit-table></div></section>
+      </section>
 
-            <!-- AUDIT LOGS TABLE -->
-            <section class="content-section" aria-labelledby="audit-title">
-              <div class="section-heading" style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h2 class="section-heading__title" id="audit-title">Recent Audit Activity</h2>
-              </div>
-              <div class="data-table-wrapper" id="admin-audit-table">
-                <div style="text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
-              </div>
-            </section>
-
-            <!-- REPORTS -->
-            <section class="content-section" aria-labelledby="report-title">
-              <div class="section-heading">
-                <h2 class="section-heading__title" id="report-title">Generate Reports</h2>
-              </div>
-              <div class="grid-dashboard-stats">
-                <div class="card glass-panel" style="padding: var(--space-md);">
-                  <h4 style="margin: 0; font-size: var(--font-size-md);">Reading Analytics</h4>
-                  <p style="font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-xs);">
-                    Book access stats, reader engagement, and completion rates.
-                  </p>
-                  <button class="text-button" id="btn-gen-reading-report"
-                    style="margin-top: var(--space-md); padding: 0.25rem 0.5rem; font-size: var(--font-size-sm);">Generate CSV</button>
-                </div>
-                <div class="card glass-panel" style="padding: var(--space-md);">
-                  <h4 style="margin: 0; font-size: var(--font-size-md);">Audit Summary</h4>
-                  <p style="font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-xs);">
-                    System actions, login history, and security events.
-                  </p>
-                  <button class="text-button" id="btn-gen-audit-report"
-                    style="margin-top: var(--space-md); padding: 0.25rem 0.5rem; font-size: var(--font-size-sm);">Generate CSV</button>
-                </div>
-              </div>
-            </section>
-
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: var(--space-2xl);">
-
-            <!-- QUICK ACTIONS -->
-            <section class="content-section" aria-labelledby="actions-title">
-              <div class="section-heading">
-                <h2 class="section-heading__title" id="actions-title">Quick Actions</h2>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: var(--space-md);">
-                <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);" id="btn-gen-reading-report-2">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-lavender-100); color: var(--color-lavender-700); border-radius: 50%; font-weight: bold;">R</span>
-                  <strong>Generate Report</strong>
-                </button>
-                <a href="index.html" class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm); text-decoration: none; color: inherit;">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-sage-100); color: var(--color-sage-700); border-radius: 50%; font-weight: bold;">B</span>
-                  <strong>Browse Library</strong>
-                </a>
-                <a href="librarian.html" class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm); text-decoration: none; color: inherit;">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-ivory-200); color: var(--color-text-strong); border-radius: 50%; font-weight: bold;">L</span>
-                  <strong>Librarian View</strong>
-                </a>
-              </div>
-            </section>
-
-            <!-- SYSTEM INFO -->
-            <section class="content-section" aria-labelledby="system-info-title">
-              <div class="section-heading">
-                <h2 class="section-heading__title" id="system-info-title">System Info</h2>
-              </div>
-              <div class="card" style="padding: var(--space-md);">
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-md);">
-                  <li style="font-size: var(--font-size-sm); display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm);">
-                    <span style="color: var(--color-text-muted);">Server Status</span>
-                    <span class="status-badge status-badge--active">Online</span>
-                  </li>
-                  <li style="font-size: var(--font-size-sm); display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm);">
-                    <span style="color: var(--color-text-muted);">Database</span>
-                    <span class="status-badge status-badge--active">Connected</span>
-                  </li>
-                  <li style="font-size: var(--font-size-sm); display: flex; justify-content: space-between;">
-                    <span style="color: var(--color-text-muted);">Docker</span>
-                    <span class="status-badge status-badge--active">Running</span>
-                  </li>
-                </ul>
-              </div>
-            </section>
-
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
-
-  <script src="js/api.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/main.js" defer></script>
-  <script>
-    document.getElementById('btn-gen-reading-report-2')?.addEventListener('click', async () => {
-      const result = await API.generateReadingReport();
-      if (result && result.success) showToast('Reading report generated!', 'success');
-      else showToast('Failed to generate report', 'error');
-    });
-  </script>
-</body>
-
+      <section class="admin-view-panel" data-admin-view-panel="profile" aria-labelledby="admin-profile-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Admin profile</p><h1 class="admin-title" id="admin-profile-title">The account behind the decisions.</h1><p class="admin-lede">Local demonstration profile information for the administration workspace.</p></section><section class="admin-profile" data-admin-profile></section>
+      </section>
+    </main>
+    <script src="js/nav.js" defer></script>
+    <script src="js/admin.js" defer></script>
+  </body>
 </html>

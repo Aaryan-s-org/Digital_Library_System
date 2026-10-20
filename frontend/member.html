@@ -1,160 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Lumina Library Member Dashboard — Your personal reading space" />
-    <title>Lumina Library — My Library</title>
+    <meta name="description" content="Your Digital Library reading space." />
+    <title>Digital Library | My Reading Space</title>
     <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body data-page="member">
-    <div id="app" class="app-layout">
-      <!-- SIDEBAR -->
-      <aside class="sidebar" aria-label="Primary navigation">
-        <div class="sidebar__brand">
-          <a class="brand" href="index.html" aria-label="Digital Library home">
-            <span class="brand__mark" aria-hidden="true">L</span>
-            <span class="brand__name">Lumina Library</span>
-          </a>
-        </div>
-
-        <nav class="sidebar__nav" aria-label="Library sections">
-          <ul class="nav-list">
-            <li class="nav-list__item"><a class="nav-link" href="#" aria-current="page">My Library</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="index.html">Discover</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Collections</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Reading History</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Bookmarks</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Notifications</a></li>
-          </ul>
-
-          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Navigate</p>
-          <ul class="nav-list">
-            <li class="nav-list__item"><a class="nav-link" href="index.html">Public Home</a></li>
-          </ul>
-        </nav>
-
-        <section class="sidebar__profile" aria-label="User profile">
-          <div class="user-summary">
-            <span class="user-summary__avatar" aria-hidden="true">M</span>
-            <div class="user-summary__details">
-              <p class="user-summary__name">Member</p>
-              <p class="user-summary__meta">Member</p>
-            </div>
-          </div>
-          <button class="text-button" style="margin-top: var(--space-sm); width: 100%; font-size: var(--font-size-sm);" data-action="logout">Sign Out</button>
-        </section>
-      </aside>
-
-      <!-- MAIN FRAME -->
-      <div class="page-frame">
-        <!-- TOP BAR -->
-        <header class="top-bar">
-          <div class="top-bar__intro">
-            <p class="top-bar__eyebrow">Member Dashboard</p>
-            <h1 class="top-bar__title">Welcome back</h1>
-          </div>
-          <div class="top-bar__actions" aria-label="Account controls">
-            <button class="text-button" type="button">Notifications <span class="notification-badge"></span></button>
-            <button class="profile-control" type="button">
-              <span class="profile-control__avatar" aria-hidden="true">M</span>
-              <span class="profile-control__label">Member</span>
-            </button>
-          </div>
-        </header>
-
-        <!-- MAIN CONTENT -->
-        <main id="main-content" class="main-content">
-          
-          <!-- CONTINUE READING -->
-          <section class="content-section" aria-labelledby="reading-space-title">
-            <div class="section-heading">
-              <p class="section-heading__eyebrow">Current Books</p>
-              <h2 class="section-heading__title" id="reading-space-title">Continue Reading</h2>
-            </div>
-            <div id="member-reading-content">
-              <div style="text-align: center; padding: var(--space-2xl);">
-                <div class="spinner"></div>
-                <p style="margin-top: var(--space-md); color: var(--color-text-muted);">Loading your library...</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- NOTIFICATIONS -->
-          <section class="content-section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: var(--space-xl);">
-            <div>
-              <div class="section-heading" style="margin-bottom: var(--space-md);">
-                <h2 class="section-heading__title">Notifications</h2>
-              </div>
-              <div id="member-notifications">
-                <div style="text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
-              </div>
-            </div>
-            
-            <div>
-              <div class="section-heading" style="margin-bottom: var(--space-md);">
-                <h2 class="section-heading__title">Quick Stats</h2>
-              </div>
-              <div class="card" style="padding: var(--space-lg);" id="member-quick-stats">
-                <div style="display: flex; flex-direction: column; gap: var(--space-md);">
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">Subscription</span>
-                    <span class="status-badge status-badge--active" id="member-tier">Free</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">Books in Progress</span>
-                    <strong id="member-in-progress">0</strong>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">Total Bookmarks</span>
-                    <strong id="member-total-bookmarks">0</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- RECOMMENDED BOOKS -->
-          <section class="content-section" aria-labelledby="recommended-title">
-            <div class="section-heading">
-              <p class="section-heading__eyebrow">Explore more</p>
-              <h2 class="section-heading__title" id="recommended-title">Recommended Books</h2>
-            </div>
-            <div class="grid-books" id="recommended-grid">
-              <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
-            </div>
-          </section>
-
-        </main>
-      </div>
-    </div>
-
+    <link rel="stylesheet" href="css/discover.css" />
+    <link rel="stylesheet" href="css/member.css" />
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/main.js" defer></script>
-    <script>
-      // Load additional member stats after main init
-      document.addEventListener('DOMContentLoaded', async () => {
-        if (!API.isAuthenticated()) return;
-        
-        // Load progress count
-        const progressResult = await API.getAllProgress();
-        if (progressResult && progressResult.success) {
-          document.getElementById('member-in-progress').textContent = progressResult.data.length;
-        }
+  </head>
+  <body data-protected-role="Member">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+    <main id="main-content" class="member-page container">
+      <section class="member-view-panel" data-member-view-panel="dashboard" aria-labelledby="dashboard-title">
+        <div class="member-welcome"><p class="eyebrow">Your reading space</p><h1 class="member-title" id="dashboard-title">Welcome back, <span data-member-name>reader</span>.</h1><p class="member-lede">Pick up a thread, revisit an idea, or make room for something new.</p></div>
 
-        // Load bookmarks count
-        const bmResult = await API.getAllBookmarks();
-        if (bmResult && bmResult.success) {
-          document.getElementById('member-total-bookmarks').textContent = bmResult.data.length;
-        }
+        <section class="member-section" aria-labelledby="recommendation-title" data-recommendation-panel>
+          <div class="member-section__heading">
+            <div>
+              <p class="eyebrow"><span class="ml-badge">✦ AI Model</span> Tailored for you</p>
+              <h2 class="section-title" id="recommendation-title">Recommended for your reading taste</h2>
+            </div>
+            <div class="recommendation-controls">
+              <span class="recommendation-badge" data-recommendation-signal>Based on your searches &amp; recent reads</span>
+              <button class="button button--quiet button--small" type="button" data-refresh-recommendations title="Re-run AI recommendation engine">↻ Refresh</button>
+            </div>
+          </div>
+          <div class="book-grid book-grid--compact" data-book-grid data-books-source="recommendations">
+            <div class="catalogue-state catalogue-state--loading"><span class="state-spinner"></span><span>Computing personalized recommendations…</span></div>
+          </div>
+        </section>
 
-        // Load user tier
-        const meResult = await API.me();
-        if (meResult && meResult.success && meResult.data.member) {
-          document.getElementById('member-tier').textContent = meResult.data.member.SubscriptionTier;
-        }
-      });
-    </script>
+        <section class="member-section" aria-labelledby="recent-title"><div class="member-section__heading"><div><p class="eyebrow">From your recent visits</p><h2 class="section-title" id="recent-title">Recently opened</h2></div><a class="section-link" href="member.html#history">View history →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="recent"><div class="member-empty">Nothing opened yet.</div></div></section>
+        <section class="member-section" aria-labelledby="saved-title"><div class="member-section__heading"><div><p class="eyebrow">Held for later</p><h2 class="section-title" id="saved-title">Saved books</h2></div><a class="section-link" href="member.html#bookmarks">View bookmarks →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+        <section class="member-section member-section--last" aria-labelledby="new-title"><div class="member-section__heading"><div><p class="eyebrow">Make a fresh start</p><h2 class="section-title" id="new-title">Discover something new</h2></div><a class="section-link" href="index.html">Open discover →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="discover"><div class="catalogue-state catalogue-state--loading"><span class="state-spinner"></span><span>Finding something for you…</span></div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="library" aria-labelledby="library-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">My library</p><h1 class="member-title" id="library-title">Books with a place in your day.</h1><p class="member-lede">A quiet shelf for saved titles and the books you have recently opened.</p></div>
+        <section class="member-section" aria-labelledby="library-saved-title"><div class="member-section__heading"><div><p class="eyebrow">Your collection</p><h2 class="section-title" id="library-saved-title">Saved books</h2></div></div><div class="book-grid" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+        <section class="member-section member-section--last" aria-labelledby="library-recent-title"><div class="member-section__heading"><div><p class="eyebrow">A small trail</p><h2 class="section-title" id="library-recent-title">Recently opened</h2></div></div><div class="book-grid" data-book-grid data-books-source="recent"><div class="member-empty">Nothing opened yet.</div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="collections" aria-labelledby="collections-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">The library, by subject</p><h1 class="member-title" id="collections-title">Follow your curiosity.</h1><p class="member-lede">Browse the catalogue through the ideas, disciplines, and subjects that shape it.</p></div>
+        <section class="collection-browser" aria-labelledby="subjects-title"><div class="member-section__heading"><div><p class="eyebrow">Collections</p><h2 class="section-title" id="subjects-title">Choose a subject</h2></div></div><div class="collection-list" data-member-categories><span class="state-copy">Loading subjects…</span></div></section>
+        <section class="member-section member-section--last" aria-labelledby="collection-results-title"><div class="member-section__heading"><div><p class="eyebrow">Selected catalogue</p><h2 class="section-title" id="collection-results-title">Browse books</h2></div><p class="results-summary" data-collection-summary></p></div><div class="book-grid" data-book-grid data-books-source="collection"><div class="catalogue-state catalogue-state--loading"><span class="state-spinner"></span><span>Opening the collection…</span></div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="history" aria-labelledby="history-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Reading</p><h1 class="member-title" id="history-page-title">A trail of ideas.</h1><p class="member-lede">Your recent activity is safely synchronized with the library service.</p></div>
+        <section class="member-section member-section--last" aria-labelledby="history-title"><div class="member-section__heading"><div><p class="eyebrow">Recent activity</p><h2 class="section-title" id="history-title">Reading history</h2></div></div><div class="activity-list" data-history-list><div class="member-empty">No reading activity recorded yet.</div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="bookmarks" aria-labelledby="bookmarks-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Reading</p><h1 class="member-title" id="bookmarks-page-title">Books worth returning to.</h1><p class="member-lede">Your saved titles live here, ready whenever the moment feels right.</p></div>
+        <section class="member-section member-section--last" aria-labelledby="bookmarks-title"><div class="member-section__heading"><div><p class="eyebrow">Saved for later</p><h2 class="section-title" id="bookmarks-title">Bookmarks</h2></div></div><div class="book-grid" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="profile" aria-labelledby="profile-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Your account</p><h1 class="member-title" id="profile-page-title">A profile for your reading life.</h1><p class="member-lede">Your profile account information is shown below.</p></div>
+        <section class="profile-layout member-section member-section--last" aria-labelledby="profile-title"><div class="profile-intro"><p class="eyebrow">Account details</p><h2 class="section-title" id="profile-title">Profile</h2></div><div class="profile-card surface" data-profile-content><div class="profile-loading">Loading profile…</div></div></section>
+      </section>
+    </main>
+    <script src="js/nav.js" defer></script>
+    <script src="js/member.js" defer></script>
   </body>
 </html>

@@ -21,6 +21,7 @@ const bookmarkRoutes = require('./routes/bookmarkRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const auditRoutes = require('./routes/auditRoutes');
+const recommendationRoutes = require('./routes/recommendationRoutes');
 
 // ===========================
 // Middleware
@@ -49,6 +50,7 @@ app.use('/api/bookmarks', bookmarkRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/audit', auditRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

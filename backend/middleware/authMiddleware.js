@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
-const pool = require('../config/db');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // JWT Authentication Middleware
 const authenticateToken = (req, res, next) => {
@@ -29,40 +28,45 @@ const authenticateToken = (req, res, next) => {
 
 // Role-Based Authorization Middleware
 const authorize = (allowedRoles) => {
-  return async (req, res, next) => {
-    try {
-      const connection = await pool.getConnection();
-      const [users] = await connection.query(
-        'SELECT u.RoleID, r.RoleName FROM users u JOIN roles r ON u.RoleID = r.RoleID WHERE u.UserID = ?',
-        [req.user.userId]
-      );
-      connection.release();
-
-      if (!users.length) {
-        return res.status(403).json({ 
-          success: false, 
-          message: 'User not found' 
-        });
-      }
-
-      const userRole = users[0].RoleName;
-      if (!allowedRoles.includes(userRole)) {
-        return res.status(403).json({ 
-          success: false, 
-          message: 'Insufficient permissions' 
-        });
-      }
-
-      req.userRole = userRole;
-      next();
-    } catch (error) {
-      return res.status(500).json({ 
+  return (req, res, next) => {
+    if (!req.user || !req.user.role) {
+      return res.status(403).json({ 
         success: false, 
-        message: 'Authorization error',
-        error: error.message 
+        message: 'User role not found in token' 
       });
     }
+
+    const userRole = req.user.role;
+    if (!allowedRoles.includes(userRole)) {
+      return res.status(403).json({ 
+        success: false, 
+        message: 'Insufficient permissions' 
+      });
+    }
+
+    req.userRole = userRole;
+    next();
   };
 };
 
-module.exports = { authenticateToken, authorize };
+// Optional Authentication Middleware (does not block if no token or expired)
+const optionalAuthToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    req.user = null;
+    return next();
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (!err && user) {
+      req.user = user;
+    } else {
+      req.user = null;
+    }
+    next();
+  });
+};
+
+module.exports = { authenticateToken, authorize, optionalAuthToken };

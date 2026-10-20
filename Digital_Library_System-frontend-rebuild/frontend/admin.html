@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Digital Library administration workspace." />
+    <title>Digital Library | Administration</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/discover.css" />
+  </head>
+  <body data-protected-role="Admin">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+    <main id="main-content" class="admin-page container">
+      <section class="admin-view-panel" data-admin-view-panel="dashboard" aria-labelledby="admin-dashboard-title">
+        <section class="admin-welcome"><p class="eyebrow">Administration</p><h1 class="admin-title" id="admin-dashboard-title">Keep the library legible.</h1><p class="admin-lede">An operational view of the catalogue, its people, and the records that help the collection stay trustworthy.</p><div class="shell-actions"><a class="button button--primary" href="admin.html#catalog">Manage e-books</a><a class="button button--quiet" href="admin.html#users">Review users</a></div></section>
+        <div class="admin-grid"><article class="admin-note"><p class="eyebrow">Catalogue</p><strong data-admin-book-count>—</strong><span>available e-books</span></article><article class="admin-note"><p class="eyebrow">Community</p><strong data-admin-member-count>—</strong><span>member records</span></article><article class="admin-note admin-note--accent"><p class="eyebrow">Status</p><strong>Operational view</strong><span>Live API summaries appear when the library service is available.</span></article></div>
+        <section class="admin-section" aria-labelledby="admin-books-title"><div class="section-heading-row"><div><p class="eyebrow">Catalogue pulse</p><h2 class="section-title" id="admin-books-title">Recently available</h2></div><a class="section-link" href="admin.html#catalog">Open e-books →</a></div><div class="table-wrap" data-admin-books><div class="state-block"><span class="state-spinner"></span><span>Loading catalogue…</span></div></div></section>
+        <section class="admin-section admin-section--last" aria-labelledby="admin-activity-title"><div class="section-heading-row"><div><p class="eyebrow">Record keeping</p><h2 class="section-title" id="admin-activity-title">Recent administrative activity</h2></div><a class="section-link" href="admin.html#audit">View audit logs →</a></div><span class="demo-note">Local demonstration records · audit endpoint pending</span><div class="table-wrap" data-admin-activity></div></section>
+      </section>
+
+      <section class="admin-view-panel" data-admin-view-panel="users" aria-labelledby="users-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Users &amp; roles</p><h1 class="admin-title" id="users-title">The people in the system.</h1><p class="admin-lede">Review member accounts and status. Role changes are not exposed because the current backend has no role-management endpoint.</p></section>
+        <section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search users</span><input data-admin-user-search type="search" placeholder="Search name, username, or email" /></label><span class="results-summary" data-admin-user-summary></span></section>
+        <section class="admin-section admin-section--last"><div class="table-wrap" data-admin-users><div class="state-block"><span class="state-spinner"></span><span>Loading users…</span></div></div></section>
+      </section>
+
+      <section class="admin-view-panel" data-admin-view-panel="catalog" aria-labelledby="admin-catalog-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">E-books</p><h1 class="admin-title" id="admin-catalog-title">The catalogue, in full.</h1><p class="admin-lede">Inspect metadata, update the record, add a title, or remove an available book using the existing service contract.</p></section>
+        <section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search e-books</span><input data-admin-book-search type="search" placeholder="Search title, author, or ISBN" /></label><label class="field"><span class="sr-only">Filter by category</span><select data-admin-category><option value="">All categories</option></select></label><button class="button button--quiet" type="button" data-admin-reset>Reset</button><button class="button button--primary" type="button" data-admin-add>Add e-book</button></section>
+        <section class="admin-section admin-section--last"><div class="section-heading-row"><div><p class="eyebrow">Available records</p><h2 class="section-title">E-book management</h2></div><p class="results-summary" data-admin-book-summary></p></div><span class="demo-note" data-admin-catalog-note hidden>Local demonstration records · catalogue API unavailable</span><div class="table-wrap" data-admin-catalog-table><div class="state-block"><span class="state-spinner"></span><span>Loading e-books…</span></div></div><nav class="pagination" data-admin-pagination aria-label="E-book pages"></nav></section>
+      </section>
+
+      <section class="admin-view-panel" data-admin-view-panel="reports" aria-labelledby="reports-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Reports</p><h1 class="admin-title" id="reports-title">A workspace for evidence.</h1><p class="admin-lede">Report categories are ready for the service integration. The current frontend has no report-generation or download endpoint.</p></section><span class="demo-note">Demonstration workspace · server reports pending integration</span><section class="admin-grid"><article class="admin-note"><p class="eyebrow">Catalogue reports</p><strong>Inventory</strong><span>Availability, formats, and category coverage.</span><button class="button button--quiet" type="button" disabled>Download pending</button></article><article class="admin-note"><p class="eyebrow">Member reports</p><strong>Community</strong><span>Registration, activity, and subscription summaries.</span><button class="button button--quiet" type="button" disabled>Download pending</button></article><article class="admin-note admin-note--accent"><p class="eyebrow">Activity reports</p><strong>Usage</strong><span>Access and circulation views when reporting endpoints exist.</span><button class="button button--quiet" type="button" disabled>Download pending</button></article></section>
+      </section>
+
+      <section class="admin-view-panel" data-admin-view-panel="analytics" aria-labelledby="analytics-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Analytics</p><h1 class="admin-title" id="analytics-title">Patterns worth noticing.</h1><p class="admin-lede">A lightweight visual outline of the questions the library may answer once analytics endpoints are connected.</p></section><span class="demo-note">Local demonstration analytics · not live production data</span><section class="admin-chart-grid admin-section--last"><article class="admin-chart"><h2>Books by category</h2><div class="bar-list" data-category-chart></div></article><article class="admin-chart"><h2>Format distribution</h2><div class="bar-list" data-format-chart></div></article><article class="admin-chart"><h2>Member activity</h2><div class="bar-list" data-activity-chart></div></article></section>
+      </section>
+
+      <section class="admin-view-panel" data-admin-view-panel="audit" aria-labelledby="audit-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Audit logs</p><h1 class="admin-title" id="audit-title">A trace of the work.</h1><p class="admin-lede">Chronological administrative records are presented here as local demonstration data until a frontend audit endpoint is available.</p></section><section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search audit logs</span><input data-audit-search type="search" placeholder="Search user, action, or entity" /></label><span class="results-summary" data-audit-summary></span></section><span class="demo-note">Local demonstration records · not live server logs</span><section class="admin-section admin-section--last"><div class="table-wrap" data-audit-table></div></section>
+      </section>
+
+      <section class="admin-view-panel" data-admin-view-panel="profile" aria-labelledby="admin-profile-title" hidden>
+        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Admin profile</p><h1 class="admin-title" id="admin-profile-title">The account behind the decisions.</h1><p class="admin-lede">Local demonstration profile information for the administration workspace.</p></section><span class="demo-note">Local demonstration profile · authentication integration pending</span><section class="admin-profile" data-admin-profile></section>
+      </section>
+    </main>
+    <script src="js/nav.js" defer></script>
+    <script src="js/admin.js" defer></script>
+  </body>
+</html>
