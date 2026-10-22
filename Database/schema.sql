@@ -278,4 +278,24 @@ CREATE TABLE `backuphistory` (
   PRIMARY KEY (`BackupID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- -----------------------------------------------------
+-- Table: searchhistory
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `searchhistory`;
+CREATE TABLE `searchhistory` (
+  `SearchID` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `UserID` INT UNSIGNED NULL,
+  `MemberID` INT UNSIGNED NULL,
+  `SearchQuery` VARCHAR(255) NOT NULL,
+  `CategoryFilter` INT UNSIGNED NULL,
+  `ResultsCount` INT UNSIGNED NOT NULL DEFAULT 0,
+  `CreatedAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`SearchID`),
+  KEY `idx_search_user` (`UserID`),
+  KEY `idx_search_member` (`MemberID`),
+  KEY `idx_search_created` (`CreatedAt`),
+  CONSTRAINT `fk_search_user` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
+

@@ -21,21 +21,21 @@ const Reader = {
     const params = new URLSearchParams(window.location.search);
     this.bookId = params.get('id');
     if (!this.bookId) {
-      document.getElementById('reader-status').textContent = 'No book specified.';
+      document.querySelector('[data-reader-title]').textContent = 'No book specified.';
       return;
     }
 
     // Load book metadata
     const infoResult = await API.getReaderInfo(this.bookId);
     if (!infoResult || !infoResult.success) {
-      document.getElementById('reader-status').textContent = 'Failed to load book info.';
+      document.querySelector('[data-reader-title]').textContent = 'Failed to load book info.';
       return;
     }
     this.bookMeta = infoResult.data;
 
     // Update title
-    document.getElementById('reader-book-title').textContent = this.bookMeta.book.Title;
-    document.getElementById('reader-book-author').textContent = this.bookMeta.book.Author;
+    document.querySelector('[data-reader-title]').textContent = this.bookMeta.book.Title;
+    document.querySelector('[data-reader-author]').textContent = this.bookMeta.book.Author;
     document.title = `${this.bookMeta.book.Title} — Lumina Reader`;
 
     // Initialize ePub.js
@@ -53,7 +53,7 @@ const Reader = {
     const token = API.getToken();
 
     // Fetch the EPUB with auth header, then create book from ArrayBuffer
-    document.getElementById('reader-status').textContent = 'Loading book...';
+    document.querySelector('[data-reader-title]').textContent = 'Loading book...';
     
     fetch(streamUrl, {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -62,11 +62,11 @@ const Reader = {
       if (!response.ok) throw new Error('Failed to fetch book');
       return response.arrayBuffer();
     })
-    .then(data => {
+    .then(async data => {
       this.book = ePub(data);
-      this.rendition = this.book.renderTo('reader-viewport', {
+      this.rendition = this.book.renderTo(document.querySelector('[data-reader-content]'), {
         width: '100%',
-        height: '100%',
+        height: '65vh',
         spread: 'none',
         flow: 'paginated',
         allowScriptedContent: true
@@ -87,8 +87,24 @@ const Reader = {
         }
       });
 
+      // Fetch bookmarks to find saved location
+      let startLocation = null;
+      try {
+        const bmResult = await API.getBookmarks(this.bookId);
+        if (bmResult && bmResult.success && bmResult.data.length > 0) {
+           // Sort by CreatedAt descending to get the most recent bookmark
+           const sorted = bmResult.data.sort((a, b) => new Date(b.CreatedAt) - new Date(a.CreatedAt));
+           const bm = sorted.find(b => b.CFI);
+           if (bm) startLocation = bm.CFI;
+        }
+      } catch (e) {
+        console.error('Error fetching bookmarks for start location', e);
+      }
+
       // Restore saved location or start from beginning
-      if (this.bookMeta.progress && this.bookMeta.progress.LastPageRead > 0) {
+      if (startLocation) {
+        this.rendition.display(startLocation);
+      } else if (this.bookMeta.progress && this.bookMeta.progress.LastPageRead > 0) {
         this.rendition.display(this.bookMeta.progress.LastPageRead);
       } else {
         this.rendition.display();
@@ -103,18 +119,21 @@ const Reader = {
 
       // Ready
       this.book.ready.then(() => {
-        document.getElementById('reader-status').textContent = '';
-        document.getElementById('reader-container').classList.add('reader--loaded');
+        document.querySelector('[data-reader-title]').textContent = '';
+        document.body.classList.add('reader--loaded');
         
         // Generate locations for progress
         return this.book.locations.generate(1024);
       }).then(() => {
         // Locations generated
+        if (this.currentLocation) {
+          this.updateProgressUI(this.currentLocation);
+        }
       });
     })
     .catch(err => {
       console.error('Book load error:', err);
-      document.getElementById('reader-status').textContent = 'Error loading book. Please try again.';
+      document.querySelector('[data-reader-title]').textContent = 'Error loading book. Please try again.';
     });
   },
 
@@ -128,10 +147,10 @@ const Reader = {
       ? Math.floor(this.book.locations.percentageFromCfi(location.start.cfi) * 100)
       : 0;
     
-    const progressBar = document.getElementById('reader-progress-fill');
-    const progressText = document.getElementById('reader-progress-text');
+    const progressBar = document.querySelector('[data-reader-progress]');
+    const progressText = document.querySelector('[data-reader-progress-label]');
     
-    if (progressBar) progressBar.style.width = `${percentage}%`;
+    if (progressBar) progressBar.value = percentage;
     if (progressText) progressText.textContent = `${percentage}%`;
   },
 
@@ -157,12 +176,12 @@ const Reader = {
    */
   setupControls() {
     // Previous page
-    document.getElementById('btn-prev').addEventListener('click', () => {
+    document.querySelector('[data-reader-prev]').addEventListener('click', () => {
       if (this.rendition) this.rendition.prev();
     });
 
     // Next page
-    document.getElementById('btn-next').addEventListener('click', () => {
+    document.querySelector('[data-reader-next]').addEventListener('click', () => {
       if (this.rendition) this.rendition.next();
     });
 
@@ -174,22 +193,66 @@ const Reader = {
     });
 
     // Add bookmark
-    document.getElementById('btn-bookmark').addEventListener('click', () => {
+    document.querySelector('[data-reader-bookmark]').addEventListener('click', () => {
       this.addBookmark();
     });
 
-    // Toggle bookmarks panel
-    document.getElementById('btn-toggle-bookmarks').addEventListener('click', () => {
-      document.getElementById('bookmarks-panel').classList.toggle('bookmarks-panel--open');
-    });
+    // Settings panel
+    const settingsBtn = document.querySelector('[data-reader-settings]');
+    const settingsPanel = document.getElementById('reader-settings');
+    const settingsClose = document.querySelector('[data-reader-settings-close]');
 
-    // Close bookmarks panel
-    document.getElementById('btn-close-bookmarks').addEventListener('click', () => {
-      document.getElementById('bookmarks-panel').classList.remove('bookmarks-panel--open');
-    });
+    if (settingsBtn && settingsPanel) {
+      settingsBtn.addEventListener('click', () => {
+        const expanded = settingsBtn.getAttribute('aria-expanded') === 'true';
+        settingsBtn.setAttribute('aria-expanded', String(!expanded));
+        settingsPanel.hidden = expanded;
+      });
+      if (settingsClose) {
+        settingsClose.addEventListener('click', () => {
+          settingsBtn.setAttribute('aria-expanded', 'false');
+          settingsPanel.hidden = true;
+        });
+      }
+    }
+
+    // Font size
+    const sizeInput = document.querySelector('[data-reader-size]');
+    if (sizeInput) {
+      sizeInput.addEventListener('input', (e) => {
+        if (this.rendition) {
+          this.rendition.themes.fontSize(`${e.target.value}rem`);
+        }
+      });
+    }
+
+    // Reading width
+    const widthInput = document.querySelector('[data-reader-width]');
+    if (widthInput) {
+      widthInput.addEventListener('input', (e) => {
+        document.querySelector('[data-reader-content]').style.maxWidth = `${e.target.value}rem`;
+        document.querySelector('[data-reader-content]').style.margin = '0 auto';
+      });
+    }
+
+    // Quiet mode
+    const quietInput = document.querySelector('[data-reader-quiet]');
+    if (quietInput) {
+      quietInput.addEventListener('change', (e) => {
+        const aside = document.querySelector('.reader-aside');
+        const header = document.querySelector('.reader-header');
+        if (e.target.checked) {
+          if (aside) aside.style.opacity = '0.1';
+          if (header) header.style.opacity = '0.1';
+        } else {
+          if (aside) aside.style.opacity = '1';
+          if (header) header.style.opacity = '1';
+        }
+      });
+    }
 
     // Back button
-    document.getElementById('btn-back').addEventListener('click', () => {
+    document.querySelector('.reader-exit').addEventListener('click', () => {
       window.history.back();
     });
   },
@@ -202,6 +265,8 @@ const Reader = {
     if (!result || !result.success) return;
 
     const list = document.getElementById('bookmarks-list');
+    if (!list) return;
+    
     list.innerHTML = '';
 
     if (result.data.length === 0) {
@@ -255,7 +320,7 @@ const Reader = {
     if (result && result.success) {
       this.loadBookmarks();
       // Show feedback
-      const btn = document.getElementById('btn-bookmark');
+      const btn = document.querySelector('[data-reader-bookmark]');
       btn.classList.add('bookmark-saved');
       setTimeout(() => btn.classList.remove('bookmark-saved'), 1500);
     }
@@ -303,7 +368,7 @@ const Reader = {
     const user = API.getUser();
     if (!user) return;
     
-    const watermark = document.getElementById('reader-watermark');
+    const watermark = document.querySelector('[data-reader-watermark]');
     if (watermark) {
       watermark.textContent = `${user.username} • Lumina Library`;
     }

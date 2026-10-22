@@ -231,6 +231,44 @@ const API = {
 
   async registerUser(data) {
     return this.post('/auth/register', data);
+  },
+
+  // ─── Machine Learning Recommendations ─────────────────────
+  async getRecommendations(params = {}) {
+    const query = new URLSearchParams();
+    if (params.limit) query.set('limit', params.limit);
+    if (params.searches) query.set('searches', typeof params.searches === 'string' ? params.searches : JSON.stringify(params.searches));
+    if (params.recentReads) query.set('recentReads', typeof params.recentReads === 'string' ? params.recentReads : JSON.stringify(params.recentReads));
+    const qs = query.toString();
+    return this.get(`/recommendations${qs ? '?' + qs : ''}`);
+  },
+
+  async trackSearch(query, categoryId = null, resultsCount = 0) {
+    // Record in local storage as well for instant local client responsiveness
+    try {
+      const history = JSON.parse(localStorage.getItem('digitalLibrarySearchHistory') || '[]');
+      history.unshift({ query, timestamp: new Date().toISOString() });
+      localStorage.setItem('digitalLibrarySearchHistory', JSON.stringify(history.slice(0, 20)));
+    } catch (e) {}
+
+    return this.post('/recommendations/track-search', { query, categoryId, resultsCount });
+  },
+
+  async getRecommendationModelInfo() {
+    return this.get('/recommendations/model-info');
+  },
+
+  // ─── Notifications ─────────────────────────────────────────
+  async getNotifications() {
+    return this.get('/notifications');
+  },
+
+  async markNotificationRead(notificationId) {
+    return this.put(`/notifications/${notificationId}/read`, {});
+  },
+
+  async markAllNotificationsRead() {
+    return this.put('/notifications/read-all', {});
   }
 };
 

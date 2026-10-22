@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Discover and explore the Digital Library catalogue." />
+    <title>Digital Library | Discover</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/discover.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+
+    <main id="main-content">
+      <section class="discover-hero container" aria-labelledby="discover-title">
+        <div class="discover-hero__copy">
+          <p class="eyebrow">Digital Library · Discover</p>
+          <h1 class="discover-hero__title" id="discover-title">Find your next thoughtful read.</h1>
+          <p class="discover-hero__intro">Browse the catalogue by title, author, subject, or format. A considered collection for curious minds.</p>
+          <form class="discover-search" data-search-form role="search">
+            <label class="sr-only" for="catalogue-search">Search the catalogue</label>
+            <input class="discover-search__input" id="catalogue-search" type="search" placeholder="Search titles, authors, or ISBNs" autocomplete="off" />
+            <button class="discover-search__submit" type="submit" aria-label="Search catalogue"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7.25"></circle><path d="m16.5 16.5 4.25 4.25"></path></svg></button>
+          </form>
+        </div>
+        <div class="discover-hero__aside" aria-hidden="true"><span class="discover-hero__aside-label">A place for</span><span class="discover-hero__aside-word">ideas</span><span class="discover-hero__aside-rule"></span><span class="discover-hero__aside-note">Read slowly.<br />Think widely.</span></div>
+      </section>
+
+      <section class="catalogue-section container" aria-labelledby="catalogue-title">
+        <div class="section-heading-row"><div><p class="eyebrow">The catalogue</p><h2 class="section-title" id="catalogue-title">Start exploring</h2></div><p class="results-summary" data-results-summary aria-live="polite"></p></div>
+        <div class="catalogue-layout">
+          <aside class="category-panel" aria-labelledby="category-title">
+            <div class="category-panel__heading"><h3 id="category-title">Browse by subject</h3><button class="category-clear" type="button" data-clear-category hidden>Clear</button></div>
+            <div class="category-list" data-category-list><span class="state-copy">Loading subjects…</span></div>
+          </aside>
+          <div class="catalogue-results">
+            <div class="catalogue-state catalogue-state--loading" data-books-loading><span class="state-spinner" aria-hidden="true"></span><span>Opening the catalogue…</span></div>
+            <div class="catalogue-state" data-books-error hidden><strong>We couldn’t open the catalogue.</strong><span data-books-error-message>Please try again in a moment.</span><button class="button button--quiet" type="button" data-retry-books>Try again</button></div>
+            <div class="catalogue-state" data-books-empty hidden><strong>No books match that search.</strong><span>Try a different title, author, or subject.</span><button class="button button--quiet" type="button" data-clear-search>Clear search</button></div>
+            <div class="book-grid" data-book-grid aria-live="polite"></div>
+            <nav class="pagination" data-pagination aria-label="Catalogue pages" hidden></nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="collection-note container" aria-labelledby="collection-note-title"><div><p class="eyebrow">A living collection</p><h2 class="section-title" id="collection-note-title">Make room for a new idea.</h2></div><p>Explore at your own pace. The catalogue grows with every carefully selected e-book.</p></section>
+    </main>
+
+    <footer class="site-footer container"><span>Digital Library</span><span>Discover something worth keeping.</span></footer>
+
+    <div class="book-modal" data-book-modal hidden>
+      <div class="book-modal__backdrop" data-modal-close></div>
+      <section class="book-modal__surface" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+        <button class="book-modal__close" type="button" data-modal-close aria-label="Close book details">×</button>
+        <div class="book-modal__grid"><div class="book-cover book-cover--modal" data-modal-cover aria-hidden="true"></div><div class="book-modal__content"><p class="eyebrow" data-modal-category>Book details</p><h2 class="book-modal__title" id="modal-title" data-modal-title>Book title</h2><p class="book-modal__author" data-modal-author>Author</p><p class="book-modal__description" id="modal-description" data-modal-description>Loading book details…</p><dl class="book-modal__metadata" data-modal-metadata></dl><div class="book-modal__actions"><button class="button button--primary" type="button" data-modal-bookmark>Save bookmark</button><span class="book-modal__availability">Reading access will be connected in a later step.</span></div></div></div>
+      </section>
+    </div>
+
+    <script src="js/nav.js" defer></script><script src="js/discover.js" defer></script>
+  </body>
+</html>

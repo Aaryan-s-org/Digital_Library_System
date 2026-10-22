@@ -1,139 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Lumina Library Librarian Dashboard" />
-    <title>Lumina Library — Librarian Dashboard</title>
+    <meta name="description" content="Digital Library librarian workspace." />
+    <title>Digital Library | Librarian workspace</title>
     <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body data-page="librarian">
-    <div id="app" class="app-layout">
-      <!-- SIDEBAR -->
-      <aside class="sidebar" aria-label="Primary navigation">
-        <div class="sidebar__brand">
-          <a class="brand" href="index.html" aria-label="Digital Library home">
-            <span class="brand__mark" aria-hidden="true">L</span>
-            <span class="brand__name">Lumina Library</span>
-          </a>
-        </div>
-
-        <nav class="sidebar__nav" aria-label="Library sections">
-          <ul class="nav-list">
-            <li class="nav-list__item"><a class="nav-link" href="#" aria-current="page">Dashboard</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">E-Books</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Members</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Catalog</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Notifications</a></li>
-          </ul>
-
-          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;">Navigate</p>
-          <ul class="nav-list">
-            <li class="nav-list__item"><a class="nav-link" href="index.html">Public Home</a></li>
-          </ul>
-        </nav>
-
-        <section class="sidebar__profile" aria-label="User profile">
-          <div class="user-summary">
-            <span class="user-summary__avatar" aria-hidden="true">L</span>
-            <div class="user-summary__details">
-              <p class="user-summary__name">Librarian</p>
-              <p class="user-summary__meta">Staff</p>
-            </div>
-          </div>
-          <button class="text-button" style="margin-top: var(--space-sm); width: 100%; font-size: var(--font-size-sm);" data-action="logout">Sign Out</button>
-        </section>
-      </aside>
-
-      <!-- MAIN FRAME -->
-      <div class="page-frame">
-        <!-- TOP BAR -->
-        <header class="top-bar">
-          <div class="top-bar__intro">
-            <p class="top-bar__eyebrow">Librarian Workspace</p>
-            <h1 class="top-bar__title">Catalog Overview</h1>
-          </div>
-          <div class="top-bar__actions" aria-label="Account controls">
-            <button class="text-button" type="button">Notifications</button>
-            <button class="profile-control" type="button">
-              <span class="profile-control__avatar" aria-hidden="true">L</span>
-              <span class="profile-control__label">Librarian</span>
-            </button>
-          </div>
-        </header>
-
-        <!-- MAIN CONTENT -->
-        <main id="main-content" class="main-content">
-          
-          <!-- LIBRARY OVERVIEW STATS -->
-          <section class="content-section" aria-labelledby="overview-title">
-            <div class="section-heading">
-              <h2 class="section-heading__title" id="overview-title">Library Overview</h2>
-            </div>
-            <div class="grid-dashboard-stats" id="librarian-stats">
-              <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
-            </div>
-          </section>
-
-          <div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-xl);">
-            
-            <div style="display: flex; flex-direction: column; gap: var(--space-2xl);">
-              
-              <!-- EBOOKS TABLE -->
-              <section class="content-section" aria-labelledby="recent-books-title">
-                <div class="section-heading">
-                  <h2 class="section-heading__title" id="recent-books-title">E-Book Catalog</h2>
-                </div>
-                <div class="data-table-wrapper" id="librarian-books-table">
-                  <div style="text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
-                </div>
-              </section>
-
-              <!-- RECENT ACTIVITY -->
-              <section class="content-section" aria-labelledby="member-activity-title">
-                <div class="section-heading">
-                  <h2 class="section-heading__title" id="member-activity-title">Recent Activity</h2>
-                </div>
-                <div id="librarian-activity">
-                  <div style="text-align: center; padding: var(--space-xl);"><div class="spinner"></div></div>
-                </div>
-              </section>
-              
-            </div>
-
-            <!-- QUICK ACTIONS -->
-            <section class="content-section" aria-labelledby="actions-title">
-              <div class="section-heading">
-                <h2 class="section-heading__title" id="actions-title">Quick Actions</h2>
-              </div>
-              
-              <div style="display: flex; flex-direction: column; gap: var(--space-md);">
-                <button class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm);" id="btn-gen-lib-report">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-sage-100); color: var(--color-sage-700); border-radius: 50%; font-weight: bold;">R</span>
-                  <strong>Generate Report</strong>
-                </button>
-                <a href="index.html" class="card" style="text-align: left; background: var(--color-surface); cursor: pointer; display: flex; align-items: center; gap: var(--space-sm); text-decoration: none; color: inherit;">
-                  <span style="display: grid; place-items: center; width: 2rem; height: 2rem; background: var(--color-lavender-100); color: var(--color-lavender-700); border-radius: 50%; font-weight: bold;">B</span>
-                  <strong>Browse E-Books</strong>
-                </a>
-              </div>
-            </section>
-            
-          </div>
-
-        </main>
-      </div>
-    </div>
-
+    <link rel="stylesheet" href="css/librarian.css" />
+    <link rel="stylesheet" href="css/discover.css" />
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/main.js" defer></script>
-    <script>
-      document.getElementById('btn-gen-lib-report')?.addEventListener('click', async () => {
-        const result = await API.generateReadingReport();
-        if (result && result.success) showToast('Reading report generated!', 'success');
-        else showToast('Failed to generate report', 'error');
-      });
-    </script>
+  </head>
+  <body data-protected-role="Librarian">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+    <main id="main-content" class="librarian-page container">
+      <section class="librarian-view-panel" data-librarian-view-panel="dashboard" aria-labelledby="librarian-dashboard-title">
+        <section class="librarian-welcome"><p class="eyebrow">Library operations</p><h1 class="librarian-title" id="librarian-dashboard-title">A clear view of the collection.</h1><p class="librarian-lede">Keep the catalogue considered, accessible, and ready for the people who use it.</p><div class="shell-actions"><a class="button button--primary" href="librarian.html#catalog">Open catalogue</a><a class="button button--quiet" href="librarian.html#add-ebook">Add an e-book</a></div></section>
+        <section class="operation-grid" aria-label="Library overview"><article class="operation-note"><p class="eyebrow">Catalogue</p><strong data-stat-books>Loading</strong><span>available e-books</span></article><article class="operation-note"><p class="eyebrow">Members</p><strong data-stat-members>Loading</strong><span>registered members</span></article><article class="operation-note operation-note--wide"><p class="eyebrow">Today’s focus</p><strong>Keep the shelves useful.</strong><span>Review new titles, member records, and catalogue metadata from one calm workspace.</span></article></section>
+        <section class="librarian-section" aria-labelledby="recent-books-title"><div class="section-heading-row"><div><p class="eyebrow">Catalogue pulse</p><h2 class="section-title" id="recent-books-title">Recently added books</h2></div><a class="section-link" href="librarian.html#catalog">View all →</a></div><div class="table-wrap" data-dashboard-books><div class="state-block"><span class="state-spinner"></span><span>Loading the catalogue…</span></div></div></section>
+        <section class="librarian-section librarian-section--last" aria-labelledby="member-overview-title"><div class="section-heading-row"><div><p class="eyebrow">People who use the library</p><h2 class="section-title" id="member-overview-title">Member overview</h2></div><a class="section-link" href="librarian.html#members">Manage members →</a></div><div class="table-wrap" data-dashboard-members><div class="state-block"><span class="state-spinner"></span><span>Loading member records…</span></div></div></section>
+      </section>
+
+      <section class="librarian-view-panel" data-librarian-view-panel="catalog" aria-labelledby="catalog-title" hidden>
+        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Catalog / E-books</p><h1 class="librarian-title" id="catalog-title">The working catalogue.</h1><p class="librarian-lede">Search, inspect, and maintain the metadata that helps every reader find the right book.</p></section>
+        <section class="catalogue-toolbar surface"><label class="field field--search"><span class="sr-only">Search catalogue</span><input data-catalog-search type="search" placeholder="Search title, author, or ISBN" autocomplete="off" /></label><label class="field"><span class="sr-only">Filter by category</span><select data-catalog-category><option value="">All categories</option></select></label><button class="button button--quiet" type="button" data-catalog-reset>Reset</button><a class="button button--primary" href="librarian.html#add-ebook">Add e-book</a></section>
+        <section class="librarian-section librarian-section--last"><div class="section-heading-row"><div><p class="eyebrow">Available titles</p><h2 class="section-title">E-book catalogue</h2></div><p class="results-summary" data-catalog-summary></p></div><div class="table-wrap" data-catalog-table><div class="state-block"><span class="state-spinner"></span><span>Loading catalogue…</span></div></div><nav class="pagination" data-catalog-pagination aria-label="Catalogue pages"></nav></section>
+      </section>
+
+      <section class="librarian-view-panel" data-librarian-view-panel="add-ebook" aria-labelledby="add-ebook-title" hidden>
+        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Catalog / Add e-book</p><h1 class="librarian-title" id="add-ebook-title">Give a new title a place.</h1><p class="librarian-lede">Use the fields supported by the current book service. File storage is represented by a file path because the backend accepts JSON metadata, not multipart uploads.</p></section>
+        <form class="form-panel" data-book-form novalidate><div class="form-grid"><label class="field"><span>Title <b>*</b></span><input name="title" required /></label><label class="field"><span>Author <b>*</b></span><input name="author" required /></label><label class="field"><span>ISBN <b>*</b></span><input name="isbn" required /></label><label class="field"><span>Category <b>*</b></span><select name="categoryId" data-form-category required><option value="">Choose a category</option></select></label><label class="field"><span>Format <b>*</b></span><select name="format" required><option value="">Choose format</option><option>PDF</option><option>EPUB</option><option>DOCX</option></select></label><label class="field"><span>File path <b>*</b></span><input name="filePath" placeholder="/ebooks/title.epub" required /></label><label class="field"><span>File size (MB) <b>*</b></span><input name="fileSize" type="number" min="0.01" step="0.01" required /></label><label class="field"><span>Publisher</span><input name="publisher" /></label><label class="field"><span>Published date</span><input name="publishedDate" type="date" /></label><label class="field field--wide"><span>Description</span><textarea name="description" rows="5"></textarea></label></div><div class="form-actions"><button class="button button--primary" type="submit">Add e-book</button><button class="button button--quiet" type="reset">Clear form</button><span class="form-feedback" data-form-feedback role="status"></span></div></form>
+      </section>
+
+      <section class="librarian-view-panel" data-librarian-view-panel="members" aria-labelledby="members-title" hidden>
+        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Library community</p><h1 class="librarian-title" id="members-title">People behind the circulation.</h1><p class="librarian-lede">Review member records and keep account information clear. Subscription changes remain restricted to the backend’s Admin permission.</p></section>
+        <section class="catalogue-toolbar surface"><label class="field field--search"><span class="sr-only">Search members</span><input data-member-search type="search" placeholder="Search name, username, or email" autocomplete="off" /></label><span class="results-summary" data-member-summary></span></section>
+        <section class="librarian-section librarian-section--last"><div class="table-wrap" data-member-table><div class="state-block"><span class="state-spinner"></span><span>Loading member records…</span></div></div></section>
+      </section>
+
+      <section class="librarian-view-panel" data-librarian-view-panel="profile" aria-labelledby="librarian-profile-title" hidden>
+        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Your account</p><h1 class="librarian-title" id="librarian-profile-title">The person caring for the shelves.</h1><p class="librarian-lede">Account credentials and operational status for the library staff workspace.</p></section>
+        <section class="form-panel profile-card" data-librarian-profile><div class="state-block"><span class="state-spinner"></span><span>Loading profile…</span></div></section>
+      </section>
+    </main>
+    <script src="js/nav.js" defer></script>
+    <script src="js/librarian.js" defer></script>
   </body>
 </html>

@@ -1,156 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Lumina Library — Discover and read curated e-books from our digital archive." />
-    <title>Lumina Library — Discover</title>
+    <meta name="description" content="Discover and explore the Digital Library catalogue." />
+    <title>Digital Library | Discover</title>
     <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body data-page="home">
-    <div id="app" class="app-layout">
-      <!-- SIDEBAR -->
-      <aside class="sidebar" aria-label="Primary navigation">
-        <div class="sidebar__brand">
-          <a class="brand" href="index.html" aria-label="Digital Library home">
-            <span class="brand__mark" aria-hidden="true">L</span>
-            <span class="brand__name">Lumina Library</span>
-          </a>
-        </div>
-
-        <nav class="sidebar__nav" aria-label="Library sections">
-          <ul class="nav-list">
-            <li class="nav-list__item"><a class="nav-link" href="index.html" aria-current="page">Discover</a></li>
-            <li class="nav-list__item" data-auth="user"><a class="nav-link" href="member.html">My Library</a></li>
-            <li class="nav-list__item"><a class="nav-link" href="#">Collections</a></li>
-            <li class="nav-list__item" data-auth="user"><a class="nav-link" href="#">Bookmarks</a></li>
-          </ul>
-          
-          <p class="section-heading__eyebrow" style="margin-top: 2rem; margin-bottom: 0.5rem;" data-auth="user">Dashboard</p>
-          <ul class="nav-list" data-auth="user">
-            <li class="nav-list__item"><a class="nav-link" href="member.html">Member Dashboard</a></li>
-          </ul>
-
-          <p class="section-heading__eyebrow" style="margin-top: 1rem; margin-bottom: 0.5rem;" data-auth="guest">Account</p>
-          <ul class="nav-list" data-auth="guest">
-            <li class="nav-list__item"><a class="nav-link" href="login.html">Sign In / Sign Up</a></li>
-          </ul>
-        </nav>
-
-        <section class="sidebar__profile" aria-label="User profile">
-          <div class="user-summary">
-            <span class="user-summary__avatar" aria-hidden="true">G</span>
-            <div class="user-summary__details">
-              <p class="user-summary__name">Guest User</p>
-              <p class="user-summary__meta">Sign in for more</p>
-            </div>
-          </div>
-          <button class="text-button" style="margin-top: var(--space-sm); width: 100%; font-size: var(--font-size-sm);" data-action="logout" data-auth="user">Sign Out</button>
-        </section>
-      </aside>
-
-      <!-- MAIN FRAME -->
-      <div class="page-frame">
-        <!-- TOP BAR -->
-        <header class="top-bar">
-          <div class="top-bar__intro">
-            <p class="top-bar__eyebrow">Public Home</p>
-            <h1 class="top-bar__title">Welcome to Lumina</h1>
-          </div>
-          <div class="top-bar__actions" aria-label="Account controls">
-            <a href="login.html" class="text-button" data-auth="guest" style="text-decoration: none;">Sign In</a>
-            <button class="text-button" type="button" data-auth="user">Notifications <span class="notification-badge"></span></button>
-            <button class="profile-control" type="button" data-auth="user">
-              <span class="profile-control__avatar" aria-hidden="true">G</span>
-              <span class="profile-control__label">Guest</span>
-            </button>
-          </div>
-        </header>
-
-        <!-- MAIN CONTENT -->
-        <main id="main-content" class="main-content">
-          
-          <!-- HERO / SEARCH -->
-          <section class="hero-search glass-panel" aria-labelledby="search-title">
-            <div class="section-heading">
-              <h2 class="section-heading__title" id="search-title" style="font-size: var(--font-size-3xl);">What will you explore today?</h2>
-              <p class="top-bar__eyebrow" style="margin-top: var(--space-xs);">Discover classic e-books from our curated collection. 20 titles and counting.</p>
-            </div>
-            
-            <form class="search-form" role="search" id="search-form">
-              <label class="visually-hidden" for="library-search">Search the library</label>
-              <input class="search-form__input" id="library-search" name="q" type="search" placeholder="Search books, authors, topics..." />
-              <button class="search-form__button" type="submit">Search</button>
-            </form>
-            
-            <div class="popular-searches" style="display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-top: var(--space-sm);">
-              <span class="section-heading__eyebrow" style="align-self: center; margin-right: var(--space-xs);">Popular:</span>
-              <a href="#" class="chip" data-search="Adventure">Adventure</a>
-              <a href="#" class="chip" data-search="Science Fiction">Science Fiction</a>
-              <a href="#" class="chip" data-search="Poetry">Poetry</a>
-              <a href="#" class="chip" data-search="History">History</a>
-              <a href="#" class="chip" data-search="Kipling">Kipling</a>
-            </div>
-          </section>
-
-          <!-- YOUR READING SPACE (shown when authenticated) -->
-          <section class="content-section" aria-labelledby="reading-space-title" data-auth="user">
-            <div class="section-heading">
-              <p class="section-heading__eyebrow">Your Reading Space</p>
-              <h2 class="section-heading__title" id="reading-space-title">Continue where you left off</h2>
-            </div>
-            <div id="reading-space-content">
-              <!-- Dynamically populated -->
-            </div>
-          </section>
-
-          <!-- CURATED FOR YOU -->
-          <section class="content-section" aria-labelledby="curated-title" id="curated-section">
-            <div class="section-heading">
-              <p class="section-heading__eyebrow">Our Collection</p>
-              <h2 class="section-heading__title" id="curated-title">Browse E-Books</h2>
-            </div>
-            <div class="grid-books" id="curated-books-grid">
-              <!-- Dynamically populated -->
-              <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-2xl);">
-                <div class="spinner"></div>
-                <p style="margin-top: var(--space-md); color: var(--color-text-muted);">Loading books...</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- EXPLORE COLLECTIONS -->
-          <section class="content-section" aria-labelledby="collections-title">
-            <div class="section-heading">
-              <p class="section-heading__eyebrow">Library</p>
-              <h2 class="section-heading__title" id="collections-title">Explore Collections</h2>
-            </div>
-            <div class="grid-collections" id="collections-grid">
-              <!-- Dynamically populated -->
-            </div>
-          </section>
-
-        </main>
-      </div>
-    </div>
-
+    <link rel="stylesheet" href="css/discover.css" />
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/main.js" defer></script>
-    <script>
-      // Popular search chips
-      document.querySelectorAll('[data-search]').forEach(chip => {
-        chip.addEventListener('click', async (e) => {
-          e.preventDefault();
-          const term = chip.dataset.search;
-          document.getElementById('library-search').value = term;
-          const result = await API.searchBooks(term);
-          if (result && result.success) {
-            renderBookGrid('curated-books-grid', result.data);
-            document.getElementById('curated-title').textContent = `"${term}" Books`;
-          }
-        });
-      });
-    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+
+    <main id="main-content">
+      <section class="discover-hero container" aria-labelledby="discover-title">
+        <div class="discover-hero__copy">
+          <p class="eyebrow">Digital Library · Discover</p>
+          <h1 class="discover-hero__title" id="discover-title">Find your next thoughtful read.</h1>
+          <p class="discover-hero__intro">Browse the catalogue by title, author, subject, or format. A considered collection for curious minds.</p>
+          <form class="discover-search" data-search-form role="search">
+            <label class="sr-only" for="catalogue-search">Search the catalogue</label>
+            <input class="discover-search__input" id="catalogue-search" type="search" placeholder="Search titles, authors, or ISBNs" autocomplete="off" />
+            <button class="discover-search__submit" type="submit" aria-label="Search catalogue"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7.25"></circle><path d="m16.5 16.5 4.25 4.25"></path></svg></button>
+          </form>
+          <div class="discover-hero-metrics" data-hero-metrics>
+            <div class="hero-metric-item">
+              <span class="hero-metric-val" data-metric-books>20</span>
+              <span class="hero-metric-lbl">Curated E-Books</span>
+            </div>
+            <div class="hero-metric-sep"></div>
+            <div class="hero-metric-item">
+              <span class="hero-metric-val" data-metric-categories>10</span>
+              <span class="hero-metric-lbl">Literary Subjects</span>
+            </div>
+            <div class="hero-metric-sep"></div>
+            <div class="hero-metric-item">
+              <span class="hero-metric-val">100%</span>
+              <span class="hero-metric-lbl">Free Access</span>
+            </div>
+            <div class="hero-metric-sep"></div>
+            <div class="hero-metric-item">
+              <span class="hero-metric-val hero-metric-val--accent">✦ AI</span>
+              <span class="hero-metric-lbl">Smart Model</span>
+            </div>
+          </div>
+        </div>
+        <div class="discover-hero__aside" aria-hidden="true"><span class="discover-hero__aside-label">A place for</span><span class="discover-hero__aside-word">ideas</span><span class="discover-hero__aside-rule"></span><span class="discover-hero__aside-note">Read slowly.<br />Think widely.</span></div>
+      </section>
+
+      <!-- Machine Learning Recommendations Spotlight -->
+      <section class="recommendations-spotlight container" aria-labelledby="spotlight-title" data-ai-spotlight hidden>
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow"><span class="ml-badge">✦ AI Model</span> Smart Suggestions</p>
+            <h2 class="section-title" id="spotlight-title">Recommended for you</h2>
+          </div>
+          <p class="results-summary" data-spotlight-reason>Trained on your searches &amp; reading taste</p>
+        </div>
+        <div class="book-grid book-grid--compact" data-spotlight-grid></div>
+      </section>
+
+      <section class="catalogue-section container" aria-labelledby="catalogue-title">
+        <div class="section-heading-row">
+          <div><p class="eyebrow">The catalogue</p><h2 class="section-title" id="catalogue-title">Start exploring</h2></div>
+          <div class="catalogue-view-options">
+            <p class="results-summary" data-results-summary aria-live="polite"></p>
+            <div class="view-toggle-group" data-view-toggle-group>
+              <button class="view-toggle-btn" type="button" data-view-mode="carousel" title="Auto-sliding Category Carousel">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="1.5"></rect><rect x="3" y="14" width="18" height="6" rx="1.5"></rect></svg>
+                <span>Category Carousel</span>
+              </button>
+              <button class="view-toggle-btn is-active" type="button" data-view-mode="grid" title="Standard Grid View">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+                <span>Grid View</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="catalogue-layout">
+          <aside class="category-panel" aria-labelledby="category-title">
+            <div class="category-panel__heading"><h3 id="category-title">Browse by subject</h3><button class="category-clear" type="button" data-clear-category hidden>Clear</button></div>
+            <div class="category-list" data-category-list><span class="state-copy">Loading subjects…</span></div>
+          </aside>
+          <div class="catalogue-results">
+            <div class="catalogue-state catalogue-state--loading" data-books-loading><span class="state-spinner" aria-hidden="true"></span><span>Opening the catalogue…</span></div>
+            <div class="catalogue-state" data-books-error hidden><strong>We couldn’t open the catalogue.</strong><span data-books-error-message>Please try again in a moment.</span><button class="button button--quiet" type="button" data-retry-books>Try again</button></div>
+            <div class="catalogue-state" data-books-empty hidden><strong>No books match that search.</strong><span>Try a different title, author, or subject.</span><button class="button button--quiet" type="button" data-clear-search>Clear search</button></div>
+            
+            <!-- Category Auto-Sliding Carousel (Shown after selecting category) -->
+            <div class="category-carousels-container" data-category-carousels hidden></div>
+
+            <!-- Standard Grid (Used for search results or grid mode) -->
+            <div class="book-grid" data-book-grid aria-live="polite"></div>
+            <nav class="pagination" data-pagination aria-label="Catalogue pages" hidden></nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="collection-note container" aria-labelledby="collection-note-title"><div><p class="eyebrow">A living collection</p><h2 class="section-title" id="collection-note-title">Make room for a new idea.</h2></div><p>Explore at your own pace. The catalogue grows with every carefully selected e-book.</p></section>
+    </main>
+
+    <footer class="site-footer"></footer>
+
+    <div class="book-modal" data-book-modal hidden>
+      <div class="book-modal__backdrop" data-modal-close></div>
+      <section class="book-modal__surface" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+        <button class="book-modal__close" type="button" data-modal-close aria-label="Close book details">×</button>
+        <div class="book-modal__grid">
+          <div class="book-cover book-cover--modal" data-modal-cover aria-hidden="true"></div>
+          <div class="book-modal__content">
+            <div class="book-modal__badge-row">
+              <p class="eyebrow" data-modal-category>Book details</p>
+              <span class="book-modal__status-badge" data-modal-status>● Available</span>
+            </div>
+            <h2 class="book-modal__title" id="modal-title" data-modal-title>Book title</h2>
+            <p class="book-modal__author" data-modal-author>Author</p>
+            <p class="book-modal__description" id="modal-description" data-modal-description>Loading book details…</p>
+            <dl class="book-modal__metadata" data-modal-metadata></dl>
+            <div class="book-modal__actions">
+              <a class="button button--primary" data-modal-read-link href="reader.html">📖 Read in Browser</a>
+              <button class="button button--quiet" type="button" data-modal-bookmark>Save bookmark</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="js/nav.js" defer></script><script src="js/discover.js" defer></script>
   </body>
 </html>

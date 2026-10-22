@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Your Digital Library reading space." />
+    <title>Digital Library | My Reading Space</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/discover.css" />
+    <link rel="stylesheet" href="css/member.css" />
+    <script src="js/demo-data.js"></script>
+  </head>
+  <body data-protected-role="Member">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"></header>
+    <main id="main-content" class="member-page container">
+      <section class="member-view-panel" data-member-view-panel="dashboard" aria-labelledby="dashboard-title">
+        <div class="member-welcome"><p class="eyebrow">Your reading space</p><h1 class="member-title" id="dashboard-title">Welcome back, <span data-member-name>reader</span>.</h1><p class="member-lede">Pick up a thread, revisit an idea, or make room for something new.</p></div>
+        <section class="member-section" aria-labelledby="continue-title"><div class="member-section__heading"><div><p class="eyebrow">Keep your place</p><h2 class="section-title" id="continue-title">Continue reading</h2></div></div><div class="reading-placeholder surface--glass" data-reading-unavailable><span class="reading-placeholder__mark">—</span><div><h3>Reading progress will meet you here.</h3><p>The reader and progress service are not connected yet. Your catalogue and saved books are ready in the meantime.</p></div></div></section>
+        <section class="member-section" aria-labelledby="recent-title"><div class="member-section__heading"><div><p class="eyebrow">From your recent visits</p><h2 class="section-title" id="recent-title">Recently opened</h2></div><a class="section-link" href="member.html#history">View history →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="recent"><div class="member-empty">Nothing opened yet.</div></div></section>
+        <section class="member-section" aria-labelledby="saved-title"><div class="member-section__heading"><div><p class="eyebrow">Held for later</p><h2 class="section-title" id="saved-title">Saved books</h2></div><a class="section-link" href="member.html#bookmarks">View bookmarks →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+        <section class="member-section member-section--last" aria-labelledby="new-title"><div class="member-section__heading"><div><p class="eyebrow">Make a fresh start</p><h2 class="section-title" id="new-title">Discover something new</h2></div><a class="section-link" href="index.html">Open discover →</a></div><div class="book-grid book-grid--compact" data-book-grid data-books-source="discover"><div class="catalogue-state catalogue-state--loading"><span class="state-spinner"></span><span>Finding something for you…</span></div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="library" aria-labelledby="library-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">My library</p><h1 class="member-title" id="library-title">Books with a place in your day.</h1><p class="member-lede">A quiet shelf for saved titles and the books you have recently opened.</p></div>
+        <section class="member-section" aria-labelledby="library-saved-title"><div class="member-section__heading"><div><p class="eyebrow">Your collection</p><h2 class="section-title" id="library-saved-title">Saved books</h2></div></div><div class="book-grid" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+        <section class="member-section member-section--last" aria-labelledby="library-recent-title"><div class="member-section__heading"><div><p class="eyebrow">A small trail</p><h2 class="section-title" id="library-recent-title">Recently opened</h2></div></div><div class="book-grid" data-book-grid data-books-source="recent"><div class="member-empty">Nothing opened yet.</div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="collections" aria-labelledby="collections-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">The library, by subject</p><h1 class="member-title" id="collections-title">Follow your curiosity.</h1><p class="member-lede">Browse the catalogue through the ideas, disciplines, and subjects that shape it.</p></div>
+        <section class="collection-browser" aria-labelledby="subjects-title"><div class="member-section__heading"><div><p class="eyebrow">Collections</p><h2 class="section-title" id="subjects-title">Choose a subject</h2></div></div><div class="collection-list" data-member-categories><span class="state-copy">Loading subjects…</span></div></section>
+        <section class="member-section member-section--last" aria-labelledby="collection-results-title"><div class="member-section__heading"><div><p class="eyebrow">Selected catalogue</p><h2 class="section-title" id="collection-results-title">Browse books</h2></div><p class="results-summary" data-collection-summary></p></div><div class="book-grid" data-book-grid data-books-source="collection"><div class="catalogue-state catalogue-state--loading"><span class="state-spinner"></span><span>Opening the collection…</span></div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="history" aria-labelledby="history-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Reading</p><h1 class="member-title" id="history-page-title">A trail of ideas.</h1><p class="member-lede">Your recent activity is kept locally in this browser until reading history is connected to the library service.</p></div>
+        <section class="member-section member-section--last" aria-labelledby="history-title"><div class="member-section__heading"><div><p class="eyebrow">Recent activity</p><h2 class="section-title" id="history-title">Reading history</h2></div></div><div class="activity-list" data-history-list><div class="member-empty">No reading activity recorded yet.</div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="bookmarks" aria-labelledby="bookmarks-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Reading</p><h1 class="member-title" id="bookmarks-page-title">Books worth returning to.</h1><p class="member-lede">Your saved titles live here, ready whenever the moment feels right.</p></div>
+        <section class="member-section member-section--last" aria-labelledby="bookmarks-title"><div class="member-section__heading"><div><p class="eyebrow">Saved for later</p><h2 class="section-title" id="bookmarks-title">Bookmarks</h2></div></div><div class="book-grid" data-book-grid data-books-source="saved"><div class="member-empty">Your saved books will appear here.</div></div></section>
+      </section>
+
+      <section class="member-view-panel" data-member-view-panel="profile" aria-labelledby="profile-page-title" hidden>
+        <div class="member-welcome member-welcome--short"><p class="eyebrow">Your account</p><h1 class="member-title" id="profile-page-title">A profile for your reading life.</h1><p class="member-lede">Your local demonstration account information is shown below.</p></div>
+        <section class="profile-layout member-section member-section--last" aria-labelledby="profile-title"><div class="profile-intro"><p class="eyebrow">Account details</p><h2 class="section-title" id="profile-title">Profile</h2></div><div class="profile-card surface" data-profile-content><div class="profile-loading">Loading profile…</div></div></section>
+      </section>
+    </main>
+    <script src="js/nav.js" defer></script>
+    <script src="js/member.js" defer></script>
+  </body>
+</html>

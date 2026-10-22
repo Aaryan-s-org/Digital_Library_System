@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const pool = require('../config/db');
 const logAuditAction = require('../middleware/auditMiddleware');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET;
 const BCRYPT_ROUNDS = 10;
 
 exports.login = async (req, res) => {
@@ -284,5 +284,62 @@ exports.me = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error fetching user info', error: error.message });
+  }
+};
+
+/**
+ * Update current user's email address
+ */
+exports.updateEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        message: 'A valid email address is required'
+      });
+    }
+
+    const connection = await pool.getConnection();
+
+    try {
+      // Update email in users table
+      await connection.query(
+        'UPDATE users SET Email = ? WHERE UserID = ?',
+        [email, req.user.userId]
+      );
+
+      // Also update email in memberprofiles if exists
+      await connection.query(
+        'UPDATE memberprofiles SET Email = ? WHERE UserID = ?',
+        [email, req.user.userId]
+      );
+
+      connection.release();
+
+      await logAuditAction(req.user.userId, 'UPDATE_EMAIL', 'Users', req.user.userId, { email }, req.ip, 200);
+
+      res.json({
+        success: true,
+        message: 'Email updated successfully'
+      });
+    } catch (error) {
+      connection.release();
+      throw error;
+    }
+  } catch (error) {
+    console.error('Update email error:', error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({
+        success: false,
+        message: 'This email is already in use'
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: 'Error updating email',
+      error: error.message
+    });
   }
 };
