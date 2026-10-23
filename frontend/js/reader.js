@@ -38,11 +38,49 @@ const Reader = {
     document.querySelector('[data-reader-author]').textContent = this.bookMeta.book.Author;
     document.title = `${this.bookMeta.book.Title} — Lumina Reader`;
 
+    // Exclusive Content Lock Check
+    if (this.bookMeta.isExclusive && !this.bookMeta.hasAccess) {
+      this.showExclusiveLockScreen(this.bookMeta.book.Title);
+      return;
+    }
+
     // Initialize ePub.js
     this.loadBook();
     this.setupDRM();
     this.setupControls();
     this.loadBookmarks();
+  },
+
+  /**
+   * Display locked screen for exclusive titles
+   */
+  showExclusiveLockScreen(title) {
+    document.querySelector('[data-reader-title]').textContent = title;
+    const content = document.querySelector('[data-reader-content]');
+    if (content) {
+      content.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:55vh;text-align:center;padding:2.5rem 1.5rem;">
+          <div style="width:3.6rem;height:3.6rem;border-radius:50%;background:rgba(169,151,223,0.18);display:grid;place-items:center;margin-bottom:1rem;color:var(--color-lavender-deep,#5c5484)">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <span class="exclusive-pill" style="margin-bottom:0.75rem;">Exclusive Collection</span>
+          <h2 style="font-family:var(--font-display);font-size:1.85rem;margin:0 0 0.5rem;color:var(--color-charcoal);font-weight:400;letter-spacing:-0.03em;">Subscription Required</h2>
+          <p style="color:var(--color-ink-soft);max-width:28rem;margin:0 0 1.5rem;font-size:0.95rem;line-height:1.55;">This title is part of our Exclusive E-Books collection. Upgrade to an active Premium membership using Razorpay to immediately unlock full digital reading.</p>
+          <button type="button" class="button button--primary" data-reader-unlock style="padding:0.75rem 1.75rem;font-size:0.95rem;font-weight:700;">Upgrade to Premium</button>
+        </div>
+      `;
+      const unlockBtn = content.querySelector('[data-reader-unlock]');
+      if (unlockBtn) {
+        unlockBtn.addEventListener('click', () => {
+          if (window.SubscriptionModal) {
+            window.SubscriptionModal.open({
+              bookTitle: title,
+              onComplete: () => window.location.reload()
+            });
+          }
+        });
+      }
+    }
   },
 
   /**
@@ -59,6 +97,9 @@ const Reader = {
       headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(response => {
+      if (response.status === 403) {
+        throw new Error('EXCLUSIVE_LOCKED');
+      }
       if (!response.ok) throw new Error('Failed to fetch book');
       return response.arrayBuffer();
     })

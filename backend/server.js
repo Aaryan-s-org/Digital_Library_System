@@ -22,6 +22,8 @@ const reportRoutes = require('./routes/reportRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const auditRoutes = require('./routes/auditRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
+const exportRoutes = require('./routes/exportRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 // ===========================
 // Middleware
@@ -51,6 +53,8 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+app.use('/api/exports', exportRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -119,6 +123,12 @@ async function startServer() {
         await seedEbooks();
       } catch (err) {
         console.error('[Startup] Seed error (non-fatal):', err.message);
+      }
+      try {
+        const setupSubscription = require('./scripts/setupSubscription');
+        await setupSubscription();
+      } catch (err) {
+        console.error('[Startup] Subscription setup error (non-fatal):', err.message);
       }
     }
   }

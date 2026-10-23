@@ -16,13 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const publicLinks = [["Discover", "index.html"], ["Collections", "index.html#category-title"], ["AI Suggestions", "index.html#spotlight-title"]];
   const memberLinks = [["Discover", "index.html"], ["My Library", "member.html#library"], ["Collections", "member.html#collections"]];
-  const librarianLinks = [["Dashboard", "librarian.html"], ["Catalog", "librarian.html#catalog"], ["Members", "librarian.html#members"]];
-  const adminLinks = [["Dashboard", "admin.html"], ["Users & Roles", "admin.html#users"], ["E-books", "admin.html#catalog"], ["Reports", "admin.html#reports"], ["Analytics", "admin.html#analytics"], ["Audit Logs", "admin.html#audit"]];
+  const librarianLinks = [["Dashboard", "librarian.html"], ["Catalog", "librarian.html#catalog"], ["Members", "librarian.html#members"], ["Subscriptions", "librarian.html#payments"], ["Reports", "librarian.html#reports"]];
+  const adminLinks = [["Dashboard", "admin.html"], ["Users & Roles", "admin.html#users"], ["E-books", "admin.html#catalog"], ["Subscriptions", "admin.html#payments"], ["Exports", "admin.html#exports"], ["Reports", "admin.html#reports"], ["Analytics", "admin.html#analytics"], ["Audit Logs", "admin.html#audit"]];
   const links = role === "Member" ? memberLinks : role === "Librarian" ? librarianLinks : role === "Admin" ? adminLinks : publicLinks;
 
   const activeFor = (href) => {
     const [page, hash = ""] = href.split("#");
-    return page === currentPage && (hash ? window.location.hash.toLowerCase() === `#${hash}` : !window.location.hash);
+    const currHash = window.location.hash.toLowerCase();
+    if (page !== currentPage) return false;
+    if (hash) return currHash === `#${hash.toLowerCase()}`;
+    return !currHash || currHash === "#dashboard";
   };
   const profileHref = role === "Member" ? "member.html#profile" : role === "Librarian" ? "librarian.html#profile" : "admin.html#profile";
 
@@ -76,12 +79,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const typeIcons = {
-      welcome: "👋",
-      info: "ℹ️",
-      system: "⚙️",
-      recommendation: "✦",
-      alert: "⚠️"
+      welcome: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`,
+      info: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`,
+      system: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>`,
+      recommendation: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`,
+      payment: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>`,
+      alert: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`
     };
+    const defaultIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>`;
 
     popover.innerHTML = `
       <div class="popover-header">
@@ -90,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="popover-list">
         ${notificationsList.map(item => {
-          const icon = typeIcons[item.NotificationType] || "🔔";
+          const icon = typeIcons[item.NotificationType] || defaultIcon;
           const dateStr = item.SentDate ? new Date(item.SentDate).toLocaleDateString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
           const isUnread = item.IsRead === 0;
           return `
@@ -148,16 +153,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentHash = window.location.hash.toLowerCase();
     const linkMarkup = links.map(([label, href]) => `<a class="nav-link" href="${href}"${activeFor(href) ? ' aria-current="page"' : ""}>${label}</a>`).join("");
     const memberReadingActive = role === "Member" && (currentHash === "#history" || currentHash === "#bookmarks");
+    const chevronSvg = `<svg style="display:inline-block;vertical-align:middle;margin-left:4px;" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 1l4 4 4-4"></path></svg>`;
     const readingMarkup = role === "Member" ? `
       <div class="nav-dropdown">
-        <button class="nav-dropdown__toggle" type="button" aria-expanded="false" aria-controls="reading-menu"${memberReadingActive ? ' aria-current="page"' : ""}>Reading <span aria-hidden="true">⌄</span></button>
+        <button class="nav-dropdown__toggle" type="button" aria-expanded="false" aria-controls="reading-menu"${memberReadingActive ? ' aria-current="page"' : ""}>Reading ${chevronSvg}</button>
         <div class="nav-dropdown__menu" id="reading-menu">
           <a href="member.html#history"${currentHash === "#history" ? ' aria-current="page"' : ""}>History</a>
           <a href="member.html#bookmarks"${currentHash === "#bookmarks" ? ' aria-current="page"' : ""}>Bookmarks</a>
         </div>
       </div>` : role === "Librarian" ? `
       <div class="nav-dropdown">
-        <button class="nav-dropdown__toggle" type="button" aria-expanded="false" aria-controls="catalog-menu"${currentHash === "#catalog" || currentHash === "#add-ebook" ? ' aria-current="page"' : ""}>Catalog <span aria-hidden="true">⌄</span></button>
+        <button class="nav-dropdown__toggle" type="button" aria-expanded="false" aria-controls="catalog-menu"${currentHash === "#catalog" || currentHash === "#add-ebook" ? ' aria-current="page"' : ""}>Catalog ${chevronSvg}</button>
         <div class="nav-dropdown__menu" id="catalog-menu">
           <a href="librarian.html#catalog"${currentHash === "#catalog" ? ' aria-current="page"' : ""}>E-books</a>
           <a href="librarian.html#add-ebook"${currentHash === "#add-ebook" ? ' aria-current="page"' : ""}>Add E-book</a>
@@ -347,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("libraryNewsletterSubs", JSON.stringify(subs));
         } catch (err) {}
         nFeedback.className = "footer-newsletter-feedback";
-        nFeedback.textContent = "✓ Subscribed! You will receive new book dispatches.";
+        nFeedback.textContent = "Subscribed! You will receive new book dispatches.";
         input.value = "";
         setTimeout(() => { nFeedback.textContent = ""; }, 6000);
       });

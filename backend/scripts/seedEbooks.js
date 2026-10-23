@@ -205,7 +205,7 @@ async function seedEbooks() {
         [categoryId, title, author, epubRelPath, coverRelPath, fileSizeMB, description]
       );
 
-      console.log(`[Seed] ✓ Imported: ${title} by ${author} (${fileSizeMB} MB)`);
+      console.log(`[Seed] [OK] Imported: ${title} by ${author} (${fileSizeMB} MB)`);
     }
 
     console.log('[Seed] Ebook seeding complete!');

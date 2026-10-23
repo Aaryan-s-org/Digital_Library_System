@@ -79,10 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const title = titleOf(book);
       const saved = bookmarks.has(id);
       const matchPct = book.matchPercentage ? `${book.matchPercentage}% Match` : '';
-      const matchBadge = matchPct ? `<span class="match-chip ${book.matchPercentage >= 85 ? 'match-chip--high' : ''}">✦ ${escapeHtml(matchPct)}</span>` : '';
+      const matchBadge = matchPct ? `<span class="match-chip ${book.matchPercentage >= 85 ? 'match-chip--high' : ''}">${escapeHtml(matchPct)}</span>` : '';
       const reasonHtml = book.reason ? `<span class="recommendation-reason" title="${escapeHtml(book.reason)}">${escapeHtml(book.reason)}</span>` : '';
+      const isExclusive = Boolean(book.IsExclusive);
+      const exclusiveBadge = isExclusive ? `<span class="exclusive-pill" style="position:absolute;top:10px;left:10px;z-index:3;">Exclusive</span>` : '';
 
-      return `<article class="book-card"><button class="book-card__open" type="button" data-book-id="${escapeHtml(id)}" aria-label="View details for ${escapeHtml(title)}"><span class="book-cover book-cover--${coverTone(book)}" aria-hidden="true">${matchBadge}${book.CoverImagePath ? `<img src="${escapeHtml(book.CoverImagePath)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;z-index:1;" />` : `<span class="book-cover__initials">${escapeHtml(initials(title))}</span><span class="book-cover__format">${escapeHtml(formatOf(book))}</span>`}</span><span class="book-card__meta"><span class="book-card__category">${escapeHtml(categoryOf(book))}</span><span class="book-card__title">${escapeHtml(title)}</span><span class="book-card__author">${escapeHtml(authorOf(book))}</span>${reasonHtml}</span></button><button class="book-card__bookmark ${saved ? "is-saved" : ""}" type="button" data-bookmark-id="${escapeHtml(id)}" aria-label="${saved ? "Remove" : "Save"} ${escapeHtml(title)} bookmark" aria-pressed="${saved}"><svg aria-hidden="true" viewBox="0 0 24 24" fill="${saved ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.7"><path d="M6.5 4.75A2.25 2.25 0 0 1 8.75 2.5h6.5a2.25 2.25 0 0 1 2.25 2.25v16.5l-5.75-3.5L6 21.25V4.75Z"></path></svg></button></article>`;
+      return `<article class="book-card"><button class="book-card__open" type="button" data-book-id="${escapeHtml(id)}" aria-label="View details for ${escapeHtml(title)}"><span class="book-cover book-cover--${coverTone(book)}" aria-hidden="true">${exclusiveBadge}${matchBadge}${book.CoverImagePath ? `<img src="${escapeHtml(book.CoverImagePath)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;z-index:1;" />` : `<span class="book-cover__initials">${escapeHtml(initials(title))}</span><span class="book-cover__format">${escapeHtml(formatOf(book))}</span>`}</span><span class="book-card__meta"><span class="book-card__category">${escapeHtml(categoryOf(book))}</span><span class="book-card__title">${escapeHtml(title)}</span><span class="book-card__author">${escapeHtml(authorOf(book))}</span>${reasonHtml}</span></button><button class="book-card__bookmark ${saved ? "is-saved" : ""}" type="button" data-bookmark-id="${escapeHtml(id)}" aria-label="${saved ? "Remove" : "Save"} ${escapeHtml(title)} bookmark" aria-pressed="${saved}"><svg aria-hidden="true" viewBox="0 0 24 24" fill="${saved ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.7"><path d="M6.5 4.75A2.25 2.25 0 0 1 8.75 2.5h6.5a2.25 2.25 0 0 1 2.25 2.25v16.5l-5.75-3.5L6 21.25V4.75Z"></path></svg></button></article>`;
     }).join("");
   }
 
@@ -178,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
     list.innerHTML = recent.map((entry) => `<div class="activity-item"><time class="activity-item__date" datetime="${escapeHtml(entry.openedAt)}">${new Date(entry.openedAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}</time><div><div class="activity-item__title">${escapeHtml(titleOf(entry.book))}</div><div class="activity-item__author">${escapeHtml(authorOf(entry.book))}</div></div><button class="activity-item__open" type="button" data-book-id="${escapeHtml(bookId(entry.book))}">Open details</button></div>`).join("");
   }
 
-  function renderProfile() {
+  async function renderProfile() {
     const container = document.querySelector("[data-profile-content]");
     if (!container) return;
     const user = typeof API !== 'undefined' && API.getUser ? API.getUser() : null;
@@ -186,25 +188,143 @@ document.addEventListener("DOMContentLoaded", () => {
        container.innerHTML = `<div class="profile-loading">Please log in to view profile.</div>`;
        return;
     }
-    container.innerHTML = `<div class="profile-card__row"><span class="profile-card__label">Username</span><span class="profile-card__value">${escapeHtml(user.username || "Not available")}</span></div><div class="profile-card__row"><span class="profile-card__label">Email</span><span class="profile-card__value">${escapeHtml(user.email || "Not available")}</span></div><div class="profile-card__row"><span class="profile-card__label">Role</span><span class="profile-card__value">${escapeHtml(user.role || "Member")}</span></div>`;
+
+    let subHtml = '<div class="profile-card__row"><span class="profile-card__label">Subscription</span><span class="profile-card__value">Standard (Free)</span></div>';
+    let txHtml = '';
+
+    if (API.getUserSubscription) {
+      try {
+        const subRes = await API.getUserSubscription();
+        if (subRes && subRes.success) {
+          const isPremium = subRes.tier === 'Premium';
+          const tierBadge = isPremium 
+            ? `<span class="exclusive-pill" style="margin-left:0.5rem;">Premium Member</span>` 
+            : `<span style="display:inline-block;padding:0.2rem 0.5rem;background:rgba(0,0,0,0.06);border-radius:999px;font-size:0.75rem;font-weight:700;margin-left:0.5rem;">Free Tier</span>`;
+
+          const upgradeBtn = !isPremium
+            ? `<button class="button button--accent button--small" type="button" data-upgrade-btn style="margin-top:0.5rem;">Upgrade to Premium (Razorpay)</button>`
+            : '';
+
+          subHtml = `
+            <div class="profile-card__row">
+              <span class="profile-card__label">Subscription Tier</span>
+              <div class="profile-card__value">
+                ${tierBadge}
+                ${upgradeBtn}
+              </div>
+            </div>
+            ${isPremium && subRes.subscription?.plan ? `
+              <div class="profile-card__row">
+                <span class="profile-card__label">Active Plan</span>
+                <span class="profile-card__value">${escapeHtml(subRes.subscription.plan)} (Expires: ${subRes.subscription.endDate ? new Date(subRes.subscription.endDate).toLocaleDateString() : 'Active'})</span>
+              </div>
+            ` : ''}
+          `;
+
+          if (Array.isArray(subRes.recentTransactions) && subRes.recentTransactions.length > 0) {
+            txHtml = `
+              <div style="margin-top:1.5rem;border-top:1px solid var(--color-line);padding-top:1rem;">
+                <p style="font-size:var(--text-xs);font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-ink-soft);margin-bottom:0.5rem;">Recent Payment Transactions</p>
+                <div style="font-size:0.85rem;display:flex;flex-direction:column;gap:0.4rem;">
+                  ${subRes.recentTransactions.map(tx => `
+                    <div style="display:flex;justify-content:space-between;padding:0.4rem 0.6rem;background:rgba(0,0,0,0.02);border-radius:var(--radius-sm);border:1px solid var(--color-line);">
+                      <div><strong>${escapeHtml(tx.PlanName)}</strong> &bull; <span style="color:var(--color-ink-soft);">${escapeHtml(tx.RazorpayPaymentID || tx.RazorpayOrderID || 'TXN')}</span></div>
+                      <div><strong>₹${Number(tx.Amount).toLocaleString()}</strong> &bull; <span style="color:var(--color-sage-deep);font-weight:700;">${escapeHtml(tx.PaymentStatus)}</span></div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+        }
+      } catch (e) {
+        console.warn("Could not fetch subscription details:", e);
+      }
+    }
+
+    container.innerHTML = `
+      <div class="profile-card__row"><span class="profile-card__label">Username</span><span class="profile-card__value">${escapeHtml(user.username || "Not available")}</span></div>
+      <div class="profile-card__row"><span class="profile-card__label">Email</span><span class="profile-card__value">${escapeHtml(user.email || "Not available")}</span></div>
+      <div class="profile-card__row"><span class="profile-card__label">Role</span><span class="profile-card__value">${escapeHtml(user.role || "Member")}</span></div>
+      ${subHtml}
+      ${txHtml}
+    `;
+
+    const upBtn = container.querySelector("[data-upgrade-btn]");
+    if (upBtn) {
+      upBtn.addEventListener("click", () => {
+        if (window.SubscriptionModal) {
+          window.SubscriptionModal.open({
+            onSuccess: () => renderProfile()
+          });
+        }
+      });
+    }
   }
 
   function ensureModal() {
     if (document.querySelector("[data-member-modal]")) return document.querySelector("[data-member-modal]");
-    document.body.insertAdjacentHTML("beforeend", `<div class="book-modal" data-member-modal hidden><div class="book-modal__backdrop" data-modal-close></div><section class="book-modal__surface" role="dialog" aria-modal="true" aria-labelledby="member-modal-title" aria-describedby="member-modal-description"><button class="book-modal__close" type="button" data-modal-close aria-label="Close book details">×</button><div class="book-modal__grid"><div class="book-cover book-cover--modal" data-modal-cover aria-hidden="true"></div><div class="book-modal__content"><p class="eyebrow" data-modal-category>Book details</p><h2 class="book-modal__title" id="member-modal-title" data-modal-title>Book title</h2><p class="book-modal__author" data-modal-author>Author</p><p class="book-modal__description" id="member-modal-description" data-modal-description>Loading book details…</p><dl class="book-modal__metadata" data-modal-metadata></dl><div class="book-modal__actions"><button class="button button--primary" type="button" data-modal-bookmark>Save bookmark</button></div></div></div></section></div>`);
+    document.body.insertAdjacentHTML("beforeend", `<div class="book-modal" data-member-modal hidden><div class="book-modal__backdrop" data-modal-close></div><section class="book-modal__surface" role="dialog" aria-modal="true" aria-labelledby="member-modal-title" aria-describedby="member-modal-description"><button class="book-modal__close" type="button" data-modal-close aria-label="Close book details">×</button><div class="book-modal__grid"><div class="book-cover book-cover--modal" data-modal-cover aria-hidden="true"></div><div class="book-modal__content"><p class="eyebrow" data-modal-category>Book details</p><h2 class="book-modal__title" id="member-modal-title" data-modal-title>Book title</h2><p class="book-modal__author" data-modal-author>Author</p><p class="book-modal__description" id="member-modal-description" data-modal-description>Loading book details…</p><dl class="book-modal__metadata" data-modal-metadata></dl><div class="book-modal__actions"></div></div></div></section></div>`);
     const modal = document.querySelector("[data-member-modal]");
-    modal.querySelector(".book-modal__actions").insertAdjacentHTML("afterbegin", '<a class="button button--quiet" data-modal-read href="reader.html">Open reader</a>');
-    modal.querySelector("[data-modal-read]").addEventListener("click", (event) => { event.currentTarget.href = `reader.html?id=${encodeURIComponent(activeBookId || "1")}`; });
     modal.querySelectorAll("[data-modal-close]").forEach((button) => button.addEventListener("click", closeModal));
-    modal.querySelector("[data-modal-bookmark]").addEventListener("click", toggleModalBookmark);
     return modal;
   }
 
   async function openBook(id, trigger) {
     const modal = ensureModal(); activeBookId = id; lastTrigger = trigger; modal.hidden = false; document.body.classList.add("modal-open");
-    const title = modal.querySelector("[data-modal-title]"), author = modal.querySelector("[data-modal-author]"), category = modal.querySelector("[data-modal-category]"), description = modal.querySelector("[data-modal-description]"), cover = modal.querySelector("[data-modal-cover]"), metadata = modal.querySelector("[data-modal-metadata]"), bookmark = modal.querySelector("[data-modal-bookmark]");
-    title.textContent = "Loading details…"; author.textContent = ""; description.textContent = "Fetching book information…"; metadata.replaceChildren(); bookmark.disabled = true; modal.querySelector(".book-modal__close").focus();
-    try { const payload = preview ? { data: preview.books.find((book) => bookId(book) === id) } : await getJson(`/api/books/${encodeURIComponent(id)}`); const book = payload.data || {}; if (!book.BookID && !book.bookId) throw new Error("Book details are unavailable right now."); cacheBooks([book]); recordRecent(book); title.textContent = titleOf(book); author.textContent = authorOf(book); category.textContent = categoryOf(book); description.textContent = book.Description || book.description || "Book details are available in the catalogue record."; cover.className = `book-cover book-cover--modal book-cover--${coverTone(book)}`; cover.innerHTML = book.CoverImagePath ? `<img src="${escapeHtml(book.CoverImagePath)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;z-index:1;" />` : `<span class="book-cover__initials">${escapeHtml(initials(titleOf(book)))}</span><span class="book-cover__format">${escapeHtml(formatOf(book))}</span>`; const fields = [["Format", formatOf(book)], ["ISBN", book.ISBN], ["Pages", book.TotalPages], ["File size", book.FileSizeMB ? `${book.FileSizeMB} MB` : null]].filter(([, value]) => value != null && value !== ""); metadata.innerHTML = fields.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(String(value))}</dd></div>`).join(""); updateModalBookmark(); refreshLocalSections(); renderHistory(); } catch (error) { description.textContent = error.message || "Book details are unavailable right now."; category.textContent = "Book details"; } finally { bookmark.disabled = false; }
+    const title = modal.querySelector("[data-modal-title]"), author = modal.querySelector("[data-modal-author]"), category = modal.querySelector("[data-modal-category]"), description = modal.querySelector("[data-modal-description]"), cover = modal.querySelector("[data-modal-cover]"), metadata = modal.querySelector("[data-modal-metadata]"), actions = modal.querySelector(".book-modal__actions");
+    title.textContent = "Loading details…"; author.textContent = ""; description.textContent = "Fetching book information…"; metadata.replaceChildren(); modal.querySelector(".book-modal__close").focus();
+    try {
+      const payload = preview ? { data: preview.books.find((book) => bookId(book) === id) } : await getJson(`/api/books/${encodeURIComponent(id)}`);
+      const book = payload.data || {};
+      if (!book.BookID && !book.bookId) throw new Error("Book details are unavailable right now.");
+      cacheBooks([book]);
+      recordRecent(book);
+      title.textContent = titleOf(book);
+      author.textContent = authorOf(book);
+      category.textContent = categoryOf(book);
+      description.textContent = book.Description || book.description || "Book details are available in the catalogue record.";
+      cover.className = `book-cover book-cover--modal book-cover--${coverTone(book)}`;
+      cover.innerHTML = book.CoverImagePath ? `<img src="${escapeHtml(book.CoverImagePath)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;z-index:1;" />` : `<span class="book-cover__initials">${escapeHtml(initials(titleOf(book)))}</span><span class="book-cover__format">${escapeHtml(formatOf(book))}</span>`;
+      const fields = [["Format", formatOf(book)], ["ISBN", book.ISBN], ["Pages", book.TotalPages], ["File size", book.FileSizeMB ? `${book.FileSizeMB} MB` : null]].filter(([, value]) => value != null && value !== "");
+      metadata.innerHTML = fields.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(String(value))}</dd></div>`).join("");
+
+      const isExclusiveBook = Boolean(book.IsExclusive);
+      const user = API.getUser() || {};
+      const userTier = user.subscriptionTier || "Free";
+      const userRole = user.role || "Member";
+      const isLocked = isExclusiveBook && userRole === "Member" && userTier !== "Premium";
+
+      actions.innerHTML = `
+        <button class="button ${isLocked ? 'button--accent' : 'button--quiet'}" type="button" data-modal-read>${isLocked ? 'Unlock Exclusive' : 'Open reader'}</button>
+        <button class="button button--primary" type="button" data-modal-bookmark>Save bookmark</button>
+      `;
+
+      const readBtn = actions.querySelector("[data-modal-read]");
+      readBtn.addEventListener("click", () => {
+        if (isLocked) {
+          if (window.SubscriptionModal) {
+            window.SubscriptionModal.open({
+              bookTitle: titleOf(book),
+              bookId: id,
+              onSuccess: () => {
+                window.location.href = `reader.html?id=${encodeURIComponent(id)}`;
+              }
+            });
+          }
+        } else {
+          window.location.href = `reader.html?id=${encodeURIComponent(id)}`;
+        }
+      });
+
+      actions.querySelector("[data-modal-bookmark]").addEventListener("click", toggleModalBookmark);
+      updateModalBookmark();
+      refreshLocalSections();
+      renderHistory();
+    } catch (error) {
+      description.textContent = error.message || "Book details are unavailable right now.";
+      category.textContent = "Book details";
+    }
   }
 
   async function recordRecent(book) { 
