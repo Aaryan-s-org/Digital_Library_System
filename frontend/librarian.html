@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Digital Library librarian workspace." />
+    <meta name="description" content="Digital Library librarian workspace — manage catalogue, members, and generate reports." />
     <title>Digital Library | Librarian workspace</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/librarian.css" />
@@ -15,33 +15,262 @@
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header"></header>
     <main id="main-content" class="librarian-page container">
+
+      <!-- ═══════ DASHBOARD ═══════ -->
       <section class="librarian-view-panel" data-librarian-view-panel="dashboard" aria-labelledby="librarian-dashboard-title">
-        <section class="librarian-welcome"><p class="eyebrow">Library operations</p><h1 class="librarian-title" id="librarian-dashboard-title">A clear view of the collection.</h1><p class="librarian-lede">Keep the catalogue considered, accessible, and ready for the people who use it.</p><div class="shell-actions"><a class="button button--primary" href="librarian.html#catalog">Open catalogue</a><a class="button button--quiet" href="librarian.html#add-ebook">Add an e-book</a></div></section>
-        <section class="operation-grid" aria-label="Library overview"><article class="operation-note"><p class="eyebrow">Catalogue</p><strong data-stat-books>Loading</strong><span>available e-books</span></article><article class="operation-note"><p class="eyebrow">Members</p><strong data-stat-members>Loading</strong><span>registered members</span></article><article class="operation-note operation-note--wide"><p class="eyebrow">Today’s focus</p><strong>Keep the shelves useful.</strong><span>Review new titles, member records, and catalogue metadata from one calm workspace.</span></article></section>
-        <section class="librarian-section" aria-labelledby="recent-books-title"><div class="section-heading-row"><div><p class="eyebrow">Catalogue pulse</p><h2 class="section-title" id="recent-books-title">Recently added books</h2></div><a class="section-link" href="librarian.html#catalog">View all →</a></div><div class="table-wrap" data-dashboard-books><div class="state-block"><span class="state-spinner"></span><span>Loading the catalogue…</span></div></div></section>
-        <section class="librarian-section librarian-section--last" aria-labelledby="member-overview-title"><div class="section-heading-row"><div><p class="eyebrow">People who use the library</p><h2 class="section-title" id="member-overview-title">Member overview</h2></div><a class="section-link" href="librarian.html#members">Manage members →</a></div><div class="table-wrap" data-dashboard-members><div class="state-block"><span class="state-spinner"></span><span>Loading member records…</span></div></div></section>
+        <section class="librarian-welcome">
+          <p class="eyebrow">Library operations</p>
+          <h1 class="librarian-title" id="librarian-dashboard-title">A clear view of the collection.</h1>
+          <p class="librarian-lede">Keep the catalogue considered, accessible, and ready for the people who use it.</p>
+          <div class="shell-actions">
+            <a class="button button--primary" href="librarian.html#catalog">Open catalogue</a>
+            <a class="button button--quiet" href="librarian.html#add-ebook">Add an e-book</a>
+            <a class="button button--accent" href="librarian.html#reports">Export reports</a>
+          </div>
+        </section>
+
+        <!-- Enhanced stats -->
+        <section class="lib-stats-grid" aria-label="Library overview">
+          <article class="lib-stat-card lib-stat-card--books">
+            <div class="lib-stat-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+            <div class="lib-stat-card__content">
+              <span class="lib-stat-card__label">Catalogue</span>
+              <strong class="lib-stat-card__value" data-stat-books>Loading</strong>
+              <span class="lib-stat-card__desc">available e-books</span>
+            </div>
+          </article>
+          <article class="lib-stat-card lib-stat-card--members">
+            <div class="lib-stat-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+            <div class="lib-stat-card__content">
+              <span class="lib-stat-card__label">Members</span>
+              <strong class="lib-stat-card__value" data-stat-members>Loading</strong>
+              <span class="lib-stat-card__desc">registered members</span>
+            </div>
+          </article>
+          <article class="lib-stat-card lib-stat-card--wide">
+            <div class="lib-stat-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+            <div class="lib-stat-card__content">
+              <span class="lib-stat-card__label">Today's focus</span>
+              <strong class="lib-stat-card__value lib-stat-card__value--text">Keep the shelves useful.</strong>
+              <span class="lib-stat-card__desc">Review new titles, member records, and catalogue metadata from one calm workspace.</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Category breakdown mini-chart -->
+        <section class="lib-mini-chart" aria-labelledby="lib-category-overview">
+          <h2 class="lib-mini-chart__title" id="lib-category-overview">Collection by category</h2>
+          <div class="bar-list" data-lib-category-chart>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading categories…</span></div>
+          </div>
+        </section>
+
+        <!-- Recent books -->
+        <section class="librarian-section" aria-labelledby="recent-books-title">
+          <div class="section-heading-row">
+            <div><p class="eyebrow">Catalogue pulse</p><h2 class="section-title" id="recent-books-title">Recently added books</h2></div>
+            <a class="section-link" href="librarian.html#catalog">View all →</a>
+          </div>
+          <div class="table-wrap" data-dashboard-books>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading the catalogue…</span></div>
+          </div>
+        </section>
+
+        <!-- Member overview -->
+        <section class="librarian-section librarian-section--last" aria-labelledby="member-overview-title">
+          <div class="section-heading-row">
+            <div><p class="eyebrow">People who use the library</p><h2 class="section-title" id="member-overview-title">Member overview</h2></div>
+            <a class="section-link" href="librarian.html#members">Manage members →</a>
+          </div>
+          <div class="table-wrap" data-dashboard-members>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading member records…</span></div>
+          </div>
+        </section>
       </section>
 
+      <!-- ═══════ CATALOG ═══════ -->
       <section class="librarian-view-panel" data-librarian-view-panel="catalog" aria-labelledby="catalog-title" hidden>
-        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Catalog / E-books</p><h1 class="librarian-title" id="catalog-title">The working catalogue.</h1><p class="librarian-lede">Search, inspect, and maintain the metadata that helps every reader find the right book.</p></section>
-        <section class="catalogue-toolbar surface"><label class="field field--search"><span class="sr-only">Search catalogue</span><input data-catalog-search type="search" placeholder="Search title, author, or ISBN" autocomplete="off" /></label><label class="field"><span class="sr-only">Filter by category</span><select data-catalog-category><option value="">All categories</option></select></label><button class="button button--quiet" type="button" data-catalog-reset>Reset</button><a class="button button--primary" href="librarian.html#add-ebook">Add e-book</a></section>
-        <section class="librarian-section librarian-section--last"><div class="section-heading-row"><div><p class="eyebrow">Available titles</p><h2 class="section-title">E-book catalogue</h2></div><p class="results-summary" data-catalog-summary></p></div><div class="table-wrap" data-catalog-table><div class="state-block"><span class="state-spinner"></span><span>Loading catalogue…</span></div></div><nav class="pagination" data-catalog-pagination aria-label="Catalogue pages"></nav></section>
+        <section class="librarian-welcome librarian-welcome--compact">
+          <p class="eyebrow">Catalog / E-books</p>
+          <h1 class="librarian-title" id="catalog-title">The working catalogue.</h1>
+          <p class="librarian-lede">Search, inspect, and maintain the metadata that helps every reader find the right book.</p>
+        </section>
+        <section class="catalogue-toolbar surface">
+          <label class="field field--search"><span class="sr-only">Search catalogue</span><input data-catalog-search type="search" placeholder="Search title, author, or ISBN" autocomplete="off" /></label>
+          <label class="field"><span class="sr-only">Filter by category</span><select data-catalog-category><option value="">All categories</option></select></label>
+          <button class="button button--quiet" type="button" data-catalog-reset>Reset</button>
+          <a class="button button--primary" href="librarian.html#add-ebook">Add e-book</a>
+          <button class="button button--quiet lib-export-inline" type="button" data-lib-export="books" title="Export catalogue as CSV">Export CSV</button>
+        </section>
+        <section class="librarian-section librarian-section--last">
+          <div class="section-heading-row">
+            <div><p class="eyebrow">Available titles</p><h2 class="section-title">E-book catalogue</h2></div>
+            <p class="results-summary" data-catalog-summary></p>
+          </div>
+          <div class="table-wrap" data-catalog-table>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading catalogue…</span></div>
+          </div>
+          <nav class="pagination" data-catalog-pagination aria-label="Catalogue pages"></nav>
+        </section>
       </section>
 
+      <!-- ═══════ ADD EBOOK ═══════ -->
       <section class="librarian-view-panel" data-librarian-view-panel="add-ebook" aria-labelledby="add-ebook-title" hidden>
-        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Catalog / Add e-book</p><h1 class="librarian-title" id="add-ebook-title">Give a new title a place.</h1><p class="librarian-lede">Use the fields supported by the current book service. File storage is represented by a file path because the backend accepts JSON metadata, not multipart uploads.</p></section>
-        <form class="form-panel" data-book-form novalidate><div class="form-grid"><label class="field"><span>Title <b>*</b></span><input name="title" required /></label><label class="field"><span>Author <b>*</b></span><input name="author" required /></label><label class="field"><span>ISBN <b>*</b></span><input name="isbn" required /></label><label class="field"><span>Category <b>*</b></span><select name="categoryId" data-form-category required><option value="">Choose a category</option></select></label><label class="field"><span>Format <b>*</b></span><select name="format" required><option value="">Choose format</option><option>PDF</option><option>EPUB</option><option>DOCX</option></select></label><label class="field"><span>File path <b>*</b></span><input name="filePath" placeholder="/ebooks/title.epub" required /></label><label class="field"><span>File size (MB) <b>*</b></span><input name="fileSize" type="number" min="0.01" step="0.01" required /></label><label class="field"><span>Publisher</span><input name="publisher" /></label><label class="field"><span>Published date</span><input name="publishedDate" type="date" /></label><label class="field field--wide"><span>Description</span><textarea name="description" rows="5"></textarea></label></div><div class="form-actions"><button class="button button--primary" type="submit">Add e-book</button><button class="button button--quiet" type="reset">Clear form</button><span class="form-feedback" data-form-feedback role="status"></span></div></form>
+        <section class="librarian-welcome librarian-welcome--compact">
+          <p class="eyebrow">Catalog / Add e-book</p>
+          <h1 class="librarian-title" id="add-ebook-title">Give a new title a place.</h1>
+          <p class="librarian-lede">Use the fields supported by the current book service. File storage is represented by a file path because the backend accepts JSON metadata, not multipart uploads.</p>
+        </section>
+        <form class="form-panel" data-book-form novalidate>
+          <div class="form-grid">
+            <label class="field"><span>Title <b>*</b></span><input name="title" required /></label>
+            <label class="field"><span>Author <b>*</b></span><input name="author" required /></label>
+            <label class="field"><span>ISBN <b>*</b></span><input name="isbn" required /></label>
+            <label class="field"><span>Category <b>*</b></span><select name="categoryId" data-form-category required><option value="">Choose a category</option></select></label>
+            <label class="field"><span>Format <b>*</b></span><select name="format" required><option value="">Choose format</option><option>PDF</option><option>EPUB</option><option>DOCX</option></select></label>
+            <label class="field"><span>File path <b>*</b></span><input name="filePath" placeholder="/ebooks/title.epub" required /></label>
+            <label class="field"><span>File size (MB) <b>*</b></span><input name="fileSize" type="number" min="0.01" step="0.01" required /></label>
+            <label class="field"><span>Publisher</span><input name="publisher" /></label>
+            <label class="field"><span>Published date</span><input name="publishedDate" type="date" /></label>
+            <label class="field field--wide"><span>Description</span><textarea name="description" rows="5"></textarea></label>
+          </div>
+          <div class="form-actions">
+            <button class="button button--primary" type="submit">Add e-book</button>
+            <button class="button button--quiet" type="reset">Clear form</button>
+            <span class="form-feedback" data-form-feedback role="status"></span>
+          </div>
+        </form>
       </section>
 
+      <!-- ═══════ MEMBERS ═══════ -->
       <section class="librarian-view-panel" data-librarian-view-panel="members" aria-labelledby="members-title" hidden>
-        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Library community</p><h1 class="librarian-title" id="members-title">People behind the circulation.</h1><p class="librarian-lede">Review member records and keep account information clear. Subscription changes remain restricted to the backend’s Admin permission.</p></section>
-        <section class="catalogue-toolbar surface"><label class="field field--search"><span class="sr-only">Search members</span><input data-member-search type="search" placeholder="Search name, username, or email" autocomplete="off" /></label><span class="results-summary" data-member-summary></span></section>
+        <section class="librarian-welcome librarian-welcome--compact">
+          <p class="eyebrow">Library community</p>
+          <h1 class="librarian-title" id="members-title">People behind the circulation.</h1>
+          <p class="librarian-lede">Review member records and keep account information clear. Subscription changes remain restricted to the backend's Admin permission.</p>
+        </section>
+        <section class="catalogue-toolbar surface">
+          <label class="field field--search"><span class="sr-only">Search members</span><input data-member-search type="search" placeholder="Search name, username, or email" autocomplete="off" /></label>
+          <span class="results-summary" data-member-summary></span>
+          <button class="button button--quiet lib-export-inline" type="button" data-lib-export="members" title="Export members as CSV">Export CSV</button>
+        </section>
         <section class="librarian-section librarian-section--last"><div class="table-wrap" data-member-table><div class="state-block"><span class="state-spinner"></span><span>Loading member records…</span></div></div></section>
       </section>
 
+      <!-- ═══════ PAYMENTS & SUBSCRIPTIONS ═══════ -->
+      <section class="librarian-view-panel" data-librarian-view-panel="payments" aria-labelledby="lib-payments-title" hidden>
+        <section class="librarian-welcome librarian-welcome--compact">
+          <p class="eyebrow">Subscriptions &amp; Transactions</p>
+          <h1 class="librarian-title" id="lib-payments-title">Member subscription records.</h1>
+          <p class="librarian-lede">Operational audit logs of member payments, exclusive content entitlements, and Razorpay gateway transaction statuses.</p>
+        </section>
+        <section class="catalogue-toolbar surface">
+          <label class="field field--search"><span class="sr-only">Search payments</span><input data-lib-payment-search type="search" placeholder="Search member, email, order ID, or plan" autocomplete="off" /></label>
+          <label class="field"><span class="sr-only">Filter by status</span><select data-lib-payment-status><option value="">All statuses</option><option value="SUCCESS">Success</option><option value="PENDING">Pending</option><option value="FAILED">Failed</option></select></label>
+          <span class="results-summary" data-lib-payment-summary></span>
+          <button class="button button--quiet lib-export-inline" type="button" data-lib-export="payments" title="Export transactions as CSV">Export CSV</button>
+        </section>
+        <section class="librarian-section librarian-section--last">
+          <div class="table-wrap" data-lib-payments-table>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading transaction records…</span></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ═══════ REPORTS & EXPORTS ═══════ -->
+      <section class="librarian-view-panel" data-librarian-view-panel="reports" aria-labelledby="lib-reports-title" hidden>
+        <section class="librarian-welcome librarian-welcome--compact">
+          <p class="eyebrow">Reports &amp; Exports</p>
+          <h1 class="librarian-title" id="lib-reports-title">Your data, ready to go.</h1>
+          <p class="librarian-lede">Generate comprehensive CSV or JSON exports of library data — the books catalogue, member directory, reader circulation sessions, payments, and reading analytics — all in one click.</p>
+        </section>
+
+        <!-- Export configuration bar -->
+        <section class="export-controls-bar surface" aria-label="Librarian export settings">
+          <div class="export-format-selector" role="radiogroup" aria-label="Export file format">
+            <span class="export-control-label">Format:</span>
+            <label class="format-chip">
+              <input type="radio" name="libExportFormat" value="csv" checked />
+              <span>CSV (Spreadsheet)</span>
+            </label>
+            <label class="format-chip">
+              <input type="radio" name="libExportFormat" value="json" />
+              <span>JSON (Raw Data)</span>
+            </label>
+          </div>
+          <div class="export-filter-controls">
+            <label class="export-control-group">
+              <span class="export-control-label">Scope:</span>
+              <select data-lib-export-scope>
+                <option value="all">Full collection</option>
+                <option value="recent">Recent updates</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <div class="lib-export-grid">
+          <article class="lib-export-card">
+            <div class="lib-export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+            <h3 class="lib-export-card__title">Books Catalogue</h3>
+            <p class="lib-export-card__desc">Complete catalogue export with all metadata, categories, access counts, and reader statistics.</p>
+            <button class="button button--primary" type="button" data-lib-report-action="books">Export Books</button>
+            <span class="lib-export-card__status" data-lib-report-status="books"></span>
+          </article>
+          <article class="lib-export-card">
+            <div class="lib-export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+            <h3 class="lib-export-card__title">Member Directory</h3>
+            <p class="lib-export-card__desc">Full member list with registrations, subscriptions, departments, and reading metrics.</p>
+            <button class="button button--primary" type="button" data-lib-report-action="members">Export Members</button>
+            <span class="lib-export-card__status" data-lib-report-status="members"></span>
+          </article>
+          <article class="lib-export-card">
+            <div class="lib-export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
+            <h3 class="lib-export-card__title">Reading Analytics</h3>
+            <p class="lib-export-card__desc">Aggregated reader completions, view counts, and total accesses per book across the library.</p>
+            <button class="button button--primary" type="button" data-lib-report-action="reading">Export Reading Analytics</button>
+            <span class="lib-export-card__status" data-lib-report-status="reading"></span>
+          </article>
+          <article class="lib-export-card">
+            <div class="lib-export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+            <h3 class="lib-export-card__title">Circulation &amp; Access Logs</h3>
+            <p class="lib-export-card__desc">Full log of reader access sessions, device types, reading session durations, and timestamps.</p>
+            <button class="button button--primary" type="button" data-lib-report-action="access-logs">Export Access Logs</button>
+            <span class="lib-export-card__status" data-lib-report-status="access-logs"></span>
+          </article>
+          <article class="lib-export-card lib-export-card--accent">
+            <div class="lib-export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
+            <h3 class="lib-export-card__title">Payments &amp; Subscriptions</h3>
+            <p class="lib-export-card__desc">Complete records of membership plan upgrades, Razorpay transaction IDs, amounts, and activation dates.</p>
+            <button class="button button--primary" type="button" data-lib-report-action="payments">Export Payments</button>
+            <span class="lib-export-card__status" data-lib-report-status="payments"></span>
+          </article>
+        </div>
+
+        <section class="librarian-section librarian-section--last" style="margin-top:2rem;">
+          <div class="section-heading-row">
+            <div>
+              <p class="eyebrow">Export History</p>
+              <h2 class="section-title">Available Downloads &amp; History</h2>
+            </div>
+            <button class="button button--quiet" type="button" data-lib-refresh-reports>Refresh list</button>
+          </div>
+          <div class="table-wrap" data-lib-reports-table>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading export history…</span></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ═══════ PROFILE ═══════ -->
       <section class="librarian-view-panel" data-librarian-view-panel="profile" aria-labelledby="librarian-profile-title" hidden>
-        <section class="librarian-welcome librarian-welcome--compact"><p class="eyebrow">Your account</p><h1 class="librarian-title" id="librarian-profile-title">The person caring for the shelves.</h1><p class="librarian-lede">Account credentials and operational status for the library staff workspace.</p></section>
-        <section class="form-panel profile-card" data-librarian-profile><div class="state-block"><span class="state-spinner"></span><span>Loading profile…</span></div></section>
+        <section class="librarian-welcome librarian-welcome--compact">
+          <p class="eyebrow">Your account</p>
+          <h1 class="librarian-title" id="librarian-profile-title">The person caring for the shelves.</h1>
+          <p class="librarian-lede">Account credentials and operational status for the library staff workspace.</p>
+        </section>
+        <section class="form-panel profile-card" data-librarian-profile>
+          <div class="state-block"><span class="state-spinner"></span><span>Loading profile…</span></div>
+        </section>
       </section>
     </main>
     <script src="js/nav.js" defer></script>

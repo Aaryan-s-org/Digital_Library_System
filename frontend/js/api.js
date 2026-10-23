@@ -224,6 +224,43 @@ const API = {
     return this.get('/reports');
   },
 
+  // ─── Exports (CSV / JSON) ─────────────────────────────────
+  async exportData(type, params = {}) {
+    const qs = new URLSearchParams(params).toString();
+    return this.post(`/exports/${type}${qs ? '?' + qs : ''}`);
+  },
+
+  async downloadReport(reportId, reportName) {
+    const token = this.getToken();
+    const res = await fetch(`${this.BASE_URL}/reports/${encodeURIComponent(reportId)}/download`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    });
+    if (!res.ok) throw new Error('Could not download report file');
+    const blob = await res.blob();
+    this._triggerBlobDownload(blob, reportName || 'report.csv');
+  },
+
+  async downloadExportFile(filename) {
+    const token = this.getToken();
+    const res = await fetch(`${this.BASE_URL}/exports/download/${encodeURIComponent(filename)}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    });
+    if (!res.ok) throw new Error('Could not download export file');
+    const blob = await res.blob();
+    this._triggerBlobDownload(blob, filename);
+  },
+
+  _triggerBlobDownload(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => window.URL.revokeObjectURL(url), 2000);
+  },
+
   // ─── Users (Admin) ────────────────────────────────────────
   async deactivateUser(userId) {
     return this.post(`/users/${userId}/deactivate`);
@@ -231,6 +268,28 @@ const API = {
 
   async registerUser(data) {
     return this.post('/auth/register', data);
+  },
+
+  // ─── Payments & Subscriptions (Razorpay) ──────────────────
+  async getPaymentConfig() {
+    return this.get('/payments/config');
+  },
+
+  async createPaymentOrder(planId = 'premium_monthly') {
+    return this.post('/payments/create-order', { planId });
+  },
+
+  async verifyPayment(paymentData) {
+    return this.post('/payments/verify', paymentData);
+  },
+
+  async getUserSubscription() {
+    return this.get('/payments/my-subscription');
+  },
+
+  async getPaymentLogs(params = {}) {
+    const qs = new URLSearchParams(params).toString();
+    return this.get(`/payments/logs${qs ? '?' + qs : ''}`);
   },
 
   // ─── Machine Learning Recommendations ─────────────────────

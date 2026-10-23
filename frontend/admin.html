@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Digital Library administration workspace." />
+    <meta name="description" content="Digital Library administration workspace — manage catalogue, users, reports, analytics, and system exports." />
     <title>Digital Library | Administration</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/admin.css" />
@@ -15,25 +15,141 @@
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header"></header>
     <main id="main-content" class="admin-page container">
+
+      <!-- ═══════ DASHBOARD ═══════ -->
       <section class="admin-view-panel" data-admin-view-panel="dashboard" aria-labelledby="admin-dashboard-title">
-        <section class="admin-welcome"><p class="eyebrow">Administration</p><h1 class="admin-title" id="admin-dashboard-title">Keep the library legible.</h1><p class="admin-lede">An operational view of the catalogue, its people, and the records that help the collection stay trustworthy.</p><div class="shell-actions"><a class="button button--primary" href="admin.html#catalog">Manage e-books</a><a class="button button--quiet" href="admin.html#users">Review users</a></div></section>
-        <div class="admin-grid"><article class="admin-note"><p class="eyebrow">Catalogue</p><strong data-admin-book-count>—</strong><span>available e-books</span></article><article class="admin-note"><p class="eyebrow">Community</p><strong data-admin-member-count>—</strong><span>member records</span></article><article class="admin-note admin-note--accent"><p class="eyebrow">Status</p><strong>Operational view</strong><span>Live API summaries appear when the library service is available.</span></article></div>
-        <section class="admin-section" aria-labelledby="admin-books-title"><div class="section-heading-row"><div><p class="eyebrow">Catalogue pulse</p><h2 class="section-title" id="admin-books-title">Recently available</h2></div><a class="section-link" href="admin.html#catalog">Open e-books →</a></div><div class="table-wrap" data-admin-books><div class="state-block"><span class="state-spinner"></span><span>Loading catalogue…</span></div></div></section>
-        <section class="admin-section admin-section--last" aria-labelledby="admin-activity-title"><div class="section-heading-row"><div><p class="eyebrow">Record keeping</p><h2 class="section-title" id="admin-activity-title">Recent administrative activity</h2></div><a class="section-link" href="admin.html#audit">View audit logs →</a></div><div class="table-wrap" data-admin-activity></div></section>
+        <section class="admin-welcome">
+          <p class="eyebrow">Administration</p>
+          <h1 class="admin-title" id="admin-dashboard-title">Keep the library legible.</h1>
+          <p class="admin-lede">An operational view of the catalogue, its people, and the records that help the collection stay trustworthy.</p>
+          <div class="shell-actions">
+            <a class="button button--primary" href="admin.html#catalog">Manage e-books</a>
+            <a class="button button--quiet" href="admin.html#users">Review users</a>
+            <a class="button button--accent" href="admin.html#exports">Export centre</a>
+          </div>
+        </section>
+
+        <!-- Enhanced stats cards -->
+        <div class="admin-stats-grid">
+          <article class="stat-card stat-card--books">
+            <div class="stat-card__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+            <div class="stat-card__content">
+              <span class="stat-card__label">Catalogue</span>
+              <strong class="stat-card__value" data-admin-book-count>—</strong>
+              <span class="stat-card__desc">available e-books</span>
+            </div>
+            <div class="stat-card__trend" data-stat-trend="books"></div>
+          </article>
+          <article class="stat-card stat-card--members">
+            <div class="stat-card__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+            <div class="stat-card__content">
+              <span class="stat-card__label">Community</span>
+              <strong class="stat-card__value" data-admin-member-count>—</strong>
+              <span class="stat-card__desc">member records</span>
+            </div>
+            <div class="stat-card__trend" data-stat-trend="members"></div>
+          </article>
+          <article class="stat-card stat-card--sessions">
+            <div class="stat-card__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+            <div class="stat-card__content">
+              <span class="stat-card__label">Today's activity</span>
+              <strong class="stat-card__value" data-admin-session-count>—</strong>
+              <span class="stat-card__desc">active sessions</span>
+            </div>
+          </article>
+          <article class="stat-card stat-card--premium">
+            <div class="stat-card__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+            <div class="stat-card__content">
+              <span class="stat-card__label">Premium tier</span>
+              <strong class="stat-card__value" data-admin-premium-count>—</strong>
+              <span class="stat-card__desc">premium members</span>
+            </div>
+          </article>
+        </div>
+
+        <!-- System health -->
+        <section class="system-health-panel" aria-label="System health">
+          <h2 class="system-health__title">System health</h2>
+          <div class="health-indicators" data-health-indicators>
+            <div class="health-chip" data-health="api">
+              <span class="health-dot"></span>
+              <span>API Server</span>
+              <span class="health-status">Checking…</span>
+            </div>
+            <div class="health-chip" data-health="db">
+              <span class="health-dot"></span>
+              <span>Database</span>
+              <span class="health-status">Checking…</span>
+            </div>
+            <div class="health-chip" data-health="ai">
+              <span class="health-dot"></span>
+              <span>AI Engine</span>
+              <span class="health-status">Checking…</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent books -->
+        <section class="admin-section" aria-labelledby="admin-books-title">
+          <div class="section-heading-row">
+            <div><p class="eyebrow">Catalogue pulse</p><h2 class="section-title" id="admin-books-title">Recently available</h2></div>
+            <a class="section-link" href="admin.html#catalog">Open e-books →</a>
+          </div>
+          <div class="table-wrap" data-admin-books>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading catalogue…</span></div>
+          </div>
+        </section>
+
+        <!-- Recent activity -->
+        <section class="admin-section admin-section--last" aria-labelledby="admin-activity-title">
+          <div class="section-heading-row">
+            <div><p class="eyebrow">Record keeping</p><h2 class="section-title" id="admin-activity-title">Recent administrative activity</h2></div>
+            <a class="section-link" href="admin.html#audit">View audit logs →</a>
+          </div>
+          <div class="table-wrap" data-admin-activity></div>
+        </section>
       </section>
 
+      <!-- ═══════ USERS ═══════ -->
       <section class="admin-view-panel" data-admin-view-panel="users" aria-labelledby="users-title" hidden>
-        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Users &amp; roles</p><h1 class="admin-title" id="users-title">The people in the system.</h1><p class="admin-lede">Inspect active member directories, subscription tiers, and engagement status across the platform.</p></section>
-        <section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search users</span><input data-admin-user-search type="search" placeholder="Search name, username, or email" /></label><span class="results-summary" data-admin-user-summary></span></section>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">Users &amp; roles</p>
+          <h1 class="admin-title" id="users-title">The people in the system.</h1>
+          <p class="admin-lede">Inspect active member directories, subscription tiers, and engagement status across the platform.</p>
+        </section>
+        <section class="admin-toolbar surface">
+          <label class="field field--search"><span class="sr-only">Search users</span><input data-admin-user-search type="search" placeholder="Search name, username, or email" /></label>
+          <span class="results-summary" data-admin-user-summary></span>
+          <button class="button button--quiet export-inline-btn" type="button" data-export-inline="members" title="Export members as CSV">Export CSV</button>
+        </section>
         <section class="admin-section admin-section--last"><div class="table-wrap" data-admin-users><div class="state-block"><span class="state-spinner"></span><span>Loading users…</span></div></div></section>
       </section>
 
+      <!-- ═══════ CATALOG ═══════ -->
       <section class="admin-view-panel" data-admin-view-panel="catalog" aria-labelledby="admin-catalog-title" hidden>
-        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">E-books</p><h1 class="admin-title" id="admin-catalog-title">The catalogue, in full.</h1><p class="admin-lede">Inspect metadata, update the record, add a title, or remove an available book using the existing service contract.</p></section>
-        <section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search e-books</span><input data-admin-book-search type="search" placeholder="Search title, author, or ISBN" /></label><label class="field"><span class="sr-only">Filter by category</span><select data-admin-category><option value="">All categories</option></select></label><button class="button button--quiet" type="button" data-admin-reset>Reset</button><button class="button button--primary" type="button" data-admin-add>Add e-book</button></section>
-        <section class="admin-section admin-section--last"><div class="section-heading-row"><div><p class="eyebrow">Available records</p><h2 class="section-title">E-book management</h2></div><p class="results-summary" data-admin-book-summary></p></div><div class="table-wrap" data-admin-catalog-table><div class="state-block"><span class="state-spinner"></span><span>Loading e-books…</span></div></div><nav class="pagination" data-admin-pagination aria-label="E-book pages"></nav></section>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">E-books</p>
+          <h1 class="admin-title" id="admin-catalog-title">The catalogue, in full.</h1>
+          <p class="admin-lede">Inspect metadata, update the record, add a title, or remove an available book using the existing service contract.</p>
+        </section>
+        <section class="admin-toolbar surface">
+          <label class="field field--search"><span class="sr-only">Search e-books</span><input data-admin-book-search type="search" placeholder="Search title, author, or ISBN" /></label>
+          <label class="field"><span class="sr-only">Filter by category</span><select data-admin-category><option value="">All categories</option></select></label>
+          <button class="button button--quiet" type="button" data-admin-reset>Reset</button>
+          <button class="button button--primary" type="button" data-admin-add>Add e-book</button>
+          <button class="button button--quiet export-inline-btn" type="button" data-export-inline="books" title="Export catalogue as CSV">Export CSV</button>
+        </section>
+        <section class="admin-section admin-section--last">
+          <div class="section-heading-row">
+            <div><p class="eyebrow">Available records</p><h2 class="section-title">E-book management</h2></div>
+            <p class="results-summary" data-admin-book-summary></p>
+          </div>
+          <div class="table-wrap" data-admin-catalog-table><div class="state-block"><span class="state-spinner"></span><span>Loading e-books…</span></div></div>
+          <nav class="pagination" data-admin-pagination aria-label="E-book pages"></nav>
+        </section>
       </section>
 
+      <!-- ═══════ REPORTS ═══════ -->
       <section class="admin-view-panel" data-admin-view-panel="reports" aria-labelledby="reports-title" hidden>
         <section class="admin-welcome admin-welcome--compact">
           <p class="eyebrow">Reports &amp; Exports</p>
@@ -75,16 +191,207 @@
         </section>
       </section>
 
+      <!-- ═══════ EXPORTS CENTRE ═══════ -->
+      <section class="admin-view-panel" data-admin-view-panel="exports" aria-labelledby="exports-title" hidden>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">Data Export Centre</p>
+          <h1 class="admin-title" id="exports-title">Export everything you need.</h1>
+          <p class="admin-lede">Generate comprehensive CSV or JSON exports of all library data — books catalogue, members directory, audit logs, reader sessions, search trends, and system summaries in one click.</p>
+        </section>
+
+        <!-- Export configuration bar -->
+        <section class="export-controls-bar surface" aria-label="Export settings">
+          <div class="export-format-selector" role="radiogroup" aria-label="Export file format">
+            <span class="export-control-label">Format:</span>
+            <label class="format-chip">
+              <input type="radio" name="adminExportFormat" value="csv" checked />
+              <span>CSV (Spreadsheet)</span>
+            </label>
+            <label class="format-chip">
+              <input type="radio" name="adminExportFormat" value="json" />
+              <span>JSON (Raw Data)</span>
+            </label>
+          </div>
+          <div class="export-filter-controls">
+            <label class="export-control-group">
+              <span class="export-control-label">Date range:</span>
+              <select data-export-date-range>
+                <option value="all">All records</option>
+                <option value="today">Today only</option>
+                <option value="7days">Last 7 days</option>
+                <option value="30days">Last 30 days</option>
+              </select>
+            </label>
+          </div>
+          <div class="export-global-feedback" data-export-global-status></div>
+        </section>
+
+        <div class="export-grid">
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+            <h3 class="export-card__title">Books Catalogue</h3>
+            <p class="export-card__desc">Full catalogue metadata, genres, ISBNs, publisher, formats, view counts, and reader metrics for every available book.</p>
+            <button class="button button--primary" type="button" data-export-action="books">Export Books</button>
+            <span class="export-card__status" data-export-status="books"></span>
+          </article>
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+            <h3 class="export-card__title">Member Directory</h3>
+            <p class="export-card__desc">Complete community list with registration dates, subscription tiers, departments, reading completion, and active status.</p>
+            <button class="button button--primary" type="button" data-export-action="members">Export Members</button>
+            <span class="export-card__status" data-export-status="members"></span>
+          </article>
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
+            <h3 class="export-card__title">Reading Analytics</h3>
+            <p class="export-card__desc">Aggregated reader progress, completions %, total accesses, and unique readers per title across the library.</p>
+            <button class="button button--primary" type="button" data-export-action="reading">Export Reading Analytics</button>
+            <span class="export-card__status" data-export-status="reading"></span>
+          </article>
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+            <h3 class="export-card__title">System Audit Trail</h3>
+            <p class="export-card__desc">Tamper-evident logs of administrative actions, user logins, catalogue modifications, deletions, and HTTP status codes.</p>
+            <button class="button button--primary" type="button" data-export-action="audit">Export Audit Trail</button>
+            <span class="export-card__status" data-export-status="audit"></span>
+          </article>
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+            <h3 class="export-card__title">Circulation &amp; Access Logs</h3>
+            <p class="export-card__desc">Detailed log of individual reader reading sessions with book titles, timestamps, IP addresses, devices, and duration.</p>
+            <button class="button button--primary" type="button" data-export-action="access-logs">Export Access Logs</button>
+            <span class="export-card__status" data-export-status="access-logs"></span>
+          </article>
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
+            <h3 class="export-card__title">Search Trends &amp; Queries</h3>
+            <p class="export-card__desc">Reader search queries, category filters applied, results counts, and timestamps to discover content demand.</p>
+            <button class="button button--primary" type="button" data-export-action="search-history">Export Search History</button>
+            <span class="export-card__status" data-export-status="search-history"></span>
+          </article>
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
+            <h3 class="export-card__title">System Notifications</h3>
+            <p class="export-card__desc">Chronological log of automated and manual member notifications, delivery timestamps, types, and read statuses.</p>
+            <button class="button button--primary" type="button" data-export-action="notifications">Export Notifications</button>
+            <span class="export-card__status" data-export-status="notifications"></span>
+          </article>
+          <article class="export-card">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
+            <h3 class="export-card__title">Payments &amp; Subscriptions</h3>
+            <p class="export-card__desc">Razorpay transactions, order IDs, payment IDs, amounts, currencies, plan tiers, and timestamps.</p>
+            <button class="button button--primary" type="button" data-export-action="payments">Export Payments</button>
+            <span class="export-card__status" data-export-status="payments"></span>
+          </article>
+          <article class="export-card export-card--accent">
+            <div class="export-card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>
+            <h3 class="export-card__title">Executive System Summary</h3>
+            <p class="export-card__desc">Comprehensive high-level snapshot — overall platform KPIs, top read books, category distribution, and member tiers.</p>
+            <button class="button button--primary" type="button" data-export-action="system-summary">Export Summary</button>
+            <span class="export-card__status" data-export-status="system-summary"></span>
+          </article>
+        </div>
+
+        <section class="admin-section admin-section--last" style="margin-top:2rem;">
+          <div class="section-heading-row">
+            <div>
+              <p class="eyebrow">Export Archive</p>
+              <h2 class="section-title">Available Downloads &amp; History</h2>
+            </div>
+            <button class="button button--quiet" type="button" data-refresh-exports>Refresh list</button>
+          </div>
+          <div class="table-wrap" data-exports-history-table>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading export history…</span></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ═══════ ANALYTICS ═══════ -->
       <section class="admin-view-panel" data-admin-view-panel="analytics" aria-labelledby="analytics-title" hidden>
-        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Analytics</p><h1 class="admin-title" id="analytics-title">Patterns worth noticing.</h1><p class="admin-lede">Live distribution metrics across catalogue genres, e-book file formats, and community engagement.</p></section><section class="admin-chart-grid admin-section--last"><article class="admin-chart"><h2>Books by category</h2><div class="bar-list" data-category-chart></div></article><article class="admin-chart"><h2>Format distribution</h2><div class="bar-list" data-format-chart></div></article><article class="admin-chart"><h2>Platform metrics</h2><div class="bar-list" data-activity-chart></div></article></section>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">Analytics</p>
+          <h1 class="admin-title" id="analytics-title">Patterns worth noticing.</h1>
+          <p class="admin-lede">Live distribution metrics across catalogue genres, e-book file formats, and community engagement.</p>
+        </section>
+        <section class="admin-chart-grid admin-section--last">
+          <article class="admin-chart"><h2>Books by category</h2><div class="bar-list" data-category-chart></div></article>
+          <article class="admin-chart"><h2>Format distribution</h2><div class="bar-list" data-format-chart></div></article>
+          <article class="admin-chart"><h2>Platform metrics</h2><div class="bar-list" data-activity-chart></div></article>
+          <article class="admin-chart"><h2>Engagement breakdown</h2><div class="bar-list" data-engagement-chart></div></article>
+        </section>
       </section>
 
+      <!-- ═══════ AUDIT ═══════ -->
       <section class="admin-view-panel" data-admin-view-panel="audit" aria-labelledby="audit-title" hidden>
-        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Audit logs</p><h1 class="admin-title" id="audit-title">A trace of the work.</h1><p class="admin-lede">Real-time tamper-evident logs tracking user authentications, catalogue changes, and system events.</p></section><section class="admin-toolbar surface"><label class="field field--search"><span class="sr-only">Search audit logs</span><input data-audit-search type="search" placeholder="Search user, action, or entity" /></label><span class="results-summary" data-audit-summary></span></section><section class="admin-section admin-section--last"><div class="table-wrap" data-audit-table></div></section>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">Audit logs</p>
+          <h1 class="admin-title" id="audit-title">A trace of the work.</h1>
+          <p class="admin-lede">Real-time tamper-evident logs tracking user authentications, catalogue changes, and system events.</p>
+        </section>
+        <section class="admin-toolbar surface">
+          <label class="field field--search"><span class="sr-only">Search audit logs</span><input data-audit-search type="search" placeholder="Search user, action, or entity" /></label>
+          <span class="results-summary" data-audit-summary></span>
+          <button class="button button--quiet export-inline-btn" type="button" data-export-inline="audit" title="Export audit logs as CSV">Export CSV</button>
+        </section>
+        <section class="admin-section admin-section--last"><div class="table-wrap" data-audit-table></div></section>
       </section>
 
+      <!-- ═══════ PAYMENTS & SUBSCRIPTIONS ═══════ -->
+      <section class="admin-view-panel" data-admin-view-panel="payments" aria-labelledby="payments-title" hidden>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">Financial &amp; Access Controls</p>
+          <h1 class="admin-title" id="payments-title">Subscriptions &amp; Transactions</h1>
+          <p class="admin-lede">Monitor Razorpay gateway revenue, member subscription tiers, order verifications, and audit logs in real time.</p>
+        </section>
+
+        <div class="admin-stats-grid" style="margin-bottom:var(--space-6);">
+          <article class="stat-card">
+            <div class="stat-card__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+            <div class="stat-card__content">
+              <span class="stat-card__label">Total Revenue</span>
+              <strong class="stat-card__value" data-admin-payment-revenue>₹0</strong>
+              <span class="stat-card__desc">gross payments settled</span>
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-card__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
+            <div class="stat-card__content">
+              <span class="stat-card__label">Transactions</span>
+              <strong class="stat-card__value" data-admin-payment-count>0</strong>
+              <span class="stat-card__desc">recorded orders</span>
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-card__icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+            <div class="stat-card__content">
+              <span class="stat-card__label">Active Subscribers</span>
+              <strong class="stat-card__value" data-admin-subscribers-count>0</strong>
+              <span class="stat-card__desc">premium members</span>
+            </div>
+          </article>
+        </div>
+
+        <section class="admin-toolbar surface">
+          <label class="field field--search"><span class="sr-only">Search transactions</span><input data-payment-search type="search" placeholder="Search user, email, plan, order ID, or payment ID" /></label>
+          <label class="field"><span class="sr-only">Filter by status</span><select data-payment-status-filter><option value="">All statuses</option><option value="SUCCESS">Success</option><option value="PENDING">Pending</option><option value="FAILED">Failed</option></select></label>
+          <span class="results-summary" data-payment-summary></span>
+          <button class="button button--quiet export-inline-btn" type="button" data-export-inline="payments" title="Export transactions as CSV">Export CSV</button>
+        </section>
+        <section class="admin-section admin-section--last">
+          <div class="table-wrap" data-payments-table>
+            <div class="state-block"><span class="state-spinner"></span><span>Loading transactions…</span></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ═══════ PROFILE ═══════ -->
       <section class="admin-view-panel" data-admin-view-panel="profile" aria-labelledby="admin-profile-title" hidden>
-        <section class="admin-welcome admin-welcome--compact"><p class="eyebrow">Admin profile</p><h1 class="admin-title" id="admin-profile-title">The account behind the decisions.</h1><p class="admin-lede">Local demonstration profile information for the administration workspace.</p></section><section class="admin-profile" data-admin-profile></section>
+        <section class="admin-welcome admin-welcome--compact">
+          <p class="eyebrow">Admin profile</p>
+          <h1 class="admin-title" id="admin-profile-title">The account behind the decisions.</h1>
+          <p class="admin-lede">Local demonstration profile information for the administration workspace.</p>
+        </section>
+        <section class="admin-profile" data-admin-profile></section>
       </section>
     </main>
     <script src="js/nav.js" defer></script>

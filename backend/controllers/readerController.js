@@ -12,7 +12,7 @@ exports.streamBook = async (req, res) => {
 
     const connection = await pool.getConnection();
     const [books] = await connection.query(
-      'SELECT BookID, Title, FilePath, Format FROM ebooks WHERE BookID = ? AND IsAvailable = 1',
+      'SELECT BookID, Title, FilePath, Format, IsExclusive FROM ebooks WHERE BookID = ? AND IsAvailable = 1',
       [bookId]
     );
 
@@ -22,6 +22,27 @@ exports.streamBook = async (req, res) => {
     }
 
     const book = books[0];
+
+    // Exclusive access check
+    if (book.IsExclusive) {
+      const isStaff = req.user.role === 'Admin' || req.user.role === 'Librarian';
+      if (!isStaff) {
+        const [memberRows] = await connection.query(
+          'SELECT SubscriptionTier FROM memberprofiles WHERE UserID = ?',
+          [req.user.userId]
+        );
+        const isPremium = memberRows.length && memberRows[0].SubscriptionTier === 'Premium';
+        if (!isPremium) {
+          connection.release();
+          return res.status(403).json({
+            success: false,
+            exclusive: true,
+            message: 'This title is an Exclusive eBook. An active Premium subscription is required to read it.'
+          });
+        }
+      }
+    }
+
     const filePath = path.resolve(__dirname, '..', book.FilePath);
 
     if (!fs.existsSync(filePath)) {
@@ -87,7 +108,7 @@ exports.getReaderInfo = async (req, res) => {
 
     const connection = await pool.getConnection();
     const [books] = await connection.query(
-      `SELECT b.BookID, b.Title, b.Author, b.Format, b.TotalPages, b.CoverImagePath, c.GenreName
+      `SELECT b.BookID, b.Title, b.Author, b.Format, b.TotalPages, b.CoverImagePath, b.IsExclusive, c.GenreName
        FROM ebooks b
        LEFT JOIN categories c ON b.CategoryID = c.CategoryID
        WHERE b.BookID = ? AND b.IsAvailable = 1`,
@@ -99,14 +120,22 @@ exports.getReaderInfo = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Book not found' });
     }
 
+    // Check exclusive access rights
+    const book = books[0];
+    const isStaff = req.user.role === 'Admin' || req.user.role === 'Librarian';
+    let isPremium = isStaff;
+
     // Get reading progress if member
     let progress = null;
     const [members] = await connection.query(
-      'SELECT MemberID FROM memberprofiles WHERE UserID = ?',
+      'SELECT MemberID, SubscriptionTier FROM memberprofiles WHERE UserID = ?',
       [req.user.userId]
     );
 
     if (members.length) {
+      if (!isStaff) {
+        isPremium = members[0].SubscriptionTier === 'Premium';
+      }
       const [progressRows] = await connection.query(
         'SELECT LastPageRead, CompletionPct, LastAccessed FROM readingprogress WHERE MemberID = ? AND BookID = ?',
         [members[0].MemberID, bookId]
@@ -115,6 +144,8 @@ exports.getReaderInfo = async (req, res) => {
         progress = progressRows[0];
       }
     }
+
+    const hasAccess = !book.IsExclusive || isPremium;
 
     // Get bookmarks
     let bookmarks = [];
@@ -131,7 +162,10 @@ exports.getReaderInfo = async (req, res) => {
     res.json({
       success: true,
       data: {
-        book: books[0],
+        book,
+        hasAccess,
+        isExclusive: Boolean(book.IsExclusive),
+        isPremium,
         progress,
         bookmarks
       }

@@ -165,13 +165,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = titleOf(book);
     const saved = bookmarks.has(id);
     const matchPct = book.matchPercentage ? `${book.matchPercentage}% Match` : '';
-    const matchBadge = matchPct ? `<span class="match-chip ${book.matchPercentage >= 85 ? 'match-chip--high' : ''}">✦ ${escapeHtml(matchPct)}</span>` : '';
+    const matchBadge = matchPct ? `<span class="match-chip ${book.matchPercentage >= 85 ? 'match-chip--high' : ''}">${escapeHtml(matchPct)}</span>` : '';
     const reasonHtml = book.reason ? `<span class="recommendation-reason" title="${escapeHtml(book.reason)}">${escapeHtml(book.reason)}</span>` : '';
+    const isExclusive = Boolean(book.IsExclusive);
+    const exclusiveBadge = isExclusive ? `<span class="exclusive-pill" style="position:absolute;top:10px;left:10px;z-index:3;">Exclusive</span>` : '';
 
     return `
       <article class="book-card">
         <button class="book-card__open" type="button" data-book-id="${escapeHtml(id)}" aria-label="View details for ${escapeHtml(title)}">
           <span class="book-cover book-cover--${coverTone(book)}" aria-hidden="true">
+            ${exclusiveBadge}
             ${matchBadge}
             ${book.CoverImagePath
               ? `<img src="${escapeHtml(book.CoverImagePath)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;z-index:1;" />`
@@ -319,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
         : `<span class="auto-indicator-dot"></span> Auto-sliding`;
     }
     if (pauseBtn) {
-      pauseBtn.textContent = isPaused ? "▶" : "⏸";
+      pauseBtn.textContent = isPaused ? "Play" : "Pause";
       pauseBtn.title = isPaused ? "Resume auto-sliding" : "Pause auto-sliding";
       pauseBtn.setAttribute("aria-label", isPaused ? "Resume auto-sliding" : "Pause auto-sliding");
     }
@@ -358,10 +361,10 @@ document.addEventListener("DOMContentLoaded", () => {
             </span>
           </div>
           <div class="category-carousel-actions">
-            <button class="carousel-control-btn carousel-control-btn--prev" type="button" data-carousel-prev="${escapeHtml(catId)}" aria-label="Previous ${escapeHtml(catName)} books" title="Previous books">‹</button>
-            <button class="carousel-control-btn carousel-control-btn--pause" type="button" data-carousel-toggle="${escapeHtml(catId)}" aria-label="Pause auto-slide" title="Pause / Resume auto-sliding">⏸</button>
-            <button class="carousel-control-btn carousel-control-btn--next" type="button" data-carousel-next="${escapeHtml(catId)}" aria-label="Next ${escapeHtml(catName)} books" title="Next books">›</button>
-            <button class="category-clear-pill" type="button" data-clear-selected-cat title="Show all subjects">All subjects ✕</button>
+            <button class="carousel-control-btn carousel-control-btn--prev" type="button" data-carousel-prev="${escapeHtml(catId)}" aria-label="Previous ${escapeHtml(catName)} books" title="Previous books">&lsaquo;</button>
+            <button class="carousel-control-btn carousel-control-btn--pause" type="button" data-carousel-toggle="${escapeHtml(catId)}" aria-label="Pause auto-slide" title="Pause / Resume auto-sliding">Pause</button>
+            <button class="carousel-control-btn carousel-control-btn--next" type="button" data-carousel-next="${escapeHtml(catId)}" aria-label="Next ${escapeHtml(catName)} books" title="Next books">&rsaquo;</button>
+            <button class="category-clear-pill" type="button" data-clear-selected-cat title="Show all subjects">All subjects</button>
           </div>
         </div>
         <div class="category-carousel-viewport" data-viewport="${escapeHtml(catId)}">
@@ -625,13 +628,44 @@ document.addEventListener("DOMContentLoaded", () => {
       const metadata = [["Format", formatOf(book)], ["ISBN", book.ISBN || book.isbn], ["Pages", book.TotalPages || book.totalPages], ["File size", book.FileSizeMB ? `${book.FileSizeMB} MB` : null]].filter(([, value]) => value != null && value !== ""); 
       e.modalMetadata.innerHTML = metadata.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(String(value))}</dd></div>`).join(""); 
 
+      const isExclusive = Boolean(book.IsExclusive);
+      const user = window.API?.getUser ? window.API.getUser() : null;
+      const isStaff = user && (user.role === "Admin" || user.role === "Librarian");
+      const isPremium = user && user.subscriptionTier === "Premium";
+      const isLocked = isExclusive && !isStaff && !isPremium;
+
       if (e.modalReadLink) {
-        e.modalReadLink.href = `reader.html?id=${encodeURIComponent(id)}`;
+        if (isLocked) {
+          e.modalReadLink.textContent = "Unlock Exclusive with Premium";
+          e.modalReadLink.className = "button button--accent";
+          e.modalReadLink.href = "#subscribe";
+          e.modalReadLink.onclick = (evt) => {
+            evt.preventDefault();
+            if (window.SubscriptionModal) {
+              window.SubscriptionModal.open({
+                bookTitle: title,
+                bookId: id,
+                onSuccess: () => {
+                  window.location.href = `reader.html?id=${encodeURIComponent(id)}`;
+                }
+              });
+            }
+          };
+        } else {
+          e.modalReadLink.textContent = "Read in Browser";
+          e.modalReadLink.className = "button button--primary";
+          e.modalReadLink.href = `reader.html?id=${encodeURIComponent(id)}`;
+          e.modalReadLink.onclick = null;
+        }
       }
       if (e.modalStatus) {
-        const available = book.AvailableCopies > 0 || book.AvailableCopies === undefined;
-        e.modalStatus.textContent = available ? "✓ Available for instant online reading" : "Currently on loan (reserve in catalog)";
-        e.modalStatus.style.color = available ? "var(--color-primary-dark, #2b6cb0)" : "var(--color-warning, #d69e2e)";
+        if (isExclusive) {
+          e.modalStatus.innerHTML = `<span class="exclusive-pill">Exclusive Edition</span>`;
+        } else {
+          const available = book.AvailableCopies > 0 || book.AvailableCopies === undefined;
+          e.modalStatus.textContent = available ? "Available for instant online reading" : "Currently on loan (reserve in catalog)";
+          e.modalStatus.style.color = available ? "var(--color-primary-dark, #2b6cb0)" : "var(--color-warning, #d69e2e)";
+        }
       }
 
       updateModalBookmark(); 
